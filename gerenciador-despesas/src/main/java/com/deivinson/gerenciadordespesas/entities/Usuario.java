@@ -1,11 +1,14 @@
 package com.deivinson.gerenciadordespesas.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +20,9 @@ public class Usuario {
 	private Long id;
 	private String name;
 	private String email;
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Despesa> despesas = new ArrayList<>();
 	
 	public Usuario() {
 	}
