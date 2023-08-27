@@ -19,28 +19,28 @@ public class Despesa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Double amount;
+	private Double valor;
 	
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant date;
+	private Instant data;
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 	
 	@ManyToOne
-	@JoinColumn(name = "category_id")
-	private Category category;
+	@JoinColumn(name = "categoria_id")
+	private Categoria categoria;
 
 	public Despesa() {
 	}
 
-	public Despesa(Long id, Double amount, Instant date, Usuario usuario, Category category) {
+	public Despesa(Long id, Double valor, Instant data, Usuario usuario, Categoria categoria) {
 		this.id = id;
-		this.amount = amount;
-		this.date = date;
+		this.valor = valor;
+		this.data = data;
 		this.usuario = usuario;
-		this.category = category;
+		this.categoria = categoria;
 	}
 
 	public Long getId() {
@@ -51,22 +51,6 @@ public class Despesa {
 		this.id = id;
 	}
 
-	public Double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-
-	public Instant getDate() {
-		return date;
-	}
-
-	public void setDate(Instant date) {
-		this.date = date;
-	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -75,12 +59,28 @@ public class Despesa {
 		this.usuario = usuario;
 	}
 
-	public Category getCategory() {
-		return category;
+	public Double getValor() {
+		return valor;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setValor(Double valor) {
+		this.valor = valor;
+	}
+
+	public Instant getData() {
+		return data;
+	}
+
+	public void setData(Instant data) {
+		this.data = data;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 	@Override

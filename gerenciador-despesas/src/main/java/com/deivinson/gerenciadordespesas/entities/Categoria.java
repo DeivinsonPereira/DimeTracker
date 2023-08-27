@@ -12,24 +12,24 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_category")
-public class Category {
+@Table(name = "tb_categoria")
+public class Categoria {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+	private String nome;
 	
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "categoria")
 	private List<Despesa> despesas = new ArrayList<>();
 	
 	
-	public Category() {
+	public Categoria() {
 	}
 
-	public Category(Long id, String name) {
+	public Categoria(Long id, String nome) {
 		this.id = id;
-		this.name = name;
+		this.nome = nome;
 	}
 
 	public Long getId() {
@@ -41,11 +41,11 @@ public class Category {
 	}
 
 	public String getName() {
-		return name;
+		return nome;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String nome) {
+		this.nome = nome;
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class Category {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Categoria other = (Categoria) obj;
 		return Objects.equals(id, other.id);
 	}
 }
