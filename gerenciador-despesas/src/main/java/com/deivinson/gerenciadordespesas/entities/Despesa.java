@@ -1,9 +1,8 @@
 package com.deivinson.gerenciadordespesas.entities;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +19,7 @@ public class Despesa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Double valor;
-	
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant data;
+	private LocalDate data;
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
@@ -35,7 +32,7 @@ public class Despesa {
 	public Despesa() {
 	}
 
-	public Despesa(Long id, Double valor, Instant data, Usuario usuario, Categoria categoria) {
+	public Despesa(Long id, Double valor, LocalDate data, Usuario usuario, Categoria categoria) {
 		this.id = id;
 		this.valor = valor;
 		this.data = data;
@@ -67,11 +64,11 @@ public class Despesa {
 		this.valor = valor;
 	}
 
-	public Instant getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(Instant data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 

@@ -2,37 +2,35 @@ package com.deivinson.gerenciadordespesas.dto;
 
 import java.time.LocalDate;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.entities.Usuario;
 
-public class DespesaDTO {
+public class DespesaInserirDTO {
 
+	
 	private Long id;
 	private Double valor;
 	private LocalDate data;
+	private Long categoriaId;
 	
 	private Usuario usuario;
-	
-	private Categoria categoria;
-	
-	public DespesaDTO() {
+
+	public DespesaInserirDTO() {
 	}
 
-	public DespesaDTO(Long id, Double valor, LocalDate data, Usuario usuario, Categoria categoria) {
+	public DespesaInserirDTO(Long id, Double valor, LocalDate data, Long categoriaId, Usuario usuario) {
 		this.id = id;
 		this.valor = valor;
 		this.data = data;
+		this.categoriaId = categoriaId;
 		this.usuario = usuario;
-		this.categoria = categoria;
 	}
 	
-	public DespesaDTO(Despesa entity) {
+	public DespesaInserirDTO(Despesa entity) {
 		this.id = entity.getId();
 		this.valor = entity.getValor();
 		this.data = entity.getData();
-		this.usuario = entity.getUsuario();
-		this.categoria = entity.getCategoria();
+		this.categoriaId = entity.getCategoria().getId();
 	}
 
 	public Long getId() {
@@ -59,6 +57,14 @@ public class DespesaDTO {
 		this.data = data;
 	}
 
+	public Long getCategoriaId() {
+		return categoriaId;
+	}
+
+	public void setCategoriaId(Long categoriaId) {
+		this.categoriaId = categoriaId;
+	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -66,13 +72,6 @@ public class DespesaDTO {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
+	
 	
 }
