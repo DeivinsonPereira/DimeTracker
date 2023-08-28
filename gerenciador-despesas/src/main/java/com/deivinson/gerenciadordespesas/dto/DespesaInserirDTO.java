@@ -1,35 +1,36 @@
 package com.deivinson.gerenciadordespesas.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
 
-public class DespesaInserirDTO {
+public class DespesaInserirDTO implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	
 	private Long id;
 	private Double valor;
 	private LocalDate data;
 	private Long categoriaId;
-	
-	private Usuario usuario;
+	private Long usuarioId;
 
 	public DespesaInserirDTO() {
 	}
 
-	public DespesaInserirDTO(Long id, Double valor, LocalDate data, Long categoriaId, Usuario usuario) {
+	public DespesaInserirDTO(Long id, Double valor, LocalDate data, Long categoriaId, Long usuarioId) {
 		this.id = id;
 		this.valor = valor;
 		this.data = data;
 		this.categoriaId = categoriaId;
-		this.usuario = usuario;
+		this.usuarioId = usuarioId;
 	}
 	
 	public DespesaInserirDTO(Despesa entity) {
 		this.id = entity.getId();
 		this.valor = entity.getValor();
 		this.data = entity.getData();
+		this.usuarioId = entity.getUsuario().getId();
 		this.categoriaId = entity.getCategoria().getId();
 	}
 
@@ -65,12 +66,12 @@ public class DespesaInserirDTO {
 		this.categoriaId = categoriaId;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Long getUsuarioId() {
+		return usuarioId;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 	
 	

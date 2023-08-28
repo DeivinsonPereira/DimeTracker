@@ -1,12 +1,14 @@
 package com.deivinson.gerenciadordespesas.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 
-public class CategoriaDTO {
+public class CategoriaDTO implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private String nome;
