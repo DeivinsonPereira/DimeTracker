@@ -1,8 +1,8 @@
 package com.deivinson.gerenciadordespesas.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +17,9 @@ public class DespesaService {
 	private DespesaRepository repository;
 	
 	@Transactional(readOnly = true)
-	public List<DespesaDTO> buscarTodasDespesas(){
-		List<Despesa> dto = repository.findAll();
-		return dto.stream().map(x -> new DespesaDTO(x)).toList();
+	public Page<DespesaDTO> buscarTodasDespesas(Pageable pageable){
+		Page<Despesa> dto = repository.findAll(pageable);
+		return dto.map(x -> new DespesaDTO(x));
 	}
 	
 	
