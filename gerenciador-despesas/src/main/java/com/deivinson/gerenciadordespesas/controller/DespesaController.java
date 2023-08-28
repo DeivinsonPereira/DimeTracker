@@ -8,19 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.deivinson.gerenciadordespesas.dto.CategoriaDTO;
-import com.deivinson.gerenciadordespesas.services.CategoriaService;
+import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
+import com.deivinson.gerenciadordespesas.services.DespesaService;
 
 @RestController
-@RequestMapping(value = "/categorias")
-public class CategoriaController {
+@RequestMapping(value = "/despesas")
+public class DespesaController {
 
 	@Autowired
-	private CategoriaService service;
+	private DespesaService service;
 	
 	@GetMapping
-	public ResponseEntity<List<CategoriaDTO>> buscarTodasCategorias(){
-		List<CategoriaDTO> dto = service.buscarTodasCategorias();
+	public ResponseEntity<List<DespesaDTO>> buscarTodasDespesas(){
+		List<DespesaDTO> dto = service.buscarTodasDespesas();
 		return ResponseEntity.ok().body(dto);
 	}
+	
 }
