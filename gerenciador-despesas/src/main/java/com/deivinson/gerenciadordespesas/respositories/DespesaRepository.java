@@ -4,25 +4,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 
-public interface DespesaRepository extends JpaRepository<Despesa, Long>{
+public interface DespesaRepository extends JpaRepository<Despesa, Long>, JpaSpecificationExecutor<Despesa>{
 
-	List<Despesa> findByCategoria (Categoria categoria); 
 	
 	List<Despesa> findByDataBetween(LocalDate dataInicio, LocalDate dataFim);
 	
-	@Query("SELECT d "
-			+ "FROM Despesa d "
-			+ "WHERE d.categoria = :categoria "
-			+ "AND d.data BETWEEN :dataInicio "
-			+ "AND :dataFim")
-	List<Despesa> buscarDespesasPorCategoriaEData(Categoria categoria, LocalDate dataInicio, LocalDate dataFim );
-
 	@Query("SELECT SUM(d.valor) "
 			+ "FROM Despesa d ")
 	Double calcularDespesaTotal();

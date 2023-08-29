@@ -2,7 +2,6 @@ package com.deivinson.gerenciadordespesas.controller;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaCategoriaDataInfoDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
 import com.deivinson.gerenciadordespesas.dto.TotalDespesaCatDataDTO;
@@ -34,12 +32,19 @@ public class DespesaController {
 
 	@Autowired
 	private DespesaService service;
+		
 	
 	@GetMapping
-	public ResponseEntity<Page<DespesaDTO>> buscarTodasDespesas(Pageable pageable){
-		Page<DespesaDTO> dto = service.buscarTodasDespesas(pageable);
-		return ResponseEntity.ok().body(dto);
-	}
+    public ResponseEntity<Page<DespesaDTO>> buscarDespesasPorFiltros(
+            @RequestParam(required = false) Long categoriaId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            Pageable pageable) {
+
+        Page<DespesaDTO> despesas = service.buscarDespesasPorFiltros(categoriaId, dataInicio, dataFim, pageable);
+        return ResponseEntity.ok(despesas);
+    }
+	
 	
 	@PostMapping
 	public ResponseEntity<DespesaInserirDTO> insert(@RequestBody DespesaInserirDTO dto){
@@ -77,17 +82,7 @@ public class DespesaController {
 
         return ResponseEntity.ok(responseDTO);
     }
-	
-	@GetMapping("/despesas-categorias-data")
-    public ResponseEntity<List<DespesaCategoriaDataInfoDTO>> obterDespesasComCategoriasPorDataIntervalo(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
-
-        List<DespesaCategoriaDataInfoDTO> despesasDTO = service.ValorTotalDespesasCategoriaData(dataInicio, dataFim);
-
-        return ResponseEntity.ok(despesasDTO);
-    }
-	
+		
 	@GetMapping("/valor-total-categoria-e-data")
 	public ResponseEntity<TotalDespesaCatDataDTO> obterValorTotalDespesasPorCategoriaEData(
 	        @RequestParam Long categoriaId,
@@ -97,16 +92,6 @@ public class DespesaController {
 	    TotalDespesaCatDataDTO valorTotal = service.calcularValorTotalDespesasPorCategoriaEData(categoriaId, dataInicio, dataFim);
 	    
 	    return ResponseEntity.ok(valorTotal);
-	}
-	
-	@GetMapping("/categoria-e-data")
-	public ResponseEntity<List<DespesaDTO>> buscarDespesasPorCategoriaEData(
-			@RequestParam Long categoriaId,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim){
-		
-		List<DespesaDTO> despesas = service.buscarDespesasPorCategoriaEData(categoriaId, dataInicio, dataFim);
-		return ResponseEntity.ok(despesas);
 	}
 	
 	@PutMapping("/{despesaId}")

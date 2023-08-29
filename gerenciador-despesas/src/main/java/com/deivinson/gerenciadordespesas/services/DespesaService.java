@@ -1,20 +1,17 @@
 package com.deivinson.gerenciadordespesas.services;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaCategoriaDataInfoDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
 import com.deivinson.gerenciadordespesas.dto.TotalDespesaCatDataDTO;
@@ -38,27 +35,26 @@ public class DespesaService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	@Transactional(readOnly = true)
-	public Page<DespesaDTO> buscarTodasDespesas(Pageable pageable){
-		Page<Despesa> dto = repository.findAll(pageable);
-		return dto.map(x -> new DespesaDTO(x));
-	}
-	
-	@Transactional(readOnly = true)
-	public List<DespesaDTO> buscarDespesasPorCategoria(Long categoriaId) {
-		Categoria categoria = categoriaRepository.findById(categoriaId)
-				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
-		List<Despesa> despesas = repository.findByCategoria(categoria);
-		return despesas.stream().map(x -> new DespesaDTO(x)).collect(Collectors.toList());
-	}
-	
-	@Transactional(readOnly = true)
-	public List<DespesaDTO> buscarDespesasPorCategoriaEData(Long categoriaId, LocalDate dataInicio,	LocalDate dataFim) {
-		Categoria categoria = categoriaRepository.findById(categoriaId)
-				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
-		List<Despesa> despesas = repository.buscarDespesasPorCategoriaEData(categoria, dataInicio, dataFim);
-		return despesas.stream().map(x -> new DespesaDTO(x)).collect(Collectors.toList());
-	}
+	public Page<DespesaDTO> buscarDespesasPorFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim, Pageable pageable) {
+        Specification<Despesa> spec = Specification.where(null);
+
+        if (categoriaId != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("categoria").get("id"), categoriaId));
+        }
+
+        if (dataInicio != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("data"), dataInicio));
+        }
+
+        if (dataFim != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThanOrEqualTo(root.get("data"), dataFim));
+        }
+        Page<Despesa> despesa = repository.findAll(spec, pageable);
+        return despesa.map(x -> new DespesaDTO(x));
+    }
 	
 	@Transactional(readOnly = true)
 	public Double calcularTotalDespesas() {
@@ -92,23 +88,6 @@ public class DespesaService {
 	public Double calcularSomaTotalDespesasPorPeriodo(LocalDate dataInicio, LocalDate dataFim) {
         Double somaTotal = repository.calcularSomaTotalDespesasPorPeriodo(dataInicio, dataFim);
         return somaTotal != null ? somaTotal : 0.0;
-    }
-	
-	@Transactional(readOnly = true)
-	public List<DespesaCategoriaDataInfoDTO> ValorTotalDespesasCategoriaData(LocalDate dataInicio, LocalDate dataFim) {
-        List<Despesa> despesas = repository.findByDataBetween(dataInicio, dataFim);
-        List<DespesaCategoriaDataInfoDTO> despesasDTO = new ArrayList<>();
-
-        for (Despesa despesa : despesas) {
-        	DespesaCategoriaDataInfoDTO dto = new DespesaCategoriaDataInfoDTO();
-            dto.setId(despesa.getId());
-            dto.setValor(despesa.getValor());
-            dto.setData(despesa.getData());
-            dto.setCategoria(despesa.getCategoria().getNome()); // Supondo que a categoria tenha um atributo "nome"
-            despesasDTO.add(dto);
-        }
-
-        return despesasDTO;
     }
 	
 	@Transactional
