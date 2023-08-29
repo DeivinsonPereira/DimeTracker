@@ -24,6 +24,7 @@ import com.deivinson.gerenciadordespesas.entities.Usuario;
 import com.deivinson.gerenciadordespesas.respositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.respositories.DespesaRepository;
 import com.deivinson.gerenciadordespesas.respositories.UsuarioRepository;
+import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class DespesaService {
@@ -120,23 +121,29 @@ public class DespesaService {
 	
 	@Transactional
     public DespesaDTO atualizarDespesa(Long despesaId, AtualizaDespesaDTO dto) {
-        Despesa despesa = repository.findById(despesaId)
-                .orElseThrow(() -> new EntityNotFoundException("Despesa não encontrada"));
-
-        if (dto.getValor() != null) {
-            despesa.setValor(dto.getValor());
+        try {
+        	Despesa despesa = repository.getReferenceById(despesaId);
+        	
+        	if (dto.getValor() != null) {
+        		despesa.setValor(dto.getValor());
+        	}
+        	if (dto.getData() != null) {
+        		despesa.setData(dto.getData());
+        	}
+        	if (dto.getCategoriaId() != null) {
+        		Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+        				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+        		despesa.setCategoria(categoria);
+        	}
+        	
+        	despesa = repository.save(despesa);
+        	return new DespesaDTO(despesa);
+        	
         }
-        if (dto.getData() != null) {
-            despesa.setData(dto.getData());
+	
+        catch (EntityNotFoundException e) {
+        	throw new ResourceNotFoundException("Id not found " + despesaId);
         }
-        if (dto.getCategoriaId() != null) {
-            Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                    .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
-            despesa.setCategoria(categoria);
-        }
-
-        despesa = repository.save(despesa);
-        return new DespesaDTO(despesa);
     }
 	
 	@Transactional

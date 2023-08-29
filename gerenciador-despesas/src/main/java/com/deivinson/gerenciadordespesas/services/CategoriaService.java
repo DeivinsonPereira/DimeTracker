@@ -1,5 +1,7 @@
 package com.deivinson.gerenciadordespesas.services;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,6 +32,17 @@ public class CategoriaService {
 	@Transactional
     public CategoriaDTO criarCategoria(MinCategoriaDTO dto) {
         Categoria categoria = new Categoria();
+        categoria.setNome(dto.getNome());
+
+        categoria = repository.save(categoria);
+        return new CategoriaDTO(categoria);
+    }
+	
+	@Transactional
+    public CategoriaDTO atualizarNomeCategoria(Long categoriaId, MinCategoriaDTO dto) {
+        Categoria categoria = repository.findById(categoriaId)
+                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+
         categoria.setNome(dto.getNome());
 
         categoria = repository.save(categoria);
