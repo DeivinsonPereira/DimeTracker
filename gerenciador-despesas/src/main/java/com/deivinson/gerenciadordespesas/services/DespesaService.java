@@ -139,6 +139,14 @@ public class DespesaService {
         return new DespesaDTO(despesa);
     }
 	
+	@Transactional
+    public void deletarDespesa(Long despesaId) {
+        Despesa despesa = repository.findById(despesaId)
+                .orElseThrow(() -> new EntityNotFoundException("Despesa não encontrada"));
+
+        repository.delete(despesa);
+    }
+	
 	private void copyEntity(DespesaInserirDTO dto, Despesa entity) {
 		entity.setData(dto.getData());
 		entity.setValor(dto.getValor());

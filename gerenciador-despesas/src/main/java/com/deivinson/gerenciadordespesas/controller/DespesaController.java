@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -112,6 +113,12 @@ public class DespesaController {
     public ResponseEntity<DespesaDTO> atualizarDespesa(@PathVariable Long despesaId, @RequestBody AtualizaDespesaDTO dto) {
         DespesaDTO despesaDTO = service.atualizarDespesa(despesaId, dto);
         return ResponseEntity.ok(despesaDTO);
+    }
+	
+	@DeleteMapping("/{despesaId}")
+    public ResponseEntity<Void> deletarDespesa(@PathVariable Long despesaId) {
+        service.deletarDespesa(despesaId);
+        return ResponseEntity.noContent().build();
     }
 	
 }
