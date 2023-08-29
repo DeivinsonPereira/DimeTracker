@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deivinson.gerenciadordespesas.dto.CategoriaDTO;
+import com.deivinson.gerenciadordespesas.dto.MinCategoriaDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.respositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
@@ -25,6 +26,15 @@ public class CategoriaService {
 		Page<Categoria> dto = repository.findAll(pageable);
 		return dto.map(x -> new CategoriaDTO(x));
 	}
+	
+	@Transactional
+    public CategoriaDTO criarCategoria(MinCategoriaDTO dto) {
+        Categoria categoria = new Categoria();
+        categoria.setNome(dto.getNome());
+
+        categoria = repository.save(categoria);
+        return new CategoriaDTO(categoria);
+    }
 	
 	@Transactional
 	public void deletarCategoria(Long id) {
