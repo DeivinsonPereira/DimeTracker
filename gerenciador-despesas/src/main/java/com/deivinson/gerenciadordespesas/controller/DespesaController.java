@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
+import com.deivinson.gerenciadordespesas.dto.TotalDespesaDTO;
 import com.deivinson.gerenciadordespesas.services.DespesaService;
 
 @RestController
@@ -39,9 +40,11 @@ public class DespesaController {
 	}
 	
 	@GetMapping("/total-despesas")
-	public ResponseEntity<Double> calculaTotalDespesas(){
+	public ResponseEntity<TotalDespesaDTO> calculaTotalDespesas(){
 		Double totalDespesas = service.calcularTotalDespesas();
-		return ResponseEntity.ok(totalDespesas);
+		
+		TotalDespesaDTO response = new TotalDespesaDTO(totalDespesas);
+		return ResponseEntity.ok(response);
 	}
 	
 }
