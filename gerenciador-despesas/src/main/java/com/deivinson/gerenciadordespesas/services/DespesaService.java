@@ -87,6 +87,12 @@ public class DespesaService {
 	}
 	
 	@Transactional(readOnly = true)
+	public Double calcularSomaTotalDespesasPorPeriodo(LocalDate dataInicio, LocalDate dataFim) {
+        Double somaTotal = repository.calcularSomaTotalDespesasPorPeriodo(dataInicio, dataFim);
+        return somaTotal != null ? somaTotal : 0.0;
+    }
+	
+	@Transactional(readOnly = true)
 	public List<DespesaCategoriaDataInfoDTO> ValorTotalDespesasCategoriaData(LocalDate dataInicio, LocalDate dataFim) {
         List<Despesa> despesas = repository.findByDataBetween(dataInicio, dataFim);
         List<DespesaCategoriaDataInfoDTO> despesasDTO = new ArrayList<>();

@@ -62,6 +62,19 @@ public class DespesaController {
 		return ResponseEntity.ok(response);
 	}
 	
+	@GetMapping("/soma-total-despesas-por-periodo")
+	public ResponseEntity<TotalDespesaDTO> obterSomaTotalDespesasPorPeriodo(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+
+        Double somaTotal = service.calcularSomaTotalDespesasPorPeriodo(dataInicio, dataFim);
+
+        TotalDespesaDTO responseDTO = new TotalDespesaDTO();
+        responseDTO.setTotalDespesas(somaTotal);
+
+        return ResponseEntity.ok(responseDTO);
+    }
+	
 	@GetMapping("/despesas-categorias-data")
     public ResponseEntity<List<DespesaCategoriaDataInfoDTO>> obterDespesasComCategoriasPorDataIntervalo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
@@ -71,8 +84,6 @@ public class DespesaController {
 
         return ResponseEntity.ok(despesasDTO);
     }
-	
-	
 	
 	@GetMapping("/valor-total-categoria-e-data")
 	public ResponseEntity<TotalDespesaCatDataDTO> obterValorTotalDespesasPorCategoriaEData(
