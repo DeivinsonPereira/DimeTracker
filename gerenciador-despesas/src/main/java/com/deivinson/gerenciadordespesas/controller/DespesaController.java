@@ -12,12 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaCategoriaDataInfoDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
@@ -105,5 +107,11 @@ public class DespesaController {
 		List<DespesaDTO> despesas = service.buscarDespesasPorCategoriaEData(categoriaId, dataInicio, dataFim);
 		return ResponseEntity.ok(despesas);
 	}
+	
+	@PutMapping("/{despesaId}")
+    public ResponseEntity<DespesaDTO> atualizarDespesa(@PathVariable Long despesaId, @RequestBody AtualizaDespesaDTO dto) {
+        DespesaDTO despesaDTO = service.atualizarDespesa(despesaId, dto);
+        return ResponseEntity.ok(despesaDTO);
+    }
 	
 }

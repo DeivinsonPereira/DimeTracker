@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaCategoriaDataInfoDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
@@ -116,6 +117,27 @@ public class DespesaService {
 		entity = repository.save(entity);
 		return new DespesaInserirDTO(entity);
 	}
+	
+	@Transactional
+    public DespesaDTO atualizarDespesa(Long despesaId, AtualizaDespesaDTO dto) {
+        Despesa despesa = repository.findById(despesaId)
+                .orElseThrow(() -> new EntityNotFoundException("Despesa não encontrada"));
+
+        if (dto.getValor() != null) {
+            despesa.setValor(dto.getValor());
+        }
+        if (dto.getData() != null) {
+            despesa.setData(dto.getData());
+        }
+        if (dto.getCategoriaId() != null) {
+            Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+                    .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+            despesa.setCategoria(categoria);
+        }
+
+        despesa = repository.save(despesa);
+        return new DespesaDTO(despesa);
+    }
 	
 	private void copyEntity(DespesaInserirDTO dto, Despesa entity) {
 		entity.setData(dto.getData());
