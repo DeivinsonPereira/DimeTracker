@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
+import com.deivinson.gerenciadordespesas.dto.TotalDespesaCatDataDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.entities.Usuario;
@@ -65,6 +66,22 @@ public class DespesaService {
 		Categoria categoria = categoriaRepository.findById(categoriaId)
 				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 		return repository.calcularDespesaTotalPorCategoria(categoria);
+	}
+	
+	@Transactional(readOnly = true)
+	public TotalDespesaCatDataDTO calcularValorTotalDespesasPorCategoriaEData(Long categoriaId, LocalDate dataInicio, LocalDate dataFim) {
+		
+		Categoria categoria = categoriaRepository.findById(categoriaId)
+	            .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+		
+		Double valorTotal = repository.calcularValorTotalDespesasPorCategoriaEData(categoria, dataInicio, dataFim);
+	   
+		TotalDespesaCatDataDTO dto = new TotalDespesaCatDataDTO();
+        dto.setDataInicio(dataInicio);
+        dto.setDataFim(dataFim);
+        dto.setCategoria(categoria.getNome());
+        dto.setValorTotal(valorTotal);
+	    return dto;
 	}
 	
 	@Transactional

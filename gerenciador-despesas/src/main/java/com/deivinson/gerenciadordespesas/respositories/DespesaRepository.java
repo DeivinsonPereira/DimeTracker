@@ -20,12 +20,21 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 			+ "AND :dataFim")
 	List<Despesa> buscarDespesasPorCategoriaEData(Categoria categoria, LocalDate dataInicio, LocalDate dataFim );
 
-	@Query("SELECT SUM(d.valor) FROM Despesa d ")
+	@Query("SELECT SUM(d.valor) "
+			+ "FROM Despesa d ")
 	Double calcularDespesaTotal();
 	
-	@Query("SELECT SUM(d.valor) FROM Despesa d "
+	@Query("SELECT SUM(d.valor) "
+			+ "FROM Despesa d "
 			+ "WHERE d.categoria = :categoria")
 	Double calcularDespesaTotalPorCategoria(Categoria categoria);
 	
+	@Query("SELECT SUM(d.valor) "
+			+ "FROM Despesa d "
+			+ "WHERE d.categoria = :categoria "
+			+ "AND d.data "
+			+ "BETWEEN :dataInicio "
+			+ "AND :dataFim")
+	Double calcularValorTotalDespesasPorCategoriaEData(Categoria categoria, LocalDate dataInicio, LocalDate dataFim);	
 	
 }
