@@ -52,12 +52,10 @@ public class Categoria implements Serializable{
 		this.nome = nome;
 	}
 
-	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

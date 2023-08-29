@@ -12,7 +12,6 @@ import com.deivinson.gerenciadordespesas.entities.Despesa;
 
 public interface DespesaRepository extends JpaRepository<Despesa, Long>, JpaSpecificationExecutor<Despesa>{
 
-	
 	@Query("SELECT SUM(d.valor) "
 			+ "FROM Despesa d ")
 	Double calcularDespesaTotal();

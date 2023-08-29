@@ -82,12 +82,10 @@ public class Despesa implements Serializable{
 		this.categoria = categoria;
 	}
 
-	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

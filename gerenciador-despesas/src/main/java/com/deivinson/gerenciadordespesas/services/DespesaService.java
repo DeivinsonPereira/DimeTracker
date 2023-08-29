@@ -1,13 +1,24 @@
 package com.deivinson.gerenciadordespesas.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,27 +45,40 @@ public class DespesaService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@PersistenceContext
+    private EntityManager entityManager;
+	
 	@Transactional(readOnly = true)
 	public Page<DespesaDTO> buscarDespesasPorFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim, Pageable pageable) {
-        Specification<Despesa> spec = Specification.where(null);
+	    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Despesa> cq = cb.createQuery(Despesa.class);
+	    Root<Despesa> despesaRoot = cq.from(Despesa.class);
 
-        if (categoriaId != null) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(root.get("categoria").get("id"), categoriaId));
-        }
+	    despesaRoot.fetch("categoria", JoinType.LEFT);
 
-        if (dataInicio != null) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.greaterThanOrEqualTo(root.get("data"), dataInicio));
-        }
+	    List<Predicate> predicates = new ArrayList<>();
 
-        if (dataFim != null) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.lessThanOrEqualTo(root.get("data"), dataFim));
-        }
-        Page<Despesa> despesa = repository.findAll(spec, pageable);
-        return despesa.map(x -> new DespesaDTO(x));
-    }
+	    if (categoriaId != null) {
+	        predicates.add(cb.equal(despesaRoot.get("categoria").get("id"), categoriaId));
+	    }
+
+	    if (dataInicio != null) {
+	        predicates.add(cb.greaterThanOrEqualTo(despesaRoot.get("data"), dataInicio));
+	    }
+
+	    if (dataFim != null) {
+	        predicates.add(cb.lessThanOrEqualTo(despesaRoot.get("data"), dataFim));
+	    }
+
+	    cq.where(predicates.toArray(new Predicate[0]));
+
+	    TypedQuery<Despesa> query = entityManager.createQuery(cq)
+	            .setFirstResult((int) pageable.getOffset())
+	            .setMaxResults(pageable.getPageSize());
+
+	    List<Despesa> despesas = query.getResultList();
+	    return new PageImpl<>(despesas.stream().map(DespesaDTO::new).collect(Collectors.toList()), pageable, despesas.size());
+	}
 	
 	@Transactional(readOnly = true)
 	public Double calcularTotalDespesasComFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim) {
