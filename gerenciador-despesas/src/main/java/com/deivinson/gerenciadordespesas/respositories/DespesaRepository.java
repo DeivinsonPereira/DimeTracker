@@ -1,7 +1,6 @@
 package com.deivinson.gerenciadordespesas.respositories;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,8 +12,6 @@ import com.deivinson.gerenciadordespesas.entities.Despesa;
 
 public interface DespesaRepository extends JpaRepository<Despesa, Long>, JpaSpecificationExecutor<Despesa>{
 
-	
-	List<Despesa> findByDataBetween(LocalDate dataInicio, LocalDate dataFim);
 	
 	@Query("SELECT SUM(d.valor) "
 			+ "FROM Despesa d ")

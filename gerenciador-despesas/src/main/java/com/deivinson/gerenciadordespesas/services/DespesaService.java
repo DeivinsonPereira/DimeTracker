@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
-import com.deivinson.gerenciadordespesas.dto.TotalDespesaCatDataDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.entities.Usuario;
@@ -35,6 +34,7 @@ public class DespesaService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Transactional(readOnly = true)
 	public Page<DespesaDTO> buscarDespesasPorFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim, Pageable pageable) {
         Specification<Despesa> spec = Specification.where(null);
 
@@ -57,37 +57,22 @@ public class DespesaService {
     }
 	
 	@Transactional(readOnly = true)
-	public Double calcularTotalDespesas() {
-		return repository.calcularDespesaTotal();
-	}
-	
-	@Transactional(readOnly = true)
-	public Double calcularTotalDespesasPorCategoria(Long categoriaId) {
-		Categoria categoria = categoriaRepository.findById(categoriaId)
-				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
-		return repository.calcularDespesaTotalPorCategoria(categoria);
-	}
-	
-	@Transactional(readOnly = true)
-	public TotalDespesaCatDataDTO calcularValorTotalDespesasPorCategoriaEData(Long categoriaId, LocalDate dataInicio, LocalDate dataFim) {
-		
-		Categoria categoria = categoriaRepository.findById(categoriaId)
-	            .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
-		
-		Double valorTotal = repository.calcularValorTotalDespesasPorCategoriaEData(categoria, dataInicio, dataFim);
-	   
-		TotalDespesaCatDataDTO dto = new TotalDespesaCatDataDTO();
-        dto.setDataInicio(dataInicio);
-        dto.setDataFim(dataFim);
-        dto.setCategoria(categoria.getNome());
-        dto.setValorTotal(valorTotal);
-	    return dto;
-	}
-	
-	@Transactional(readOnly = true)
-	public Double calcularSomaTotalDespesasPorPeriodo(LocalDate dataInicio, LocalDate dataFim) {
-        Double somaTotal = repository.calcularSomaTotalDespesasPorPeriodo(dataInicio, dataFim);
-        return somaTotal != null ? somaTotal : 0.0;
+	public Double calcularTotalDespesasComFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim) {
+        if (categoriaId != null && dataInicio != null && dataFim != null) {
+            Categoria categoria = categoriaRepository.findById(categoriaId)
+                    .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+
+            return repository.calcularValorTotalDespesasPorCategoriaEData(categoria, dataInicio, dataFim);
+        } else if (categoriaId != null) {
+            Categoria categoria = categoriaRepository.findById(categoriaId)
+                    .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+
+            return repository.calcularDespesaTotalPorCategoria(categoria);
+        } else if (dataInicio != null && dataFim != null) {
+            return repository.calcularSomaTotalDespesasPorPeriodo(dataInicio, dataFim);
+        } else {
+            return repository.calcularDespesaTotal();
+        }
     }
 	
 	@Transactional

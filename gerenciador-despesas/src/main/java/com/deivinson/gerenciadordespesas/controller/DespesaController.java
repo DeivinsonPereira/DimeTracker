@@ -22,7 +22,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
-import com.deivinson.gerenciadordespesas.dto.TotalDespesaCatDataDTO;
 import com.deivinson.gerenciadordespesas.dto.TotalDespesaDTO;
 import com.deivinson.gerenciadordespesas.services.DespesaService;
 
@@ -32,7 +31,6 @@ public class DespesaController {
 
 	@Autowired
 	private DespesaService service;
-		
 	
 	@GetMapping
     public ResponseEntity<Page<DespesaDTO>> buscarDespesasPorFiltros(
@@ -45,6 +43,17 @@ public class DespesaController {
         return ResponseEntity.ok(despesas);
     }
 	
+	@GetMapping("/total-despesas")
+	public ResponseEntity<TotalDespesaDTO> calculaTotalDespesasPorFiltros(
+	        @RequestParam(required = false) Long categoriaId,
+	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+
+	    Double totalDespesas = service.calcularTotalDespesasComFiltros(categoriaId, dataInicio, dataFim);
+
+	    TotalDespesaDTO response = new TotalDespesaDTO(totalDespesas);
+	    return ResponseEntity.ok(response);
+	}
 	
 	@PostMapping
 	public ResponseEntity<DespesaInserirDTO> insert(@RequestBody DespesaInserirDTO dto){
@@ -52,46 +61,6 @@ public class DespesaController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
-	}
-	
-	@GetMapping("/total-despesas")
-	public ResponseEntity<TotalDespesaDTO> calculaTotalDespesas(){
-		Double totalDespesas = service.calcularTotalDespesas();
-		
-		TotalDespesaDTO response = new TotalDespesaDTO(totalDespesas);
-		return ResponseEntity.ok(response);
-	}
-	
-	@GetMapping("/total-despesas/{categoriaId}")
-	public ResponseEntity<TotalDespesaDTO> calculaTotalDespesasPorCategoria(@PathVariable Long categoriaId){
-		Double totalDespesas = service.calcularTotalDespesasPorCategoria(categoriaId);
-		
-		TotalDespesaDTO response = new TotalDespesaDTO(totalDespesas);
-		return ResponseEntity.ok(response);
-	}
-	
-	@GetMapping("/soma-total-despesas-por-periodo")
-	public ResponseEntity<TotalDespesaDTO> obterSomaTotalDespesasPorPeriodo(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
-
-        Double somaTotal = service.calcularSomaTotalDespesasPorPeriodo(dataInicio, dataFim);
-
-        TotalDespesaDTO responseDTO = new TotalDespesaDTO();
-        responseDTO.setTotalDespesas(somaTotal);
-
-        return ResponseEntity.ok(responseDTO);
-    }
-		
-	@GetMapping("/valor-total-categoria-e-data")
-	public ResponseEntity<TotalDespesaCatDataDTO> obterValorTotalDespesasPorCategoriaEData(
-	        @RequestParam Long categoriaId,
-	        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-	        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
-
-	    TotalDespesaCatDataDTO valorTotal = service.calcularValorTotalDespesasPorCategoriaEData(categoriaId, dataInicio, dataFim);
-	    
-	    return ResponseEntity.ok(valorTotal);
 	}
 	
 	@PutMapping("/{despesaId}")
@@ -105,5 +74,4 @@ public class DespesaController {
         service.deletarDespesa(despesaId);
         return ResponseEntity.noContent().build();
     }
-	
 }
