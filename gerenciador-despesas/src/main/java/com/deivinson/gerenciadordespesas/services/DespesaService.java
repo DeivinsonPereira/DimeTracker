@@ -1,5 +1,7 @@
 package com.deivinson.gerenciadordespesas.services;
 
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,14 @@ public class DespesaService {
 	public Page<DespesaDTO> buscarTodasDespesas(Pageable pageable){
 		Page<Despesa> dto = repository.findAll(pageable);
 		return dto.map(x -> new DespesaDTO(x));
+	}
+	
+	@Transactional(readOnly = true)
+	public List<DespesaDTO> buscarDespesasPorCategoria(Long categoriaId) {
+		Categoria categoria = categoriaRepository.findById(categoriaId)
+				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+		List<DespesaDTO> despesas = repository.findByCategoria(categoria);
+		return despesas;
 	}
 	
 	@Transactional

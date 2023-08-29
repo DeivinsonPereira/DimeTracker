@@ -21,6 +21,4 @@ public class CategoriaService {
 		Page<Categoria> dto = repository.findAll(pageable);
 		return dto.map(x -> new CategoriaDTO(x));
 	}
-	
-	
 }
