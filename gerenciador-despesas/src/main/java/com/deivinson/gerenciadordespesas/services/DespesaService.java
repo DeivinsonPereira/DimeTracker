@@ -50,6 +50,13 @@ public class DespesaService {
 		return repository.calcularDespesaTotal();
 	}
 	
+	@Transactional(readOnly = true)
+	public Double calcularTotalDespesasPorCategoria(Long categoriaId) {
+		Categoria categoria = categoriaRepository.findById(categoriaId)
+				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+		return repository.calcularDespesaTotalPorCategoria(categoria);
+	}
+	
 	@Transactional
 	public DespesaInserirDTO insert(DespesaInserirDTO dto) {
 		Despesa entity = new Despesa();

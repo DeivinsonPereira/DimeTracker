@@ -13,6 +13,10 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 
 	List<DespesaDTO> findByCategoria (Categoria categoria); 
 	
-	@Query("SELECT SUM(d.valor) FROM Despesa d")
+	@Query("SELECT SUM(d.valor) FROM Despesa d ")
 	Double calcularDespesaTotal();
+	
+	@Query("SELECT SUM(d.valor) FROM Despesa d "
+			+ "WHERE d.categoria = :categoria")
+	Double calcularDespesaTotalPorCategoria(Categoria categoria);
 }
