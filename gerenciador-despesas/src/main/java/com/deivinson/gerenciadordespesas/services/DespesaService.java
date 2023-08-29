@@ -1,6 +1,7 @@
 package com.deivinson.gerenciadordespesas.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deivinson.gerenciadordespesas.dto.DespesaCategoriaDataInfoDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
 import com.deivinson.gerenciadordespesas.dto.TotalDespesaCatDataDTO;
@@ -83,6 +85,23 @@ public class DespesaService {
         dto.setValorTotal(valorTotal);
 	    return dto;
 	}
+	
+	@Transactional(readOnly = true)
+	public List<DespesaCategoriaDataInfoDTO> ValorTotalDespesasCategoriaData(LocalDate dataInicio, LocalDate dataFim) {
+        List<Despesa> despesas = repository.findByDataBetween(dataInicio, dataFim);
+        List<DespesaCategoriaDataInfoDTO> despesasDTO = new ArrayList<>();
+
+        for (Despesa despesa : despesas) {
+        	DespesaCategoriaDataInfoDTO dto = new DespesaCategoriaDataInfoDTO();
+            dto.setId(despesa.getId());
+            dto.setValor(despesa.getValor());
+            dto.setData(despesa.getData());
+            dto.setCategoria(despesa.getCategoria().getNome()); // Supondo que a categoria tenha um atributo "nome"
+            despesasDTO.add(dto);
+        }
+
+        return despesasDTO;
+    }
 	
 	@Transactional
 	public DespesaInserirDTO insert(DespesaInserirDTO dto) {

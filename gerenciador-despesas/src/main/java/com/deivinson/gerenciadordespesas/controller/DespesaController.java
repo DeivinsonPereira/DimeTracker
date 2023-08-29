@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.deivinson.gerenciadordespesas.dto.DespesaCategoriaDataInfoDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
 import com.deivinson.gerenciadordespesas.dto.TotalDespesaCatDataDTO;
@@ -60,6 +61,18 @@ public class DespesaController {
 		TotalDespesaDTO response = new TotalDespesaDTO(totalDespesas);
 		return ResponseEntity.ok(response);
 	}
+	
+	@GetMapping("/despesas-categorias-data")
+    public ResponseEntity<List<DespesaCategoriaDataInfoDTO>> obterDespesasComCategoriasPorDataIntervalo(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+
+        List<DespesaCategoriaDataInfoDTO> despesasDTO = service.ValorTotalDespesasCategoriaData(dataInicio, dataFim);
+
+        return ResponseEntity.ok(despesasDTO);
+    }
+	
+	
 	
 	@GetMapping("/valor-total-categoria-e-data")
 	public ResponseEntity<TotalDespesaCatDataDTO> obterValorTotalDespesasPorCategoriaEData(

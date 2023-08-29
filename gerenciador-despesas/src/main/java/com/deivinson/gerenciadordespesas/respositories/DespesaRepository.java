@@ -13,6 +13,8 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 
 	List<Despesa> findByCategoria (Categoria categoria); 
 	
+	List<Despesa> findByDataBetween(LocalDate dataInicio, LocalDate dataFim);
+	
 	@Query("SELECT d "
 			+ "FROM Despesa d "
 			+ "WHERE d.categoria = :categoria "
