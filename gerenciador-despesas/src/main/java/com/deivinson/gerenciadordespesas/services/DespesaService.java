@@ -45,6 +45,11 @@ public class DespesaService {
 		return despesas;
 	}
 	
+	@Transactional(readOnly = true)
+	public Double calcularTotalDespesas() {
+		return repository.calcularDespesaTotal();
+	}
+	
 	@Transactional
 	public DespesaInserirDTO insert(DespesaInserirDTO dto) {
 		Despesa entity = new Despesa();

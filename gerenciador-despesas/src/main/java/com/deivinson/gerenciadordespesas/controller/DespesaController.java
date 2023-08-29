@@ -38,4 +38,10 @@ public class DespesaController {
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
+	@GetMapping("/total-despesas")
+	public ResponseEntity<Double> calculaTotalDespesas(){
+		Double totalDespesas = service.calcularTotalDespesas();
+		return ResponseEntity.ok(totalDespesas);
+	}
+	
 }
