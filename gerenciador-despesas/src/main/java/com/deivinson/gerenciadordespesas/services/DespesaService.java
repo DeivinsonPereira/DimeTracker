@@ -1,6 +1,8 @@
 package com.deivinson.gerenciadordespesas.services;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -41,8 +43,16 @@ public class DespesaService {
 	public List<DespesaDTO> buscarDespesasPorCategoria(Long categoriaId) {
 		Categoria categoria = categoriaRepository.findById(categoriaId)
 				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
-		List<DespesaDTO> despesas = repository.findByCategoria(categoria);
-		return despesas;
+		List<Despesa> despesas = repository.findByCategoria(categoria);
+		return despesas.stream().map(x -> new DespesaDTO(x)).collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
+	public List<DespesaDTO> buscarDespesasPorCategoriaEData(Long categoriaId, LocalDate dataInicio,	LocalDate dataFim) {
+		Categoria categoria = categoriaRepository.findById(categoriaId)
+				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+		List<Despesa> despesas = repository.buscarDespesasPorCategoriaEData(categoria, dataInicio, dataFim);
+		return despesas.stream().map(x -> new DespesaDTO(x)).collect(Collectors.toList());
 	}
 	
 	@Transactional(readOnly = true)
