@@ -15,13 +15,13 @@ public class CategoriaTest {
 	}
 	
 	@Test
-	public void TestGetAndSetId() {
+	public void testGetAndSetId() {
 		categoria.setId(1L);
 		assertEquals(1L, categoria.getId());
 	}
 	
 	@Test
-	public void TestGetAndSetNome() {
+	public void testGetAndSetNome() {
 		categoria.setNome("joão");
 		
 		assertTrue(categoria.getNome().equalsIgnoreCase("João"));
