@@ -3,14 +3,13 @@ package com.deivinson.gerenciadordespesas.respositories;
 import java.time.LocalDate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 
-public interface DespesaRepository extends JpaRepository<Despesa, Long>, JpaSpecificationExecutor<Despesa>{
+public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 
 	@Query("SELECT SUM(d.valor) "
 			+ "FROM Despesa d ")
