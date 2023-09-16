@@ -6,26 +6,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CategoriaTest {
-	
-	private Categoria categoria;
+public class UsuarioTest {
 
+	private Usuario usuario;
+	
 	@BeforeEach
 	public void setUp() {
-		categoria = new Categoria();
+		usuario = new Usuario();
 	}
 	
 	@Test
 	public void testGetAndSetId() {
-		categoria.setId(1L);
-		assertEquals(1L, categoria.getId());
+		usuario.setId(1L);
+		assertEquals(1L, usuario.getId());
 	}
 	
 	@Test
 	public void testGetAndSetNome() {
-		categoria.setNome("joão");
+		usuario.setNome("joão");
 		
-		assertTrue(categoria.getNome().equalsIgnoreCase("João"));
+		assertTrue(usuario.getNome().equalsIgnoreCase("João"));
 	}
-	
 }
