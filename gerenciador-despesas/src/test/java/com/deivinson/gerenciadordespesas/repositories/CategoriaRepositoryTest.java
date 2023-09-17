@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.deivinson.gerenciadordespesas.entities.Categoria;
+import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.respositories.CategoriaRepository;
+import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
 public class CategoriaRepositoryTest {
@@ -40,7 +42,7 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testSaveCategoria() {
 		
-		Categoria categoria = new Categoria();
+		Categoria categoria = Factory.construtorCategoriaVazio();
 		categoria.setId(existingId);
 		categoria.setNome("Energia");
 		
@@ -57,7 +59,7 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testFindCategoriaById() {
 		
-		Categoria categoria = new Categoria();
+		Categoria categoria = Factory.construtorCategoriaVazio();
 		categoria.setNome("Teste");
 		categoriaRepository.save(categoria);
 		
@@ -80,13 +82,13 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testFindAllCategoria() {
 		
-		Categoria categoria1 = new Categoria();
+		Categoria categoria1 = Factory.construtorCategoriaVazio();
         categoria1.setNome("Categoria 1");
 
-        Categoria categoria2 = new Categoria();
+        Categoria categoria2 = Factory.construtorCategoriaVazio();
         categoria2.setNome("Categoria 2");
         
-        Categoria categoria3 = new Categoria();
+        Categoria categoria3 = Factory.construtorCategoriaVazio();
         categoria3.setNome("Categoria 3");
         
         categoriaRepository.save(categoria1);
@@ -130,7 +132,7 @@ public class CategoriaRepositoryTest {
 	
 	@Test
 	public void deleteCategoria() {
-		Categoria categoria = new Categoria(1L, "Energia");
+		Categoria categoria = Factory.construtorCategoriaComArgumentos();
 		
 		assertEquals(1L, categoria.getId());
 		assertTrue(categoria.getNome().equalsIgnoreCase("Energia"));
@@ -152,6 +154,22 @@ public class CategoriaRepositoryTest {
 		
 		Assertions.assertNotNull(categoria);
 		Assertions.assertEquals(countTotalCategorias + 1L, categoria.getId());
+	}
+	
+	@Test
+	public void OneToManyRelationshipCategoriaForDespesa () {
+		Categoria categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
+		
+		categoriaRepository.save(categoria1);
+		
+		Categoria categoriaRelacao = categoriaRepository.findById(categoria1.getId()).orElse(null); 
+		assertNotNull(categoriaRelacao);
+		assertEquals(1, categoriaRelacao.getDespesas().size());
+		
+		//Verificando se a relação biderecional está funcionando.
+		for(Despesa despesa : categoria1.getDespesas()) {
+			assertEquals(categoriaRelacao, despesa.getCategoria());
+		}
 	}
 	
 }

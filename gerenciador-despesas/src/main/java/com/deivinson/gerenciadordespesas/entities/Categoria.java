@@ -43,6 +43,10 @@ public class Categoria implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public List<Despesa> getDespesas() {
+		return despesas;
+	}
 
 	public String getNome() {
 		return nome;
