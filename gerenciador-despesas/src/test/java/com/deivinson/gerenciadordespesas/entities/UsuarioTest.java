@@ -6,13 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.deivinson.gerenciadordespesas.tests.Factory;
+
 public class UsuarioTest {
 
 	private Usuario usuario;
 	
 	@BeforeEach
 	public void setUp() {
-		usuario = new Usuario();
+		usuario = Factory.construtorUsuarioVazio();;
 	}
 	
 	@Test

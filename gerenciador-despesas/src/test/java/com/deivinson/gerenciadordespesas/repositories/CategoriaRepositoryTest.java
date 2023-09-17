@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.respositories.CategoriaRepository;
+import com.deivinson.gerenciadordespesas.respositories.DespesaRepository;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
@@ -26,6 +27,9 @@ public class CategoriaRepositoryTest {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private DespesaRepository despesaRepository;
 	
 	private long existingId;
 	private long nonExistingId;
@@ -170,6 +174,27 @@ public class CategoriaRepositoryTest {
 		for(Despesa despesa : categoria1.getDespesas()) {
 			assertEquals(categoriaRelacao, despesa.getCategoria());
 		}
+	}
+	
+	@Test
+	public void testCascadeRemoval() {
+		Categoria categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
+		
+		categoriaRepository.save(categoria1);
+		
+		Categoria categoriaCascade = categoriaRepository.findById(categoria1.getId()).orElse(null); 
+		assertNotNull(categoriaCascade);
+		assertEquals(1, categoriaCascade.getDespesas().size());
+		
+		categoriaRepository.delete(categoriaCascade);
+		
+		Categoria categoriaRemovida = categoriaRepository.findById(categoriaCascade.getId()).orElse(null);
+		
+	    assertNull(categoriaRemovida);
+	    
+	    Optional <Despesa> despesa = despesaRepository.findById(categoria1.getId());
+	    
+	    assertTrue(despesa.isEmpty());
 	}
 	
 }

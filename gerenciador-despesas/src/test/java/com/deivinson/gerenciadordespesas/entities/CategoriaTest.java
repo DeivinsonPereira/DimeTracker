@@ -6,13 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.deivinson.gerenciadordespesas.tests.Factory;
+
 public class CategoriaTest {
 	
 	private Categoria categoria;
 
 	@BeforeEach
 	public void setUp() {
-		categoria = new Categoria();
+		categoria = Factory.construtorCategoriaVazio();
 	}
 	
 	@Test

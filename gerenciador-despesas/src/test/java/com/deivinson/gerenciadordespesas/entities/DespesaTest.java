@@ -9,13 +9,15 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.deivinson.gerenciadordespesas.tests.Factory;
+
 public class DespesaTest {
 
 	private Despesa despesa;
 	
 	@BeforeEach
 	public void setUp() {
-		despesa = new Despesa();
+		despesa = Factory.construtorDespesaVazio();;
 	}
 	
 	@Test
