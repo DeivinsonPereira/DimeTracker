@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.respositories;
+package com.deivinson.gerenciadordespesas.repositories;
 
 import java.time.LocalDate;
 import java.util.List;

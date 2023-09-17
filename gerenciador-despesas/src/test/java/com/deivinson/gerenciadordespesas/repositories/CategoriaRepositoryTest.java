@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.respositories.CategoriaRepository;
-import com.deivinson.gerenciadordespesas.respositories.DespesaRepository;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
@@ -31,9 +28,9 @@ public class CategoriaRepositoryTest {
 	@Autowired
 	private DespesaRepository despesaRepository;
 	
-	private long existingId;
-	private long nonExistingId;
-	private long countTotalCategorias;
+	private Long existingId;
+	private Long nonExistingId;
+	private Long countTotalCategorias;
 	
 	@BeforeEach
 	void setUp() {
@@ -156,8 +153,8 @@ public class CategoriaRepositoryTest {
 		
 		categoria = categoriaRepository.save(categoria);
 		
-		Assertions.assertNotNull(categoria);
-		Assertions.assertEquals(countTotalCategorias + 1L, categoria.getId());
+		assertNotNull(categoria);
+		assertEquals(countTotalCategorias + 1L, categoria.getId());
 	}
 	
 	@Test

@@ -28,9 +28,9 @@ import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.entities.Usuario;
-import com.deivinson.gerenciadordespesas.respositories.CategoriaRepository;
-import com.deivinson.gerenciadordespesas.respositories.DespesaRepository;
-import com.deivinson.gerenciadordespesas.respositories.UsuarioRepository;
+import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
+import com.deivinson.gerenciadordespesas.repositories.DespesaRepository;
+import com.deivinson.gerenciadordespesas.repositories.UsuarioRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 
 @Service

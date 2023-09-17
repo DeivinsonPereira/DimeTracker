@@ -36,6 +36,18 @@ public class Factory {
 		return new Usuario(1L, "João");
 	}
 	
+	public static Usuario construtorUsuarioComArgumentosComDespesa() {
+		LocalDate data = LocalDate.of(2023, 1, 1);
+		
+		Usuario usuario = new Usuario(1L, "João");
+		
+		Categoria categoria = new Categoria(1L, "Energia");
+		
+		usuario.getDespesas().add(new Despesa(1L,100.00, data, usuario, categoria));
+		
+		return usuario;
+	}
+	
 	public static Despesa construtorDespesaVazio() {
 		return new Despesa();
 	}

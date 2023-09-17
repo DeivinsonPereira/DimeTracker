@@ -32,6 +32,10 @@ public class Usuario implements Serializable{
 		this.id = id;
 		this.nome = nome;
 	}
+	
+	public List<Despesa> getDespesas() {
+		return despesas;
+	}
 
 	public Long getId() {
 		return id;

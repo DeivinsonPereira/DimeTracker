@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.deivinson.gerenciadordespesas.dto.CategoriaDTO;
 import com.deivinson.gerenciadordespesas.dto.MinCategoriaDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.respositories.CategoriaRepository;
+import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 

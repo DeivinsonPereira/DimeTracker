@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.respositories;
+package com.deivinson.gerenciadordespesas.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
