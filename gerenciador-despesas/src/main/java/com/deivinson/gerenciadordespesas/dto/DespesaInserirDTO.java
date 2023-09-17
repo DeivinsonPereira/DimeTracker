@@ -1,14 +1,11 @@
 package com.deivinson.gerenciadordespesas.dto;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 
-public class DespesaInserirDTO implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class DespesaInserirDTO {
 
-	
 	private Long id;
 	private Double valor;
 	private LocalDate data;
