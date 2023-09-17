@@ -27,7 +27,6 @@ public class Factory {
 		return categoria;
 	}
 	
-	
 	public static Usuario construtorUsuarioVazio() {
 		return new Usuario();
 	}

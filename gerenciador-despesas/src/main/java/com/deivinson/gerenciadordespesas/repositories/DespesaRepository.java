@@ -1,7 +1,6 @@
 package com.deivinson.gerenciadordespesas.repositories;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,5 +35,4 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 			+ "AND :dataFim")
     Double calcularSomaTotalDespesasPorPeriodo(@Param("dataInicio") LocalDate dataInicio, @Param("dataFim") LocalDate dataFim);
 
-	List<Despesa> findByCategoria(Categoria categoriaCascade);
 }
