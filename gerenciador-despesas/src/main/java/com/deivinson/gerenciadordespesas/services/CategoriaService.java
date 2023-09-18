@@ -1,6 +1,6 @@
 package com.deivinson.gerenciadordespesas.services;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,6 +15,7 @@ import com.deivinson.gerenciadordespesas.dto.MinCategoriaDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
+import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -31,17 +32,31 @@ public class CategoriaService {
 	
 	@Transactional
     public CategoriaDTO criarCategoria(MinCategoriaDTO dto) {
-        Categoria categoria = new Categoria();
+		Optional<Categoria> categoriaExistente = repository.findByNome(dto.getNome());
+	    if (categoriaExistente.isPresent()) {
+	        System.out.println("Erro: esse nome já existe!");
+	        return null;
+	    }
+		if (dto == null || dto.getNome() == null || dto.getNome().isEmpty()) {
+			throw new InvalidInputException("O nome da categoria é obrigatório.");
+		}else {
+			
+		Categoria categoria = new Categoria();
         categoria.setNome(dto.getNome());
 
         categoria = repository.save(categoria);
         return new CategoriaDTO(categoria);
+		
+		}
     }
 	
 	@Transactional
     public CategoriaDTO atualizarNomeCategoria(Long categoriaId, MinCategoriaDTO dto) {
+		if (dto == null || dto.getNome() == null || dto.getNome().isEmpty()) {
+	        throw new InvalidInputException("O nome da categoria é obrigatório.");
+	    }
         Categoria categoria = repository.findById(categoriaId)
-                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
         categoria.setNome(dto.getNome());
 
