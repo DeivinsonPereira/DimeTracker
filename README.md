@@ -63,6 +63,12 @@ Este método é usado para inserir novas "despesas" dentro do banco de dados já
 
 ![Inserir Despesa](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/assets/Inserir%20Despesa.png)
 
+## Testes Unitários
+
+Este método é usado para inserir novas "despesas" dentro do banco de dados já atreladas às suas respectivas categorias.
+
+![Inserir Despesa](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/assets/Testes.jpg)
+
 # Tecnologias utilizadas
 
 ## Técnologias Backend
@@ -73,6 +79,8 @@ Este método é usado para inserir novas "despesas" dentro do banco de dados já
 - Spring Web
 - Maven
 - Postgresql
+- JUnit
+- Mockito
 - H2 Database
 - Orientação a objetos
 - Docker
