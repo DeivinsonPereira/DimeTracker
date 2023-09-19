@@ -4,6 +4,13 @@ import java.time.LocalDate;
 
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DespesaInserirDTO {
 
 	private Long id;
@@ -11,17 +18,6 @@ public class DespesaInserirDTO {
 	private LocalDate data;
 	private Long categoriaId;
 	private Long usuarioId;
-
-	public DespesaInserirDTO() {
-	}
-
-	public DespesaInserirDTO(Long id, Double valor, LocalDate data, Long categoriaId, Long usuarioId) {
-		this.id = id;
-		this.valor = valor;
-		this.data = data;
-		this.categoriaId = categoriaId;
-		this.usuarioId = usuarioId;
-	}
 	
 	public DespesaInserirDTO(Despesa entity) {
 		this.id = entity.getId();
@@ -31,45 +27,4 @@ public class DespesaInserirDTO {
 		this.categoriaId = entity.getCategoria().getId();
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
-
-	public LocalDate getData() {
-		return data;
-	}
-
-	public void setData(LocalDate data) {
-		this.data = data;
-	}
-
-	public Long getCategoriaId() {
-		return categoriaId;
-	}
-
-	public void setCategoriaId(Long categoriaId) {
-		this.categoriaId = categoriaId;
-	}
-
-	public Long getUsuarioId() {
-		return usuarioId;
-	}
-
-	public void setUsuarioId(Long usuarioId) {
-		this.usuarioId = usuarioId;
-	}
-	
-	
 }

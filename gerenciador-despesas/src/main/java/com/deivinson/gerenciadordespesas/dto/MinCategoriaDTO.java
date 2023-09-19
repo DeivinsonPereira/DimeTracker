@@ -1,23 +1,14 @@
 package com.deivinson.gerenciadordespesas.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MinCategoriaDTO {
 
 	private String nome;
 
-	public MinCategoriaDTO() {
-	}
-
-	public MinCategoriaDTO(String nome) {
-		this.nome = nome;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	
 }

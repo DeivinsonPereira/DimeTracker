@@ -6,15 +6,17 @@ import java.util.List;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class CategoriaDTO {
 
 	private Long id;
 	private String nome;
 	
 	private List<DespesaDTO> despesas = new ArrayList<>();
-
-	public CategoriaDTO() {
-	}
 
 	public CategoriaDTO(Long id, String nome) {
 		this.id = id;
@@ -32,23 +34,7 @@ public class CategoriaDTO {
 		
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public List<DespesaDTO> getDespesas() {
-		return despesas;
+	@SuppressWarnings("unused")
+	private void setDespesas(List<DespesaDTO> despesaDTO) {
 	}
 }
