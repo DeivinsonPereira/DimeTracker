@@ -19,6 +19,7 @@ import com.deivinson.gerenciadordespesas.entities.Usuario;
 import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.repositories.DespesaRepository;
 import com.deivinson.gerenciadordespesas.repositories.UsuarioRepository;
+import com.deivinson.gerenciadordespesas.services.exceptions.DataInvalidaException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -40,14 +41,14 @@ public class DespesaService {
 
         if (categoriaId != null && dataInicio != null && dataFim != null) {
             if (dataInicio.isAfter(dataFim)) {
-                throw new IllegalArgumentException("Data final não pode ser anterior à data de início.");
+                throw new DataInvalidaException("Data final não pode ser anterior à data de início.");
             }
             despesas = repository.findByCategoriaIdAndDataBetween(categoriaId, dataInicio, dataFim, pageable);
         } else if (categoriaId != null) {
             despesas = repository.findByCategoriaId(categoriaId, pageable);
         } else if (dataInicio != null && dataFim != null) {
             if (dataInicio.isAfter(dataFim)) {
-                throw new IllegalArgumentException("Data final não pode ser anterior à data de início.");
+                throw new DataInvalidaException("Data final não pode ser anterior à data de início.");
             }
             despesas = repository.findByDataBetween(dataInicio, dataFim, pageable);
         } else {
