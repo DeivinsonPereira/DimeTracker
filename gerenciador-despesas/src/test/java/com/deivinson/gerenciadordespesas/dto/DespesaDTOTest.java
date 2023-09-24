@@ -8,9 +8,6 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
-
 public class DespesaDTOTest {
 
 	private DespesaDTO despesaDTO;
@@ -47,38 +44,30 @@ public class DespesaDTOTest {
 	
 	@Test
 	public void testGetAndSetUsuario() {
-		despesaDTO.setUsuario(new Usuario(1L, "João"));
+		despesaDTO.setNomeUsuario("João");
 		
-		assertEquals(1L, despesaDTO.getUsuario().getId());
-		assertTrue(despesaDTO.getUsuario().getNome().equalsIgnoreCase("João"));
+		assertTrue(despesaDTO.getNomeUsuario().equalsIgnoreCase("João"));
 	}
 	
 	@Test
 	public void testGetAndSetCategoria() {
-		despesaDTO.setCategoria(new Categoria(1L, "Energia"));
+		despesaDTO.setNomeCategoria("Energia");
 		
-		assertEquals(1L, despesaDTO.getCategoria().getId());
-		assertTrue(despesaDTO.getCategoria().getNome().equalsIgnoreCase("Energia"));
+		assertTrue(despesaDTO.getNomeCategoria().equalsIgnoreCase("Energia"));
 	}
 	
 	@Test
 	public void testConstructorEntityToDTOTransformation() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		Usuario usuario = new Usuario(1L, "João");
-		
-		Categoria categoria = new Categoria(1L, "Energia");
-		
-		despesaDTO = new DespesaDTO(1L, 100.00, data, usuario, categoria);
+		despesaDTO = new DespesaDTO(1L, 100.00, data, "João", "Energia");
 		
 		
 		assertEquals(1L, despesaDTO.getId());
 		assertEquals(100.00, despesaDTO.getValor());
 		assertEquals(data, despesaDTO.getData());
-		assertEquals(1L, despesaDTO.getUsuario().getId());
-		assertTrue(despesaDTO.getUsuario().getNome().equalsIgnoreCase("João"));
-		assertEquals(1L, despesaDTO.getCategoria().getId());
-		assertTrue(despesaDTO.getCategoria().getNome().equalsIgnoreCase("Energia"));
+		assertTrue(despesaDTO.getNomeUsuario().equalsIgnoreCase("João"));
+		assertTrue(despesaDTO.getNomeCategoria().equalsIgnoreCase("Energia"));
 		
 	}
 }

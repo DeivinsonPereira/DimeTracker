@@ -64,10 +64,8 @@ public class CategoriaDTOTest {
 		assertEquals(1L, categoriaDTO.getDespesas().get(0).getId());
 		assertEquals(100.00, categoriaDTO.getDespesas().get(0).getValor());
 		assertEquals(data, categoriaDTO.getDespesas().get(0).getData());
-		assertEquals(1L, categoriaDTO.getDespesas().get(0).getUsuario().getId());
-		assertTrue(categoriaDTO.getDespesas().get(0).getUsuario().getNome().equalsIgnoreCase("João"));
-		assertEquals(1L, categoriaDTO.getDespesas().get(0).getCategoria().getId());
-		assertTrue(categoriaDTO.getDespesas().get(0).getCategoria().getNome().equalsIgnoreCase("Energia"));
+		assertTrue(categoriaDTO.getDespesas().get(0).getNomeUsuario().equalsIgnoreCase("João"));
+		assertTrue(categoriaDTO.getDespesas().get(0).getNomeCategoria().equalsIgnoreCase("Energia"));
 		
 	}
 }

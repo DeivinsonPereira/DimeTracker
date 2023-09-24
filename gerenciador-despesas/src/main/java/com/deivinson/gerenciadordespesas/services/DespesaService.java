@@ -1,23 +1,11 @@
 package com.deivinson.gerenciadordespesas.services;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,40 +33,29 @@ public class DespesaService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	@PersistenceContext
-    private EntityManager entityManager;
 	
 	@Transactional(readOnly = true)
 	public Page<DespesaDTO> buscarDespesasPorFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim, Pageable pageable) {
-	    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-	    CriteriaQuery<Despesa> cq = cb.createQuery(Despesa.class);
-	    Root<Despesa> despesaRoot = cq.from(Despesa.class);
+        Page<Despesa> despesas = null;
 
-	    despesaRoot.fetch("categoria", JoinType.LEFT);
+        if (categoriaId != null && dataInicio != null && dataFim != null) {
+            if (dataInicio.isAfter(dataFim)) {
+                throw new IllegalArgumentException("Data final não pode ser anterior à data de início.");
+            }
+            despesas = repository.findByCategoriaIdAndDataBetween(categoriaId, dataInicio, dataFim, pageable);
+        } else if (categoriaId != null) {
+            despesas = repository.findByCategoriaId(categoriaId, pageable);
+        } else if (dataInicio != null && dataFim != null) {
+            if (dataInicio.isAfter(dataFim)) {
+                throw new IllegalArgumentException("Data final não pode ser anterior à data de início.");
+            }
+            despesas = repository.findByDataBetween(dataInicio, dataFim, pageable);
+        } else {
+            despesas = repository.findAllWithCategoria(pageable);
+        }
 
-	    List<Predicate> predicates = new ArrayList<>();
-
-	    if (categoriaId != null) {
-	        predicates.add(cb.equal(despesaRoot.get("categoria").get("id"), categoriaId));
-	    }
-
-	    if (dataInicio != null) {
-	        predicates.add(cb.greaterThanOrEqualTo(despesaRoot.get("data"), dataInicio));
-	    }
-
-	    if (dataFim != null) {
-	        predicates.add(cb.lessThanOrEqualTo(despesaRoot.get("data"), dataFim));
-	    }
-
-	    cq.where(predicates.toArray(new Predicate[0]));
-
-	    TypedQuery<Despesa> query = entityManager.createQuery(cq)
-	            .setFirstResult((int) pageable.getOffset())
-	            .setMaxResults(pageable.getPageSize());
-
-	    List<Despesa> despesas = query.getResultList();
-	    return new PageImpl<>(despesas.stream().map(DespesaDTO::new).collect(Collectors.toList()), pageable, despesas.size());
-	}
+        return despesas.map(x -> new DespesaDTO(x));
+    }
 	
 	@Transactional(readOnly = true)
 	public Double calcularTotalDespesasComFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim) {

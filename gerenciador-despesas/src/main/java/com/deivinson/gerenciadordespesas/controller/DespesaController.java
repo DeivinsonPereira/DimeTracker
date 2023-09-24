@@ -33,7 +33,7 @@ public class DespesaController {
 	private DespesaService service;
 	
 	@GetMapping
-    public ResponseEntity<Page<DespesaDTO>> buscarDespesasPorFiltros(
+	public ResponseEntity<Page<DespesaDTO>> buscarDespesas(
             @RequestParam(required = false) Long categoriaId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
