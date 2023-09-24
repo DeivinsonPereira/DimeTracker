@@ -1,22 +1,26 @@
 package com.deivinson.gerenciadordespesas.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
+import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.repositories.DespesaRepository;
 import com.deivinson.gerenciadordespesas.tests.Factory;
@@ -47,12 +51,8 @@ public class DespesaServiceTest {
 	}
 	
 	@Test
-    public void testCalcularTotalDespesasComFiltros() {
-
-		Long categoriaId = 1L;
-        LocalDate dataInicio = LocalDate.of(2023, 1, 1);
-        LocalDate dataFim = LocalDate.of(2023, 12, 31);
-
+    public void testBuscarDespesasPorFiltros() {
+		
         Categoria categoria = Factory.construtorCategoriaVazio();
         when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.of(categoria));
 
@@ -72,12 +72,25 @@ public class DespesaServiceTest {
         assertEquals(300.0, result4);
     }
 	
-	@Test
-    public void testCalcularTotalDespesasComFiltrosCategoriaNaoEncontrada() {
-        when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.empty());
+	 @Test
+	    public void testBuscarDespesasPorFiltrosSemFiltros() {
+	        // Não fornecer filtros, deve buscar todas as despesas
+	        Pageable pageable = Pageable.unpaged();
+	        Categoria categoria = new Categoria(1L, "Alimentação");
+	        List<Despesa> despesas = new ArrayList<>();
+	        despesas.add(new Despesa(1L, 50.0, LocalDate.of(2023, 1, 15), null, categoria));
+	        despesas.add(new Despesa(2L, 30.0, LocalDate.of(2023, 1, 20), null, categoria));
+	        Page<Despesa> page = new PageImpl<>(despesas);
 
-        assertThrows(EntityNotFoundException.class,
-                () -> service.calcularTotalDespesasComFiltros(categoriaId, dataInicio, dataFim));
-    }
+	        // Simular comportamento dos repositórios
+	        when(repository.findAllWithCategoria(pageable)).thenReturn(page);
+
+	        // Chamar o método sem filtros
+	        Page<DespesaDTO> resultado = service.buscarDespesasPorFiltros(null, null, null, pageable);
+
+	        // Verificar se o resultado é o esperado
+	        assertEquals(2, resultado.getTotalElements());
+	        // Adicione mais verificações conforme necessário
+	    }
 	  
 }

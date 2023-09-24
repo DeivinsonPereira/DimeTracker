@@ -2,7 +2,6 @@ package com.deivinson.gerenciadordespesas.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.time.LocalDate;
 
@@ -40,7 +39,7 @@ public class DespesaTest {
 	
 	@Test
 	public void testGetAndSetUsuario() {
-		despesa.setUsuario(new Usuario(1L, any()));
+		despesa.setUsuario(new Usuario(1L, "João"));
 		
 		assertNotNull(despesa.getUsuario());
 		assertEquals(1L, despesa.getUsuario().getId());
@@ -48,9 +47,20 @@ public class DespesaTest {
 	
 	@Test
 	public void testGetAndSetCategoria() {
-		despesa.setCategoria(new Categoria(1L, any()));
+		despesa.setCategoria(new Categoria(1L, "Energia"));
 		
 		assertNotNull(despesa.getCategoria());
 		assertEquals(1L, despesa.getCategoria().getId());
 	}
+	
+	@Test
+    public void testToString() {
+        Despesa despesa = Factory.construtorDespesaComArgumentos();
+
+        String resultadoToString = despesa.toString();
+
+        String saídaEsperada = "Despesa(id=1, valor=100.0, data=2023-01-01, usuario=Usuario(id=1, nome=João, despesas=[]), categoria=Categoria(id=1, nome=Energia, despesas=[]))";
+
+        assertEquals(saídaEsperada, resultadoToString);
+    }
 }

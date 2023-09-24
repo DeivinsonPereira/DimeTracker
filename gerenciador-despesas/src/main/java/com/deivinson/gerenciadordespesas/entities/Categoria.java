@@ -31,6 +31,6 @@ public class Categoria implements Serializable{
 	}
 
 	@SuppressWarnings("unused")
-	private void SetDespesas(List<Despesa> despesas) {
-	}
+	private void SetDespesas(List<Despesa> despesas) {}
+
 }
