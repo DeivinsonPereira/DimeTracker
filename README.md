@@ -1,4 +1,4 @@
-# Gerenciamento de Despesas
+# DimeTracker
 
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/LICENSE)
 
