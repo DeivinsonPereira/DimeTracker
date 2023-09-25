@@ -65,9 +65,15 @@ Este método é usado para inserir novas "despesas" dentro do banco de dados já
 
 ## Testes Unitários
 
-Este método é usado para inserir novas "despesas" dentro do banco de dados já atreladas às suas respectivas categorias.
+Imagem mostrando alguns testes Unitários.
 
 ![Inserir Despesa](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/assets/Testes.jpg)
+
+## JaCoCo
+
+Imagem mostrando o Coverage (Cobertura) de código com testes.
+
+![Inserir Despesa](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/assets/JaCoCoFim.png)
 
 # Tecnologias utilizadas
 
@@ -84,6 +90,8 @@ Este método é usado para inserir novas "despesas" dentro do banco de dados já
 - H2 Database
 - Orientação a objetos
 - Docker
+- Lombok
+- JaCoCo
 
 ## Técnicas utilizadas
 
