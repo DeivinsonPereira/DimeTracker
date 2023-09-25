@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.deivinson</groupId>
-	<artifactId>gerenciador-despesas</artifactId>
+	<artifactId>dimeTracker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gerenciador-despesas</name>
+	<name>dimeTracker</name>
 	<description>Aplicativo de Gerenciamento de Despesa, que permite aos usuários registrar e rastrear suas despesas diárias. Eles podem adicionar categorias, valores e datas, e o aplicativo fornecerá os dados pesquisados.</description>
 	<properties>
 		<java.version>17</java.version>
