@@ -2,6 +2,7 @@ package com.deivinson.gerenciadordespesas.tests;
 
 import java.time.LocalDate;
 
+import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
 import com.deivinson.gerenciadordespesas.entities.Categoria;
 import com.deivinson.gerenciadordespesas.entities.Despesa;
 import com.deivinson.gerenciadordespesas.entities.Usuario;
@@ -59,5 +60,9 @@ public class Factory {
 		Categoria categoria = construtorCategoriaComArgumentos();
 		
 		return new Despesa(1L, 100.00, data, usuario, categoria);
+	}
+	
+	public static DespesaDTO construtorDespesaDTOVazio() {
+		return new DespesaDTO();
 	}
 }

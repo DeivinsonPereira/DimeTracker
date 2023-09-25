@@ -19,12 +19,12 @@ public class DespesaDTO {
     private String nomeUsuario; 
     private String nomeCategoria; 
 	
-	public DespesaDTO(Despesa entity) {
-		this.id = entity.getId();
-		this.valor = entity.getValor();
-		this.data = entity.getData();
-		this.nomeUsuario = entity.getUsuario() != null ? entity.getUsuario().getNome() : null;
-		this.nomeCategoria = entity.getCategoria() != null ? entity.getCategoria().getNome() : null;;
-	}
+    public DespesaDTO(Despesa entity) {
+            this.id = entity.getId();
+            this.valor = entity.getValor();
+            this.data = entity.getData();
+            this.nomeUsuario = entity.getUsuario() != null ? entity.getUsuario().getNome() : null;
+            this.nomeCategoria = entity.getCategoria() != null ? entity.getCategoria().getNome() : null;
+    }
 
 }

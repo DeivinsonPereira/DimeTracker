@@ -163,6 +163,7 @@ public class CategoriaServiceTest {
 	@Test
 	public void criarCategoriaShouldThrowInvalidImputExceptionWhenEntradaInvalidImput() {
 		minCategoriaDTO.setNome("");
+		
 
 		assertThrows(InvalidInputException.class, () -> service.criarCategoria(minCategoriaDTO));
 	}
