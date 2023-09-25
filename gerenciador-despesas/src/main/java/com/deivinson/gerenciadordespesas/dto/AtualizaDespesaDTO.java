@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 import lombok.*;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtualizaDespesaDTO {

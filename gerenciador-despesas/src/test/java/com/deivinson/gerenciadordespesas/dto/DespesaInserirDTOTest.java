@@ -1,11 +1,16 @@
 package com.deivinson.gerenciadordespesas.dto;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.deivinson.gerenciadordespesas.entities.Categoria;
+import com.deivinson.gerenciadordespesas.entities.Despesa;
+import com.deivinson.gerenciadordespesas.entities.Usuario;
 
 public class DespesaInserirDTOTest {
 
@@ -70,4 +75,21 @@ public class DespesaInserirDTOTest {
 		assertEquals(1L, despesaInserirDTO.getCategoriaId());
 		assertEquals(1L, despesaInserirDTO.getUsuarioId());
 	}
+	
+	@Test
+    public void testConstrutorComArgumentos() {
+        Categoria categoria = new Categoria(1L, "Categoria Teste");
+
+        Usuario usuario = new Usuario(1L, "Usuário Teste");
+
+        Despesa despesa = new Despesa(1L, 1000.0, LocalDate.now(), usuario, categoria);
+
+        DespesaInserirDTO despesaInserirDTO = new DespesaInserirDTO(despesa);
+
+        assertThat(despesaInserirDTO.getId()).isEqualTo(despesa.getId());
+        assertThat(despesaInserirDTO.getValor()).isEqualTo(despesa.getValor());
+        assertThat(despesaInserirDTO.getData()).isEqualTo(despesa.getData());
+        assertThat(despesaInserirDTO.getCategoriaId()).isEqualTo(categoria.getId());
+        assertThat(despesaInserirDTO.getUsuarioId()).isEqualTo(usuario.getId());
+    }
 }

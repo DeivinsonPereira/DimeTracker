@@ -1,5 +1,6 @@
 package com.deivinson.gerenciadordespesas.dto;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -45,4 +46,14 @@ public class CategoriaDTOTest {
 		assertTrue(categoriaDTO.getNome().equalsIgnoreCase("Energia"));
 		
 	}
+	
+	@Test
+    public void testSetId() {
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+
+        Long id = 123L;
+        categoriaDTO.setId(id);
+
+        assertThat(categoriaDTO.getId()).isEqualTo(id);
+    }
 }
