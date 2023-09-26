@@ -1,8 +1,9 @@
 package com.deivinson.gerenciadordespesas.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.deivinson.gerenciadordespesas.entities.Despesa;
+import com.deivinson.gerenciadordespesas.entities.Expense;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,15 +14,15 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DespesaInserirDTO {
+public class InsertExpenseDTO {
 
 	private Long id;
-	private Double valor;
+	private BigDecimal valor;
 	private LocalDate data;
 	private Long categoriaId;
 	private Long usuarioId;
 	
-	public DespesaInserirDTO(Despesa entity) {
+	public InsertExpenseDTO(Expense entity) {
 		this.id = entity.getId();
 		this.valor = entity.getValor();
 		this.data = entity.getData();

@@ -32,12 +32,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
+import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
+import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
+import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.gerenciadordespesas.entities.User;
 import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.repositories.DespesaRepository;
 import com.deivinson.gerenciadordespesas.repositories.UsuarioRepository;
@@ -63,13 +63,13 @@ public class DespesaServiceTest {
 	private Long categoriaId;
     private LocalDate dataInicio;
     private LocalDate dataFim;
-    private Despesa despesa1;
-    private Despesa despesa2;
-    private Despesa despesa3;
+    private Expense despesa1;
+    private Expense despesa2;
+    private Expense despesa3;
     
-    private Page<Despesa> page;
+    private Page<Expense> page;
     
-    private List<Despesa> despesas;
+    private List<Expense> despesas;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -105,12 +105,12 @@ public class DespesaServiceTest {
 		
 	    when(repository.findAllWithCategoria(any(Pageable.class))).thenReturn(page);
 
-	    Page<DespesaDTO> despesasDTO = service.buscarDespesasPorFiltros(null, null, null, Pageable.unpaged());
+	    Page<ExpenseDTO> despesasDTO = service.buscarDespesasPorFiltros(null, null, null, Pageable.unpaged());
 
 	    verify(repository).findAllWithCategoria(Pageable.unpaged());
 
-	    List<DespesaDTO> listdespesasDTO = despesas.stream()
-	            .map(despesa -> new DespesaDTO(despesa))
+	    List<ExpenseDTO> listdespesasDTO = despesas.stream()
+	            .map(despesa -> new ExpenseDTO(despesa))
 	            .collect(Collectors.toList());
 	    assertEquals(new PageImpl<>(listdespesasDTO), despesasDTO);
 	}
@@ -120,12 +120,12 @@ public class DespesaServiceTest {
 		 
         when(repository.findByCategoriaId(eq(categoriaId), any(Pageable.class))).thenReturn(page);
 
-        Page<DespesaDTO> despesasDTO = service.buscarDespesasPorFiltros(categoriaId, null, null, Pageable.unpaged());
+        Page<ExpenseDTO> despesasDTO = service.buscarDespesasPorFiltros(categoriaId, null, null, Pageable.unpaged());
 
         verify(repository).findByCategoriaId(eq(categoriaId), any(Pageable.class));
         
-        List<DespesaDTO> despesasDTOMockadas = despesas.stream()
-                .map(despesa -> new DespesaDTO(despesa))
+        List<ExpenseDTO> despesasDTOMockadas = despesas.stream()
+                .map(despesa -> new ExpenseDTO(despesa))
                 .collect(Collectors.toList());
         assertEquals(new PageImpl<>(despesasDTOMockadas), despesasDTO);
     }
@@ -135,12 +135,12 @@ public class DespesaServiceTest {
 
 	    when(repository.findByDataBetween(eq(dataInicio), eq(dataFim), any(Pageable.class))).thenReturn(page);
 
-	    Page<DespesaDTO> despesasDTO = service.buscarDespesasPorFiltros(null, dataInicio, dataFim, Pageable.unpaged());
+	    Page<ExpenseDTO> despesasDTO = service.buscarDespesasPorFiltros(null, dataInicio, dataFim, Pageable.unpaged());
 
 	    verify(repository).findByDataBetween(eq(dataInicio), eq(dataFim), any(Pageable.class));
 
-	    List<DespesaDTO> despesasDTOMockadas = despesas.stream()
-	            .map(despesa -> new DespesaDTO(despesa))
+	    List<ExpenseDTO> despesasDTOMockadas = despesas.stream()
+	            .map(despesa -> new ExpenseDTO(despesa))
 	            .collect(Collectors.toList());
 	    assertEquals(new PageImpl<>(despesasDTOMockadas), despesasDTO);
 	}
@@ -152,14 +152,14 @@ public class DespesaServiceTest {
 	    when(repository.findByCategoriaIdAndDataBetween(eq(categoriaId), eq(dataInicio), eq(dataFim), any(Pageable.class)))
 	            .thenReturn(page);
 
-	    Page<DespesaDTO> despesasDTO = service.buscarDespesasPorFiltros(categoriaId, dataInicio, dataFim,
+	    Page<ExpenseDTO> despesasDTO = service.buscarDespesasPorFiltros(categoriaId, dataInicio, dataFim,
 	            Pageable.unpaged());
 
 	    verify(repository).findByCategoriaIdAndDataBetween(eq(categoriaId), eq(dataInicio), eq(dataFim),
 	            any(Pageable.class));
 
-	    List<DespesaDTO> despesasDTOMockadas = despesas.stream()
-	            .map(despesa -> new DespesaDTO(despesa))
+	    List<ExpenseDTO> despesasDTOMockadas = despesas.stream()
+	            .map(despesa -> new ExpenseDTO(despesa))
 	            .collect(Collectors.toList());
 	    assertEquals(new PageImpl<>(despesasDTOMockadas), despesasDTO);
 	}
@@ -167,7 +167,7 @@ public class DespesaServiceTest {
 	@Test
     public void testBuscarDespesasPorFiltros() {
 		
-        Categoria categoria = Factory.construtorCategoriaVazio();
+        Category categoria = Factory.construtorCategoriaVazio();
         when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.of(categoria));
 
         when(repository.calcularValorTotalDespesasPorCategoriaEData(categoria, dataInicio, dataFim)).thenReturn(100.0);
@@ -189,15 +189,15 @@ public class DespesaServiceTest {
 	@Test
     public void testBuscarDespesasPorFiltrosSemFiltros() {
         Pageable pageable = Pageable.unpaged();
-        Categoria categoria = new Categoria(1L, "Alimentação");
-        List<Despesa> despesas = new ArrayList<>();
-        despesas.add(new Despesa(1L, 50.0, LocalDate.of(2023, 1, 15), null, categoria));
-        despesas.add(new Despesa(2L, 30.0, LocalDate.of(2023, 1, 20), null, categoria));
-        Page<Despesa> page = new PageImpl<>(despesas);
+        Category categoria = new Category(1L, "Alimentação");
+        List<Expense> despesas = new ArrayList<>();
+        despesas.add(new Expense(1L, 50.0, LocalDate.of(2023, 1, 15), null, categoria));
+        despesas.add(new Expense(2L, 30.0, LocalDate.of(2023, 1, 20), null, categoria));
+        Page<Expense> page = new PageImpl<>(despesas);
 
         when(repository.findAllWithCategoria(pageable)).thenReturn(page);
 
-        Page<DespesaDTO> resultado = service.buscarDespesasPorFiltros(null, null, null, pageable);
+        Page<ExpenseDTO> resultado = service.buscarDespesasPorFiltros(null, null, null, pageable);
 
         assertEquals(2, resultado.getTotalElements());
     }
@@ -226,7 +226,7 @@ public class DespesaServiceTest {
 
 	    when(repository.findByCategoriaId(eq(categoriaId), any(Pageable.class))).thenReturn(new PageImpl<>(Collections.emptyList()));
 
-	    Page<DespesaDTO> despesasDTO = service.buscarDespesasPorFiltros(categoriaId, null, null, Pageable.unpaged());
+	    Page<ExpenseDTO> despesasDTO = service.buscarDespesasPorFiltros(categoriaId, null, null, Pageable.unpaged());
 
 	    verify(repository).findByCategoriaId(eq(categoriaId), any(Pageable.class));
 
@@ -247,7 +247,7 @@ public class DespesaServiceTest {
 	
 	@Test
     public void testDeletarDespesaExistente() {
-        Despesa despesa = Factory.construtorDespesaComArgumentos();
+        Expense despesa = Factory.construtorDespesaComArgumentos();
 
         when(repository.findById(1L)).thenReturn(Optional.of(despesa));
 
@@ -258,7 +258,7 @@ public class DespesaServiceTest {
 
 	@Test
     public void testDeletarDespesaNaoExistente() {
-		Despesa despesa = Factory.construtorDespesaComArgumentos();
+		Expense despesa = Factory.construtorDespesaComArgumentos();
 	 
         when(repository.findById(despesa.getId())).thenReturn(Optional.empty());
 
@@ -267,33 +267,33 @@ public class DespesaServiceTest {
 	
 	@Test
     public void testInsertDespesa() {
-		DespesaInserirDTO dtoEntrada = new DespesaInserirDTO();
+		InsertExpenseDTO dtoEntrada = new InsertExpenseDTO();
 		dtoEntrada.setId(categoriaId);
 	    dtoEntrada.setValor(100.00);
 	    dtoEntrada.setData(LocalDate.of(2023, 10, 15));
 	    dtoEntrada.setCategoriaId(1L);
 	    dtoEntrada.setUsuarioId(1L);
 
-	    Categoria categoria = Factory.construtorCategoriaVazio();
+	    Category categoria = Factory.construtorCategoriaVazio();
 	    categoria.setId(1L);
 	    when(categoriaRepository.findById(anyLong())).thenReturn(Optional.of(categoria));
 
-	    Usuario usuario = Factory.construtorUsuarioVazio();
+	    User usuario = Factory.construtorUsuarioVazio();
 	    usuario.setId(1L);
 	    when(usuarioRepository.findById(anyLong())).thenReturn(Optional.of(usuario));
 
-	    Despesa despesa = Factory.construtorDespesaVazio();
+	    Expense despesa = Factory.construtorDespesaVazio();
 	    despesa.setId(1L);
 	    despesa.setValor(100.00);
 	    despesa.setData(LocalDate.of(2023, 10, 15));
 	    despesa.setCategoria(categoria);
 	    despesa.setUsuario(usuario);
 	    
-	    when(repository.save(any(Despesa.class))).thenReturn(despesa);
+	    when(repository.save(any(Expense.class))).thenReturn(despesa);
 	    
-	    DespesaInserirDTO resultadoDTO = service.insert(dtoEntrada);
+	    InsertExpenseDTO resultadoDTO = service.insert(dtoEntrada);
 
-	    verify(repository).save(any(Despesa.class));
+	    verify(repository).save(any(Expense.class));
 	    
 
 	    assertEquals(despesa.getId(), resultadoDTO.getId());
@@ -304,25 +304,25 @@ public class DespesaServiceTest {
 	@Test
     public void testAtualizarDespesaSucesso() {
 		Long despesaId = 1L;
-        AtualizaDespesaDTO dto = new AtualizaDespesaDTO(100.0, LocalDate.now(), 2L);
+        UpdateExpenseDTO dto = new UpdateExpenseDTO(100.0, LocalDate.now(), 2L);
         
-        Categoria categoria = new Categoria();
+        Category categoria = new Category();
         categoria.setId(2L);
         
-        Usuario usuario = new Usuario();
+        User usuario = new User();
         usuario.setId(2L);
         
-        Despesa despesaExistente = new Despesa();
+        Expense despesaExistente = new Expense();
         despesaExistente.setId(despesaId);
         despesaExistente.setCategoria(categoria);
         despesaExistente.setUsuario(usuario);
 
-        when(repository.save(any(Despesa.class))).thenReturn(despesaExistente);
+        when(repository.save(any(Expense.class))).thenReturn(despesaExistente);
 
         when(repository.getReferenceById(despesaId)).thenReturn(despesaExistente);
         when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.of(categoria));
 
-        DespesaDTO resultado = service.atualizarDespesa(despesaId, dto);
+        ExpenseDTO resultado = service.atualizarDespesa(despesaId, dto);
 
         assertNotNull(resultado);
         assertEquals(dto.getValor(), resultado.getValor());
@@ -333,9 +333,9 @@ public class DespesaServiceTest {
 	@Test
 	public void testAtualizarDespesaFalhaIdNaoEncontrado() {
 		Long despesaId = 1L;
-	    AtualizaDespesaDTO dto = new AtualizaDespesaDTO(100.0, LocalDate.now(), 2L);
+	    UpdateExpenseDTO dto = new UpdateExpenseDTO(100.0, LocalDate.now(), 2L);
 
-	    when(repository.getReferenceById(despesaId)).thenReturn(new Despesa()); 
+	    when(repository.getReferenceById(despesaId)).thenReturn(new Expense()); 
 	    when(repository.findById(despesaId)).thenReturn(Optional.empty());
 
 	    assertThrows(ResourceNotFoundException.class, () -> service.atualizarDespesa(despesaId, dto));
@@ -343,26 +343,26 @@ public class DespesaServiceTest {
 	
 	@Test
     public void testCopyEntity() throws Exception{
-		DespesaInserirDTO dto = new DespesaInserirDTO();
+		InsertExpenseDTO dto = new InsertExpenseDTO();
         dto.setData(LocalDate.now());
         dto.setValor(100.0);
         dto.setCategoriaId(1L);
         dto.setUsuarioId(2L);
 
-        Despesa entity = new Despesa();
+        Expense entity = new Expense();
 
-        Categoria categoria = new Categoria();
+        Category categoria = new Category();
         categoria.setId(1L);
         categoria.setNome("Categoria Teste");
 
-        Usuario usuario = new Usuario();
+        User usuario = new User();
         usuario.setId(2L);
         usuario.setNome("Usuário Teste");
 
         when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.of(categoria));
         when(usuarioRepository.findById(dto.getUsuarioId())).thenReturn(Optional.of(usuario));
 
-        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", DespesaInserirDTO.class, Despesa.class);
+        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
         privateMethod.setAccessible(true);
         privateMethod.invoke(service, dto, entity);
 
@@ -375,14 +375,14 @@ public class DespesaServiceTest {
 	@Test
     public void testCopyEntityCategoriaNaoEncontrada() throws Exception {
 		
-		DespesaInserirDTO dto = new DespesaInserirDTO();
+		InsertExpenseDTO dto = new InsertExpenseDTO();
         dto.setCategoriaId(1L);
 
-        Despesa entity = new Despesa();
+        Expense entity = new Expense();
 
         when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.empty());
 
-        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", DespesaInserirDTO.class, Despesa.class);
+        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
         privateMethod.setAccessible(true);
 
         try {
@@ -397,15 +397,15 @@ public class DespesaServiceTest {
 	@Test
     public void testCopyEntityUsuarioNaoEncontrado() throws Exception {
 		 
-		DespesaInserirDTO dto = new DespesaInserirDTO();
+		InsertExpenseDTO dto = new InsertExpenseDTO();
         dto.setUsuarioId(2L); 
 
-        Despesa entity = new Despesa();
+        Expense entity = new Expense();
 
-        when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.of(new Categoria()));
+        when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.of(new Category()));
         when(usuarioRepository.findById(dto.getUsuarioId())).thenReturn(Optional.empty());
 
-        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", DespesaInserirDTO.class, Despesa.class);
+        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
         privateMethod.setAccessible(true);
 
         try {

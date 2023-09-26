@@ -25,8 +25,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.deivinson.gerenciadordespesas.dto.CategoriaDTO;
-import com.deivinson.gerenciadordespesas.dto.MinCategoriaDTO;
+import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
+import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
 import com.deivinson.gerenciadordespesas.services.CategoriaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,7 +42,7 @@ public class CategoriaControllerTest {
 
     @Test
     public void buscarTodasCategorias_DeveRetornarStatusCode200EPageDeCategoriasDTO() throws Exception {
-        Page<CategoriaDTO> pageCategoriaDTO = new PageImpl<>(Collections.emptyList());
+        Page<CategoryDTO> pageCategoriaDTO = new PageImpl<>(Collections.emptyList());
         when(categoriaService.buscarTodasCategorias(any(Pageable.class))).thenReturn(pageCategoriaDTO);
 
         mockMvc.perform(get("/categorias")
@@ -53,9 +53,9 @@ public class CategoriaControllerTest {
 
     @Test
     public void criarCategoria_DeveRetornarStatusCode201EBodyDeCategoriaDTO() throws Exception {
-        MinCategoriaDTO minCategoriaDTO = new MinCategoriaDTO("Nova Categoria");
-        CategoriaDTO categoriaDTO = new CategoriaDTO(1L, "Nova Categoria");
-        when(categoriaService.criarCategoria(any(MinCategoriaDTO.class))).thenReturn(categoriaDTO);
+        MinCategoryDTO minCategoriaDTO = new MinCategoryDTO("Nova Categoria");
+        CategoryDTO categoriaDTO = new CategoryDTO(1L, "Nova Categoria");
+        when(categoriaService.criarCategoria(any(MinCategoryDTO.class))).thenReturn(categoriaDTO);
 
         mockMvc.perform(post("/categorias")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -68,9 +68,9 @@ public class CategoriaControllerTest {
     @Test
     public void atualizarNomeCategoria_DeveRetornarStatusCode200EBodyDeCategoriaDTO() throws Exception {
         Long categoriaId = 1L;
-        MinCategoriaDTO minCategoriaDTO = new MinCategoriaDTO("Novo Nome");
-        CategoriaDTO categoriaDTO = new CategoriaDTO(categoriaId, "Novo Nome");
-        when(categoriaService.atualizarNomeCategoria(eq(categoriaId), any(MinCategoriaDTO.class))).thenReturn(categoriaDTO);
+        MinCategoryDTO minCategoriaDTO = new MinCategoryDTO("Novo Nome");
+        CategoryDTO categoriaDTO = new CategoryDTO(categoriaId, "Novo Nome");
+        when(categoriaService.atualizarNomeCategoria(eq(categoriaId), any(MinCategoryDTO.class))).thenReturn(categoriaDTO);
 
         mockMvc.perform(put("/categorias/{categoriaId}", categoriaId)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -33,9 +33,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.deivinson.gerenciadordespesas.dto.CategoriaDTO;
-import com.deivinson.gerenciadordespesas.dto.MinCategoriaDTO;
-import com.deivinson.gerenciadordespesas.entities.Categoria;
+import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
+import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
+import com.deivinson.gerenciadordespesas.entities.Category;
 import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
 import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
@@ -51,9 +51,9 @@ public class CategoriaServiceTest {
 	@Mock
 	private CategoriaRepository repository;
 
-	private Categoria categoria;
-	private PageImpl<Categoria> page;
-	private MinCategoriaDTO minCategoriaDTO;
+	private Category categoria;
+	private PageImpl<Category> page;
+	private MinCategoryDTO minCategoriaDTO;
 
 	private Long categoriaId;
 	private Long categoriaIdInexistente;
@@ -65,7 +65,7 @@ public class CategoriaServiceTest {
 
 		categoria = Factory.construtorCategoriaComArgumentosEDespesa();
 		page = new PageImpl<>(List.of(categoria));
-		minCategoriaDTO = new MinCategoriaDTO();
+		minCategoriaDTO = new MinCategoryDTO();
 
 	}
 
@@ -76,7 +76,7 @@ public class CategoriaServiceTest {
 
 		when(repository.findAll((Pageable) any())).thenReturn(page);
 
-		Page<CategoriaDTO> result = service.buscarTodasCategorias(pageable);
+		Page<CategoryDTO> result = service.buscarTodasCategorias(pageable);
 
 		Assertions.assertNotNull(result);
 	}
@@ -86,19 +86,19 @@ public class CategoriaServiceTest {
 
 		Pageable pageable = PageRequest.of(0, 10);
 
-		Categoria categoria1 = Factory.construtorCategoriaVazio();
+		Category categoria1 = Factory.construtorCategoriaVazio();
 		categoria1.setNome("Categoria 1");
 
-		Categoria categoria2 = Factory.construtorCategoriaVazio();
+		Category categoria2 = Factory.construtorCategoriaVazio();
 		categoria2.setNome("Categoria 2");
 
-		List<Categoria> categorias = Arrays.asList(categoria1, categoria2);
+		List<Category> categorias = Arrays.asList(categoria1, categoria2);
 
-		Page<Categoria> paginaCategorias = new PageImpl<>(categorias);
+		Page<Category> paginaCategorias = new PageImpl<>(categorias);
 
 		when(repository.findAll(pageable)).thenReturn(paginaCategorias);
 
-		Page<CategoriaDTO> resultado = service.buscarTodasCategorias(pageable);
+		Page<CategoryDTO> resultado = service.buscarTodasCategorias(pageable);
 
 		assertEquals(categorias.size(), resultado.getContent().size());
 	}
@@ -108,21 +108,21 @@ public class CategoriaServiceTest {
 
 		Pageable pageable = PageRequest.of(0, 10);
 
-		Categoria categoria1 = Factory.construtorCategoriaVazio();
+		Category categoria1 = Factory.construtorCategoriaVazio();
 		categoria1.setNome("Categoria 1");
 
-		Categoria categoria2 = Factory.construtorCategoriaVazio();
+		Category categoria2 = Factory.construtorCategoriaVazio();
 		categoria2.setNome("Categoria 2");
 
-		List<Categoria> categorias = Arrays.asList(categoria1, categoria2);
+		List<Category> categorias = Arrays.asList(categoria1, categoria2);
 
-		Page<Categoria> paginaCategorias = new PageImpl<>(categorias);
+		Page<Category> paginaCategorias = new PageImpl<>(categorias);
 
 		when(repository.findAll(pageable)).thenReturn(paginaCategorias);
 
-		Page<CategoriaDTO> resultado = service.buscarTodasCategorias(pageable);
+		Page<CategoryDTO> resultado = service.buscarTodasCategorias(pageable);
 
-		List<String> nomes = resultado.getContent().stream().map(CategoriaDTO::getNome).collect(Collectors.toList());
+		List<String> nomes = resultado.getContent().stream().map(CategoryDTO::getNome).collect(Collectors.toList());
 
 		assertTrue(nomes.contains("Categoria 1"));
 		assertTrue(nomes.contains("Categoria 2"));
@@ -133,13 +133,13 @@ public class CategoriaServiceTest {
 
 		Pageable pageable = PageRequest.of(0, 10);
 
-		List<Categoria> categorias = new ArrayList<>();
+		List<Category> categorias = new ArrayList<>();
 
-		Page<Categoria> paginaCategorias = new PageImpl<>(categorias);
+		Page<Category> paginaCategorias = new PageImpl<>(categorias);
 
 		when(repository.findAll(pageable)).thenReturn(paginaCategorias);
 
-		Page<CategoriaDTO> resultado = service.buscarTodasCategorias(pageable);
+		Page<CategoryDTO> resultado = service.buscarTodasCategorias(pageable);
 
 		assertTrue(resultado.isEmpty());
 	}
@@ -149,11 +149,11 @@ public class CategoriaServiceTest {
 
 		minCategoriaDTO.setNome("Nova Categoria");
 
-		Categoria categoriaSalva = Factory.construtorCategoriaComArgumentosEDespesa();
+		Category categoriaSalva = Factory.construtorCategoriaComArgumentosEDespesa();
 
-		when(repository.save(any(Categoria.class))).thenReturn(categoriaSalva);
+		when(repository.save(any(Category.class))).thenReturn(categoriaSalva);
 
-		CategoriaDTO resultado = service.criarCategoria(minCategoriaDTO);
+		CategoryDTO resultado = service.criarCategoria(minCategoriaDTO);
 
 		assertNotNull(resultado);
 		assertEquals("Energia", resultado.getNome());
@@ -173,13 +173,13 @@ public class CategoriaServiceTest {
 		
 		minCategoriaDTO.setNome("Categoria Existente");
 
-		Categoria categoriaExistente = Factory.construtorCategoriaVazio();
+		Category categoriaExistente = Factory.construtorCategoriaVazio();
 		categoriaExistente.setId(categoriaId);
 		categoriaExistente.setNome("Categoria Existente");
 
 		when(repository.findByNome("Categoria Existente")).thenReturn(Optional.of(categoriaExistente));
 
-		CategoriaDTO result = service.criarCategoria(minCategoriaDTO);
+		CategoryDTO result = service.criarCategoria(minCategoriaDTO);
 		assertNull(result);
 	}
 
@@ -188,16 +188,16 @@ public class CategoriaServiceTest {
 		
 		minCategoriaDTO.setNome("Nova Categoria");
 
-		Categoria categoriaParaSalvar = Factory.construtorCategoriaVazio();
+		Category categoriaParaSalvar = Factory.construtorCategoriaVazio();
 		categoriaParaSalvar.setNome("Nova Categoria");
 
-		Categoria categoriaSalva = Factory.construtorCategoriaVazio();
+		Category categoriaSalva = Factory.construtorCategoriaVazio();
 		categoriaSalva.setId(categoriaId);
 		categoriaSalva.setNome("Nova Categoria");
 
-		when(repository.save(any(Categoria.class))).thenReturn(categoriaSalva);
+		when(repository.save(any(Category.class))).thenReturn(categoriaSalva);
 
-		CategoriaDTO resultado = service.criarCategoria(minCategoriaDTO);
+		CategoryDTO resultado = service.criarCategoria(minCategoriaDTO);
 
 		verify(repository, times(1)).save(categoriaParaSalvar);
 
@@ -211,13 +211,13 @@ public class CategoriaServiceTest {
 		
 		minCategoriaDTO.setNome("Nova Categoria");
 
-		Categoria categoriaSalva = new Categoria();
+		Category categoriaSalva = new Category();
 		categoriaSalva.setId(categoriaId);
 		categoriaSalva.setNome("Nova Categoria");
 
-		when(repository.save(any(Categoria.class))).thenReturn(categoriaSalva);
+		when(repository.save(any(Category.class))).thenReturn(categoriaSalva);
 
-		CategoriaDTO resultado = service.criarCategoria(minCategoriaDTO);
+		CategoryDTO resultado = service.criarCategoria(minCategoriaDTO);
 
 		assertNotNull(resultado);
 		assertEquals("Nova Categoria", resultado.getNome());
@@ -229,12 +229,12 @@ public class CategoriaServiceTest {
 
 		minCategoriaDTO.setNome("Novo Nome");
 
-		Categoria categoriaExistente = Factory.construtorCategoriaVazio();
+		Category categoriaExistente = Factory.construtorCategoriaVazio();
 		categoriaExistente.setId(categoriaId);
 		categoriaExistente.setNome("Nome Antigo");
 
 		when(repository.findById(categoriaId)).thenReturn(Optional.of(categoriaExistente));
-		when(repository.save(any(Categoria.class))).thenReturn(categoriaExistente);
+		when(repository.save(any(Category.class))).thenReturn(categoriaExistente);
 
 		service.atualizarNomeCategoria(categoriaId, minCategoriaDTO);
 
@@ -247,14 +247,14 @@ public class CategoriaServiceTest {
 		
 		minCategoriaDTO.setNome("Novo Nome");
 
-		Categoria categoriaExistente = Factory.construtorCategoriaVazio();
+		Category categoriaExistente = Factory.construtorCategoriaVazio();
 		categoriaExistente.setId(categoriaId);
 		categoriaExistente.setNome("Nome Antigo");
 
 		when(repository.findById(categoriaId)).thenReturn(Optional.of(categoriaExistente));
-		when(repository.save(any(Categoria.class))).thenReturn(categoriaExistente);
+		when(repository.save(any(Category.class))).thenReturn(categoriaExistente);
 
-		CategoriaDTO resultado = service.atualizarNomeCategoria(categoriaId, minCategoriaDTO);
+		CategoryDTO resultado = service.atualizarNomeCategoria(categoriaId, minCategoriaDTO);
 
 		assertNotNull(resultado);
 		assertEquals("Novo Nome", resultado.getNome());
@@ -276,14 +276,14 @@ public class CategoriaServiceTest {
 		
 		minCategoriaDTO.setNome("Nome Antigo"); 
 
-	    Categoria categoriaExistente = new Categoria();
+	    Category categoriaExistente = new Category();
 	    categoriaExistente.setId(categoriaId);
 	    categoriaExistente.setNome("Nome Antigo");
 
 	    when(repository.findById(categoriaId)).thenReturn(Optional.of(categoriaExistente));
-	    when(repository.save(any(Categoria.class))).thenReturn(categoriaExistente);
+	    when(repository.save(any(Category.class))).thenReturn(categoriaExistente);
 
-	    CategoriaDTO resultado = service.atualizarNomeCategoria(categoriaId, minCategoriaDTO);
+	    CategoryDTO resultado = service.atualizarNomeCategoria(categoriaId, minCategoriaDTO);
 
 	    assertEquals("Nome Antigo", resultado.getNome());
 	}

@@ -7,13 +7,13 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AtualizaDespesaDTOTest {
+public class UpdateExpenseDTOTest {
 
-	private AtualizaDespesaDTO atualizarDespesaDTO;
+	private UpdateExpenseDTO atualizarDespesaDTO;
 	
 	@BeforeEach
 	public void setUp() {
-		atualizarDespesaDTO = new AtualizaDespesaDTO();
+		atualizarDespesaDTO = new UpdateExpenseDTO();
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class AtualizaDespesaDTOTest {
 	public void TestConstructorWithArguments() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		AtualizaDespesaDTO constructorArguments = new AtualizaDespesaDTO(10.0, data, 1L);
+		UpdateExpenseDTO constructorArguments = new UpdateExpenseDTO(10.0, data, 1L);
 		
 		assertEquals(10.0, constructorArguments.getValor());
 		assertEquals(data, constructorArguments.getData());

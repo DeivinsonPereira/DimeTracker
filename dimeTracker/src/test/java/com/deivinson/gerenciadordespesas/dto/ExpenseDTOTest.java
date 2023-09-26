@@ -9,18 +9,18 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.gerenciadordespesas.entities.User;
 
-public class DespesaDTOTest {
+public class ExpenseDTOTest {
 
-	private DespesaDTO despesaDTO;
+	private ExpenseDTO despesaDTO;
 	
 	@BeforeEach
 	public void SetUp() {
 		
-		despesaDTO = new DespesaDTO();
+		despesaDTO = new ExpenseDTO();
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class DespesaDTOTest {
 	public void testConstructorEntityToDTOTransformation() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		despesaDTO = new DespesaDTO(1L, 100.00, data, "João", "Energia");
+		despesaDTO = new ExpenseDTO(1L, 100.00, data, "João", "Energia");
 		
 		
 		assertEquals(1L, despesaDTO.getId());
@@ -78,13 +78,13 @@ public class DespesaDTOTest {
 	
 	@Test
     public void testConstrutorComArgumentos() {
-        Categoria categoria = new Categoria(1L, "Categoria Teste");
+        Category categoria = new Category(1L, "Categoria Teste");
 
-        Usuario usuario = new Usuario(1L, "Usuário Teste");
+        User usuario = new User(1L, "Usuário Teste");
 
-        Despesa despesa = new Despesa(1L, 1000.0, LocalDate.now(), usuario, categoria);
+        Expense despesa = new Expense(1L, 1000.0, LocalDate.now(), usuario, categoria);
 
-        DespesaDTO despesaDTO = new DespesaDTO(despesa);
+        ExpenseDTO despesaDTO = new ExpenseDTO(despesa);
 
         assertThat(despesaDTO.getId()).isEqualTo(despesa.getId());
         assertThat(despesaDTO.getValor()).isEqualTo(despesa.getValor());
@@ -95,13 +95,13 @@ public class DespesaDTOTest {
 	
 	@Test
     public void testConstrutorComArgumentosComNomeUsuarioENomeCategoria() {
-        Categoria categoria = new Categoria(1L, "Categoria Teste");
+        Category categoria = new Category(1L, "Categoria Teste");
 
-        Usuario usuario = new Usuario(1L, "Usuário Teste");
+        User usuario = new User(1L, "Usuário Teste");
 
-        Despesa despesa = new Despesa(1L, 1000.0, LocalDate.now(), usuario, categoria);
+        Expense despesa = new Expense(1L, 1000.0, LocalDate.now(), usuario, categoria);
 
-        DespesaDTO despesaDTO = new DespesaDTO(despesa);
+        ExpenseDTO despesaDTO = new ExpenseDTO(despesa);
 
         assertThat(despesaDTO.getNomeUsuario()).isEqualTo(usuario.getNome());
         assertThat(despesaDTO.getNomeCategoria()).isEqualTo(categoria.getNome());
@@ -109,9 +109,9 @@ public class DespesaDTOTest {
 
     @Test
     public void testConstrutorComArgumentosSemNomeUsuarioENomeCategoria() {
-        Despesa despesa = new Despesa(1L, 1000.0, LocalDate.now(), null, null);
+        Expense despesa = new Expense(1L, 1000.0, LocalDate.now(), null, null);
 
-        DespesaDTO despesaDTO = new DespesaDTO(despesa);
+        ExpenseDTO despesaDTO = new ExpenseDTO(despesa);
 
         assertThat(despesaDTO.getNomeUsuario()).isNull();
         assertThat(despesaDTO.getNomeCategoria()).isNull();
@@ -120,14 +120,14 @@ public class DespesaDTOTest {
     
     @Test
     public void testEqualsAndHashCode() {
-        DespesaDTO despesaDTO1 = new DespesaDTO(1L, 1000.0, LocalDate.now(), "Usuário", "Categoria");
-        DespesaDTO despesaDTO2 = new DespesaDTO(1L, 1000.0, LocalDate.now(), "Usuário", "Categoria");
+        ExpenseDTO despesaDTO1 = new ExpenseDTO(1L, 1000.0, LocalDate.now(), "Usuário", "Categoria");
+        ExpenseDTO despesaDTO2 = new ExpenseDTO(1L, 1000.0, LocalDate.now(), "Usuário", "Categoria");
 
         assertThat(despesaDTO1).isEqualTo(despesaDTO2);
 
         assertThat(despesaDTO1.hashCode()).isEqualTo(despesaDTO2.hashCode());
 
-        DespesaDTO despesaDTO3 = new DespesaDTO(2L, 2000.0, LocalDate.now().plusDays(1), "OutroUsuário", "OutraCategoria");
+        ExpenseDTO despesaDTO3 = new ExpenseDTO(2L, 2000.0, LocalDate.now().plusDays(1), "OutroUsuário", "OutraCategoria");
 
         assertThat(despesaDTO1).isNotEqualTo(despesaDTO3);
 

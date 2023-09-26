@@ -1,5 +1,6 @@
 package com.deivinson.gerenciadordespesas.services;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.EntityNotFoundException;
@@ -10,12 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
+import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
+import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
+import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.gerenciadordespesas.entities.User;
 import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.repositories.DespesaRepository;
 import com.deivinson.gerenciadordespesas.repositories.UsuarioRepository;
@@ -36,8 +37,8 @@ public class DespesaService {
 	
 	
 	@Transactional(readOnly = true)
-	public Page<DespesaDTO> buscarDespesasPorFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim, Pageable pageable) {
-        Page<Despesa> despesas = null;
+	public Page<ExpenseDTO> buscarDespesasPorFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim, Pageable pageable) {
+        Page<Expense> despesas = null;
 
         if (categoriaId != null && dataInicio != null && dataFim != null) {
             if (dataInicio.isAfter(dataFim)) {
@@ -55,18 +56,18 @@ public class DespesaService {
             despesas = repository.findAllWithCategoria(pageable);
         }
 
-        return despesas.map(x -> new DespesaDTO(x));
+        return despesas.map(x -> new ExpenseDTO(x));
     }
 	
 	@Transactional(readOnly = true)
-	public Double calcularTotalDespesasComFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim) {
+	public BigDecimal calcularTotalDespesasComFiltros(Long categoriaId, LocalDate dataInicio, LocalDate dataFim) {
         if (categoriaId != null && dataInicio != null && dataFim != null) {
-            Categoria categoria = categoriaRepository.findById(categoriaId)
+            Category categoria = categoriaRepository.findById(categoriaId)
                     .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 
             return repository.calcularValorTotalDespesasPorCategoriaEData(categoria, dataInicio, dataFim);
         } else if (categoriaId != null) {
-            Categoria categoria = categoriaRepository.findById(categoriaId)
+            Category categoria = categoriaRepository.findById(categoriaId)
                     .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 
             return repository.calcularDespesaTotalPorCategoria(categoria);
@@ -78,17 +79,17 @@ public class DespesaService {
     }
 	
 	@Transactional
-	public DespesaInserirDTO insert(DespesaInserirDTO dto) {
-		Despesa entity = new Despesa();
+	public InsertExpenseDTO insert(InsertExpenseDTO dto) {
+		Expense entity = new Expense();
 		copyEntity(dto, entity);
 		entity = repository.save(entity);
-		return new DespesaInserirDTO(entity);
+		return new InsertExpenseDTO(entity);
 	}
 	
 	@Transactional
-    public DespesaDTO atualizarDespesa(Long despesaId, AtualizaDespesaDTO dto) {
+    public ExpenseDTO atualizarDespesa(Long despesaId, UpdateExpenseDTO dto) {
         try {
-        	Despesa despesa = repository.getReferenceById(despesaId);
+        	Expense despesa = repository.getReferenceById(despesaId);
         	
         	if (dto.getValor() != null) {
         		despesa.setValor(dto.getValor());
@@ -97,13 +98,13 @@ public class DespesaService {
         		despesa.setData(dto.getData());
         	}
         	if (dto.getCategoriaId() != null) {
-        		Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+        		Category categoria = categoriaRepository.findById(dto.getCategoriaId())
         				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
         		despesa.setCategoria(categoria);
         	}
         	
         	despesa = repository.save(despesa);
-        	return new DespesaDTO(despesa);
+        	return new ExpenseDTO(despesa);
         	
         }
 	
@@ -114,19 +115,19 @@ public class DespesaService {
 	
 	@Transactional
     public void deletarDespesa(Long despesaId) {
-        Despesa despesa = repository.findById(despesaId)
+        Expense despesa = repository.findById(despesaId)
                 .orElseThrow(() -> new EntityNotFoundException("Despesa não encontrada"));
 
         repository.delete(despesa);
     }
 	
-	private void copyEntity(DespesaInserirDTO dto, Despesa entity) {
+	private void copyEntity(InsertExpenseDTO dto, Expense entity) {
 		entity.setData(dto.getData());
 		entity.setValor(dto.getValor());
-		Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+		Category categoria = categoriaRepository.findById(dto.getCategoriaId())
 	            .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 	    entity.setCategoria(categoria);
-	    Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+	    User usuario = usuarioRepository.findById(dto.getUsuarioId())
 	            .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 	    entity.setUsuario(usuario);
 	    

@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.gerenciadordespesas.entities.User;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
@@ -41,13 +41,13 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void testSaveUsuario() {
 		
-		Usuario usuario = Factory.construtorUsuarioVazio();
+		User usuario = Factory.construtorUsuarioVazio();
 		usuario.setId(existingId);
 		usuario.setNome("Teste");
 		
 		usuarioRepository.save(usuario);
 		
-		Usuario usuarioSalva = usuarioRepository.findById(usuario.getId()).orElse(null);
+		User usuarioSalva = usuarioRepository.findById(usuario.getId()).orElse(null);
 		
 		assertNotNull(usuarioSalva);
 		assertEquals(existingId, usuarioSalva.getId());
@@ -58,13 +58,13 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void testFindUsuarioById() {
 		
-		Usuario usuario = Factory.construtorUsuarioVazio();
+		User usuario = Factory.construtorUsuarioVazio();
 		usuario.setId(existingId);
 		usuario.setNome("Teste");
 		
 		usuarioRepository.save(usuario);
 		
-		Usuario usuarioEncontrada = usuarioRepository.findById(usuario.getId()).orElse(null);
+		User usuarioEncontrada = usuarioRepository.findById(usuario.getId()).orElse(null);
 		
 		assertNotNull(usuarioEncontrada);
 		assertEquals(existingId, usuarioEncontrada.getId());
@@ -74,7 +74,7 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void testFindUsuarioByIdNotFound() {
 		
-		Usuario usuarioEncontrada = usuarioRepository.findById(nonExistingId).orElse(null);
+		User usuarioEncontrada = usuarioRepository.findById(nonExistingId).orElse(null);
 		
 		assertNull(usuarioEncontrada);
 	}
@@ -82,19 +82,19 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void testFindAllUsuario() {
 		
-		Usuario usuario1 = Factory.construtorUsuarioVazio();
+		User usuario1 = Factory.construtorUsuarioVazio();
 		usuario1.setNome("Usuario 1");
 		usuarioRepository.save(usuario1);
 		
-		Usuario usuario2 = Factory.construtorUsuarioVazio();
+		User usuario2 = Factory.construtorUsuarioVazio();
 		usuario2.setNome("Usuario 2");
 		usuarioRepository.save(usuario2);
 		
-		Usuario usuario3 = Factory.construtorUsuarioVazio();
+		User usuario3 = Factory.construtorUsuarioVazio();
 		usuario3.setNome("Usuario 3");
 		usuarioRepository.save(usuario3);
 		
-        List<Usuario> todosUsuarios = usuarioRepository.findAll();
+        List<User> todosUsuarios = usuarioRepository.findAll();
         
         assertFalse(todosUsuarios.isEmpty());
         assertEquals(contTotalUsuarios + 3, todosUsuarios.size());
@@ -108,7 +108,7 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void testUpdateUsuario(){
 		
-		Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+		User usuario = usuarioRepository.findById(1L).orElse(null);
 		
 		usuario.setId(1L);
 		usuario.setNome("João");
@@ -131,14 +131,14 @@ public class UsuarioRepositoryTest {
 	
 	@Test
 	public void deleteUsuario() {
-		Categoria categoria = Factory.construtorCategoriaComArgumentos();
+		Category categoria = Factory.construtorCategoriaComArgumentos();
 		
 		assertEquals(1L, categoria.getId());
 		assertTrue(categoria.getNome().equalsIgnoreCase("Energia"));
 		
 		usuarioRepository.deleteById(1L);
 		
-		Optional<Usuario> result = usuarioRepository.findById(existingId);
+		Optional<User> result = usuarioRepository.findById(existingId);
 		
 		assertFalse(result.isPresent());
 	}
@@ -146,7 +146,7 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
 
-		Usuario usuario = Factory.construtorUsuarioVazio();
+		User usuario = Factory.construtorUsuarioVazio();
 		usuario.setId(null);
 		
 		usuario = usuarioRepository.save(usuario);
@@ -157,16 +157,16 @@ public class UsuarioRepositoryTest {
 	
 	@Test
 	public void OneToManyRelationshipCategoriaForDespesa () {
-		Usuario usuario = Factory.construtorUsuarioComArgumentosComDespesa();
+		User usuario = Factory.construtorUsuarioComArgumentosComDespesa();
 		
 		usuarioRepository.save(usuario);
 		
-		Usuario usuarioRelacao = usuarioRepository.findById(usuario.getId()).orElse(null); 
+		User usuarioRelacao = usuarioRepository.findById(usuario.getId()).orElse(null); 
 		assertNotNull(usuarioRelacao);
 		assertEquals(1, usuarioRelacao.getDespesas().size());
 		
 		//Verificando se a relação biderecional está funcionando.
-		for(Despesa despesa : usuario.getDespesas()) {
+		for(Expense despesa : usuario.getDespesas()) {
 			assertEquals(usuarioRelacao, despesa.getUsuario());
 		}
 	}

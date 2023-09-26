@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
-public class UsuarioTest {
+public class UserTest {
 
-	private Usuario usuario;
+	private User usuario;
 	
 	@BeforeEach
 	public void setUp() {
@@ -33,7 +33,7 @@ public class UsuarioTest {
 	
 	@Test
     public void testToString() {
-        Usuario usuario = new Usuario(1L, "João");
+        User usuario = new User(1L, "João");
 
         String expectedToString = "Usuario(id=1, nome=João, despesas=[])";
         assertThat(usuario.toString()).isEqualTo(expectedToString);
@@ -41,39 +41,39 @@ public class UsuarioTest {
 	
 	@Test
     public void testEqualsComInstanciasIguais() {
-        Usuario usuario1 = new Usuario(1L, "João");
-        Usuario usuario2 = new Usuario(1L, "João");
+        User usuario1 = new User(1L, "João");
+        User usuario2 = new User(1L, "João");
 
         assertThat(usuario1).isEqualTo(usuario2);
     }
 
     @Test
     public void testEqualsComInstanciasDiferentes() {
-        Usuario usuario1 = new Usuario(1L, "João");
-        Usuario usuario2 = new Usuario(2L, "Maria");
+        User usuario1 = new User(1L, "João");
+        User usuario2 = new User(2L, "Maria");
 
         assertThat(usuario1).isNotEqualTo(usuario2);
     }
 
     @Test
     public void testHashCodeConsistente() {
-        Usuario usuario1 = new Usuario(1L, "João");
-        Usuario usuario2 = new Usuario(1L, "João");
+        User usuario1 = new User(1L, "João");
+        User usuario2 = new User(1L, "João");
 
         assertThat(usuario1.hashCode()).isEqualTo(usuario2.hashCode());
     }
 
     @Test
     public void testHashCodeDiferenteParaObjetosDiferentes() {
-        Usuario usuario1 = new Usuario(1L, "João");
-        Usuario usuario2 = new Usuario(2L, "Maria");
+        User usuario1 = new User(1L, "João");
+        User usuario2 = new User(2L, "Maria");
 
         assertThat(usuario1.hashCode()).isNotEqualTo(usuario2.hashCode());
     }
     
     @Test
     public void testConstrutorComArgumentos() {
-        Usuario usuario = new Usuario(1L, "João");
+        User usuario = new User(1L, "João");
 
         assertThat(usuario).isNotNull();
         assertThat(usuario.getId()).isEqualTo(1L);
@@ -82,7 +82,7 @@ public class UsuarioTest {
     
     @Test
     public void testEqualsComNull() {
-        Usuario usuario = new Usuario(1L, "João");
+        User usuario = new User(1L, "João");
 
         assertThat(usuario.equals(null)).isFalse();
     }
@@ -90,16 +90,16 @@ public class UsuarioTest {
     @SuppressWarnings("unlikely-arg-type")
 	@Test
     public void testEqualsComObjetosDeClassesDiferentes() {
-        Usuario usuario = new Usuario(1L, "João");
-        Categoria categoria = new Categoria();
+        User usuario = new User(1L, "João");
+        Category categoria = new Category();
 
         assertThat(usuario.equals(categoria)).isFalse();
     }
     
     @Test
     public void testEqualsComInstanciasDiferentesIsFalse() {
-        Usuario usuario1 = new Usuario(1L, "João");
-        Usuario usuario2 = new Usuario(2L, "Maria");
+        User usuario1 = new User(1L, "João");
+        User usuario2 = new User(2L, "Maria");
 
         assertThat(usuario1.equals(usuario2)).isFalse();
     }

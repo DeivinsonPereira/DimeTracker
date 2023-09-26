@@ -10,9 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deivinson.gerenciadordespesas.dto.CategoriaDTO;
-import com.deivinson.gerenciadordespesas.dto.MinCategoriaDTO;
-import com.deivinson.gerenciadordespesas.entities.Categoria;
+import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
+import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
+import com.deivinson.gerenciadordespesas.entities.Category;
 import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
 import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
@@ -25,14 +25,14 @@ public class CategoriaService {
 	private CategoriaRepository repository;	
 	
 	@Transactional(readOnly = true)
-	public Page<CategoriaDTO> buscarTodasCategorias(Pageable pageable){
-		Page<Categoria> dto = repository.findAll(pageable);
-		return dto.map(x -> new CategoriaDTO(x));
+	public Page<CategoryDTO> buscarTodasCategorias(Pageable pageable){
+		Page<Category> dto = repository.findAll(pageable);
+		return dto.map(x -> new CategoryDTO(x));
 	}
 	
 	@Transactional
-    public CategoriaDTO criarCategoria(MinCategoriaDTO dto) {
-		Optional<Categoria> categoriaExistente = repository.findByNome(dto.getNome());
+    public CategoryDTO criarCategoria(MinCategoryDTO dto) {
+		Optional<Category> categoriaExistente = repository.findByNome(dto.getNome());
 	    if (categoriaExistente.isPresent()) {
 	        System.out.println("Erro: esse nome já existe!");
 	        return null;
@@ -41,27 +41,27 @@ public class CategoriaService {
 			throw new InvalidInputException("O nome da categoria é obrigatório.");
 		}else {
 			
-		Categoria categoria = new Categoria();
+		Category categoria = new Category();
         categoria.setNome(dto.getNome());
 
         categoria = repository.save(categoria);
-        return new CategoriaDTO(categoria);
+        return new CategoryDTO(categoria);
 		
 		}
     }
 	
 	@Transactional
-    public CategoriaDTO atualizarNomeCategoria(Long categoriaId, MinCategoriaDTO dto) {
+    public CategoryDTO atualizarNomeCategoria(Long categoriaId, MinCategoryDTO dto) {
 		if (dto == null || dto.getNome() == null || dto.getNome().isEmpty()) {
 	        throw new InvalidInputException("O nome da categoria é obrigatório.");
 	    }
-        Categoria categoria = repository.findById(categoriaId)
+        Category categoria = repository.findById(categoriaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
         categoria.setNome(dto.getNome());
 
         categoria = repository.save(categoria);
-        return new CategoriaDTO(categoria);
+        return new CategoryDTO(categoria);
     }
 	
 	@Transactional

@@ -7,15 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CategoriaTest {
+public class CategoryTest {
 	
-	private Categoria categoria1;
-	private Categoria categoria2;
+	private Category categoria1;
+	private Category categoria2;
 
 	@BeforeEach
 	public void setUp() {
-		categoria1 = new Categoria(1L, "Alimentação");
-        categoria2 = new Categoria(2L, "Transporte");
+		categoria1 = new Category(1L, "Alimentação");
+        categoria2 = new Category(2L, "Transporte");
 	}
 	
 	@Test
@@ -33,7 +33,7 @@ public class CategoriaTest {
 	
     @Test
     public void testEqualsComInstanciasIguais() {
-        Categoria mesmaCategoria = new Categoria(1L, "Alimentação");
+        Category mesmaCategoria = new Category(1L, "Alimentação");
         assertThat(categoria1.equals(mesmaCategoria)).isTrue();
     }
 
@@ -59,7 +59,7 @@ public class CategoriaTest {
 
     @Test
     public void testEqualsTransitividade() {
-        Categoria outraCategoria = new Categoria(1L, "Alimentação");
+        Category outraCategoria = new Category(1L, "Alimentação");
         assertThat(categoria1.equals(outraCategoria)).isTrue();
         assertThat(outraCategoria.equals(categoria2)).isFalse();
         assertThat(categoria1.equals(categoria2)).isFalse();
@@ -67,7 +67,7 @@ public class CategoriaTest {
 
     @Test
     public void testHashCodeConsistente() {
-        Categoria mesmaCategoria = new Categoria(1L, "Alimentação");
+        Category mesmaCategoria = new Category(1L, "Alimentação");
         assertThat(categoria1.hashCode()).isEqualTo(mesmaCategoria.hashCode());
     }
 
@@ -83,7 +83,7 @@ public class CategoriaTest {
     
     @Test
     public void testConstrutorVazio() {
-        Categoria categoria = new Categoria();
+        Category categoria = new Category();
 
         assertThat(categoria).isNotNull();
 

@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
@@ -43,13 +43,13 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testSaveCategoria() {
 		
-		Categoria categoria = Factory.construtorCategoriaVazio();
+		Category categoria = Factory.construtorCategoriaVazio();
 		categoria.setId(existingId);
 		categoria.setNome("Energia");
 		
 		categoriaRepository.save(categoria);
 		
-		Categoria categoriaSalva = categoriaRepository.findById(categoria.getId()).orElse(null);
+		Category categoriaSalva = categoriaRepository.findById(categoria.getId()).orElse(null);
 		
 		assertNotNull(categoriaSalva);
 		assertEquals(existingId, categoriaSalva.getId());
@@ -60,12 +60,12 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testFindCategoriaById() {
 		
-		Categoria categoria = Factory.construtorCategoriaVazio();
+		Category categoria = Factory.construtorCategoriaVazio();
 		categoria.setNome("Teste");
 		categoriaRepository.save(categoria);
 		
 		Long categoriaId = categoria.getId();
-		Categoria categoriaEncontrada = categoriaRepository.findById(categoriaId).orElse(null);
+		Category categoriaEncontrada = categoriaRepository.findById(categoriaId).orElse(null);
 		
 		assertNotNull(categoriaEncontrada);
 		assertEquals(categoriaId, categoriaEncontrada.getId());
@@ -75,7 +75,7 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testFindCategoriaByIdNotFound() {
 		
-		Categoria categoriaEncontrada = categoriaRepository.findById(nonExistingId).orElse(null);
+		Category categoriaEncontrada = categoriaRepository.findById(nonExistingId).orElse(null);
 		
 		assertNull(categoriaEncontrada);
 	}
@@ -83,20 +83,20 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testFindAllCategoria() {
 		
-		Categoria categoria1 = Factory.construtorCategoriaVazio();
+		Category categoria1 = Factory.construtorCategoriaVazio();
         categoria1.setNome("Categoria 1");
 
-        Categoria categoria2 = Factory.construtorCategoriaVazio();
+        Category categoria2 = Factory.construtorCategoriaVazio();
         categoria2.setNome("Categoria 2");
         
-        Categoria categoria3 = Factory.construtorCategoriaVazio();
+        Category categoria3 = Factory.construtorCategoriaVazio();
         categoria3.setNome("Categoria 3");
         
         categoriaRepository.save(categoria1);
         categoriaRepository.save(categoria2);
         categoriaRepository.save(categoria3);
         
-        List<Categoria> todasAsCategorias = categoriaRepository.findAll();
+        List<Category> todasAsCategorias = categoriaRepository.findAll();
         
         assertFalse(todasAsCategorias.isEmpty());
         assertEquals(countTotalCategorias + 3, todasAsCategorias.size());
@@ -110,7 +110,7 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void testUpdateCategoria(){
 		
-		Categoria categoria = categoriaRepository.findById(1L).orElse(null);
+		Category categoria = categoriaRepository.findById(1L).orElse(null);
 		
 		categoria.setId(1L);
 		categoria.setNome("João");
@@ -133,14 +133,14 @@ public class CategoriaRepositoryTest {
 	
 	@Test
 	public void deleteCategoria() {
-		Categoria categoria = Factory.construtorCategoriaComArgumentos();
+		Category categoria = Factory.construtorCategoriaComArgumentos();
 		
 		assertEquals(1L, categoria.getId());
 		assertTrue(categoria.getNome().equalsIgnoreCase("Energia"));
 		
 		categoriaRepository.deleteById(1L);
 		
-		Optional<Categoria> result = categoriaRepository.findById(existingId);
+		Optional<Category> result = categoriaRepository.findById(existingId);
 		
 		assertFalse(result.isPresent());
 	}
@@ -148,7 +148,7 @@ public class CategoriaRepositoryTest {
 	@Test
 	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
 
-		Categoria categoria = new Categoria();
+		Category categoria = new Category();
 		categoria.setId(null);
 		
 		categoria = categoriaRepository.save(categoria);
@@ -159,37 +159,37 @@ public class CategoriaRepositoryTest {
 	
 	@Test
 	public void OneToManyRelationshipCategoriaForDespesa () {
-		Categoria categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
+		Category categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
 		
 		categoriaRepository.save(categoria1);
 		
-		Categoria categoriaRelacao = categoriaRepository.findById(categoria1.getId()).orElse(null); 
+		Category categoriaRelacao = categoriaRepository.findById(categoria1.getId()).orElse(null); 
 		assertNotNull(categoriaRelacao);
 		assertEquals(1, categoriaRelacao.getDespesas().size());
 		
 		//Verificando se a relação biderecional está funcionando.
-		for(Despesa despesa : categoria1.getDespesas()) {
+		for(Expense despesa : categoria1.getDespesas()) {
 			assertEquals(categoriaRelacao, despesa.getCategoria());
 		}
 	}
 	
 	@Test
 	public void testCascadeRemoval() {
-		Categoria categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
+		Category categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
 		
 		categoriaRepository.save(categoria1);
 		
-		Categoria categoriaCascade = categoriaRepository.findById(categoria1.getId()).orElse(null); 
+		Category categoriaCascade = categoriaRepository.findById(categoria1.getId()).orElse(null); 
 		assertNotNull(categoriaCascade);
 		assertEquals(1, categoriaCascade.getDespesas().size());
 		
 		categoriaRepository.delete(categoriaCascade);
 		
-		Categoria categoriaRemovida = categoriaRepository.findById(categoriaCascade.getId()).orElse(null);
+		Category categoriaRemovida = categoriaRepository.findById(categoriaCascade.getId()).orElse(null);
 		
 	    assertNull(categoriaRemovida);
 	    
-	    Optional <Despesa> despesa = despesaRepository.findById(categoria1.getId());
+	    Optional <Expense> despesa = despesaRepository.findById(categoria1.getId());
 	    
 	    assertTrue(despesa.isEmpty());
 	}

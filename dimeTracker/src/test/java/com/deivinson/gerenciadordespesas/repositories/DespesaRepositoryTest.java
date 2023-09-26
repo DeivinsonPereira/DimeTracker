@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
@@ -43,13 +43,13 @@ public class DespesaRepositoryTest {
 	@Test
 	public void testSaveDespesa() {
 		
-		Despesa despesa = Factory.construtorDespesaVazio();
+		Expense despesa = Factory.construtorDespesaVazio();
 		despesa.setId(existingId);
 		despesa.setValor(100.00);
 		
 		despesaRepository.save(despesa);
 		
-		Despesa despesaSalva = despesaRepository.findById(despesa.getId()).orElse(null);
+		Expense despesaSalva = despesaRepository.findById(despesa.getId()).orElse(null);
 		
 		assertNotNull(despesaSalva);
 		assertEquals(existingId, despesaSalva.getId());
@@ -60,12 +60,12 @@ public class DespesaRepositoryTest {
 	@Test
 	public void testFindDespesaById() {
 		
-		Despesa despesa = Factory.construtorDespesaVazio();
+		Expense despesa = Factory.construtorDespesaVazio();
 		despesa.setValor(100.00);
 		despesaRepository.save(despesa);
 		
 		Long despesaId = despesa.getId();
-		Despesa despesaEncontrada = despesaRepository.findById(despesaId).orElse(null);
+		Expense despesaEncontrada = despesaRepository.findById(despesaId).orElse(null);
 		
 		assertNotNull(despesaEncontrada);
 		assertEquals(despesaId, despesaEncontrada.getId());
@@ -75,7 +75,7 @@ public class DespesaRepositoryTest {
 	@Test
 	public void testFindDespesaByIdNotFound() {
 		
-		Despesa despesaEncontrada = despesaRepository.findById(nonExistingId).orElse(null);
+		Expense despesaEncontrada = despesaRepository.findById(nonExistingId).orElse(null);
 		
 		assertNull(despesaEncontrada);
 	}
@@ -83,20 +83,20 @@ public class DespesaRepositoryTest {
 	@Test
 	public void testFindAllDespesa() {
 		
-		Despesa despesa1 = Factory.construtorDespesaVazio();
+		Expense despesa1 = Factory.construtorDespesaVazio();
         despesa1.setValor(100.00);
 
-        Despesa despesa2 = Factory.construtorDespesaVazio();
+        Expense despesa2 = Factory.construtorDespesaVazio();
         despesa2.setValor(200.00);
         
-        Despesa despesa3 = Factory.construtorDespesaVazio();
+        Expense despesa3 = Factory.construtorDespesaVazio();
         despesa3.setValor(300.00);
         
         despesaRepository.save(despesa1);
         despesaRepository.save(despesa2);
         despesaRepository.save(despesa3);
         
-        List<Despesa> todasAsDespesas = despesaRepository.findAll();
+        List<Expense> todasAsDespesas = despesaRepository.findAll();
         
         assertFalse(todasAsDespesas.isEmpty());
         assertEquals(countTotalDespesas + 3, todasAsDespesas.size());
@@ -110,7 +110,7 @@ public class DespesaRepositoryTest {
 	@Test
 	public void testUpdateDespesa(){
 		
-		Despesa despesa = despesaRepository.findById(1L).orElse(null);
+		Expense despesa = despesaRepository.findById(1L).orElse(null);
 		
 		despesa.setId(1L);
 		despesa.setValor(100.00);
@@ -134,14 +134,14 @@ public class DespesaRepositoryTest {
 	@Test
 	public void deleteDespesa() {
 		
-		Despesa despesa = Factory.construtorDespesaComArgumentos();
+		Expense despesa = Factory.construtorDespesaComArgumentos();
 		
 		assertEquals(1L, despesa.getId());
 		assertTrue(despesa.getValor() == 100.00);
 		
 		despesaRepository.deleteById(1L);
 		
-		Optional<Despesa> result = despesaRepository.findById(existingId);
+		Optional<Expense> result = despesaRepository.findById(existingId);
 		
 		assertFalse(result.isPresent());
 	}
@@ -149,7 +149,7 @@ public class DespesaRepositoryTest {
 	@Test
 	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
 
-		Despesa despesa = Factory.construtorDespesaVazio();
+		Expense despesa = Factory.construtorDespesaVazio();
 		despesa.setId(null);
 		
 		despesa = despesaRepository.save(despesa);
@@ -161,11 +161,11 @@ public class DespesaRepositoryTest {
 	@Test
 	public void OneToManyRelationshipDespesaForDespesa () {
 		
-		Despesa despesa = Factory.construtorDespesaComArgumentos();
+		Expense despesa = Factory.construtorDespesaComArgumentos();
 		
 		despesaRepository.save(despesa);
 		
-		Despesa despesaRelacao = despesaRepository.findById(despesa.getCategoria().getId()).orElse(null); 
+		Expense despesaRelacao = despesaRepository.findById(despesa.getCategoria().getId()).orElse(null); 
 		assertNotNull(despesaRelacao);
 		assertEquals(1L, despesaRelacao.getCategoria().getId());
 		assertEquals(1L, despesaRelacao.getUsuario().getId());
@@ -182,7 +182,7 @@ public class DespesaRepositoryTest {
 	@Test
     public void testCalculateTotalDespesaByCategoria() {
 		
-        Categoria categoria = Factory.construtorCategoriaComArgumentosEDespesa();
+        Category categoria = Factory.construtorCategoriaComArgumentosEDespesa();
         
         Double total = despesaRepository.calcularDespesaTotalPorCategoria(categoria);
         
@@ -192,7 +192,7 @@ public class DespesaRepositoryTest {
 	@Test
     public void testCalculateTotalDespesaByCategoriaAndData() {
 		
-        Categoria categoria = Factory.construtorCategoriaComArgumentosEDespesa();
+        Category categoria = Factory.construtorCategoriaComArgumentosEDespesa();
         
         LocalDate dataInicio = LocalDate.of(2023, 7, 1);
         LocalDate dataFim = LocalDate.of(2023, 8, 31);

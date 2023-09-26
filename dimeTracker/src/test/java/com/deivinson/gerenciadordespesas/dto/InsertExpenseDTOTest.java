@@ -8,18 +8,18 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.gerenciadordespesas.entities.User;
 
-public class DespesaInserirDTOTest {
+public class InsertExpenseDTOTest {
 
-	private DespesaInserirDTO despesaInserirDTO;
+	private InsertExpenseDTO despesaInserirDTO;
 	
 	@BeforeEach
 	public void SetUp() {
 		
-		despesaInserirDTO = new DespesaInserirDTO();
+		despesaInserirDTO = new InsertExpenseDTO();
 	}
 	
 	@Test
@@ -67,7 +67,7 @@ public class DespesaInserirDTOTest {
 	public void testConstructorEntityToDTOTransformation() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		despesaInserirDTO = new DespesaInserirDTO(1L, 100.00, data, 1L, 1L);
+		despesaInserirDTO = new InsertExpenseDTO(1L, 100.00, data, 1L, 1L);
 		
 		assertEquals(1L, despesaInserirDTO.getId());
 		assertEquals(100.00, despesaInserirDTO.getValor());
@@ -78,13 +78,13 @@ public class DespesaInserirDTOTest {
 	
 	@Test
     public void testConstrutorComArgumentos() {
-        Categoria categoria = new Categoria(1L, "Categoria Teste");
+        Category categoria = new Category(1L, "Categoria Teste");
 
-        Usuario usuario = new Usuario(1L, "Usuário Teste");
+        User usuario = new User(1L, "Usuário Teste");
 
-        Despesa despesa = new Despesa(1L, 1000.0, LocalDate.now(), usuario, categoria);
+        Expense despesa = new Expense(1L, 1000.0, LocalDate.now(), usuario, categoria);
 
-        DespesaInserirDTO despesaInserirDTO = new DespesaInserirDTO(despesa);
+        InsertExpenseDTO despesaInserirDTO = new InsertExpenseDTO(despesa);
 
         assertThat(despesaInserirDTO.getId()).isEqualTo(despesa.getId());
         assertThat(despesaInserirDTO.getValor()).isEqualTo(despesa.getValor());

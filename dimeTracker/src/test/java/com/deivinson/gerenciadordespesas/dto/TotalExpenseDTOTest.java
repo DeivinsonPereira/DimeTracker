@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TotalDespesaDTOTest {
+public class TotalExpenseDTOTest {
 
-	private TotalDespesaDTO totalDespesaDTO;
+	private TotalExpenseDTO totalDespesaDTO;
 	
 	@BeforeEach
 	public void SetUp() {
 		
-		totalDespesaDTO = new TotalDespesaDTO();
+		totalDespesaDTO = new TotalExpenseDTO();
 	}
 	
 	@Test
@@ -27,7 +27,7 @@ public class TotalDespesaDTOTest {
     public void testConstrutorComArgumentos() {
         Double totalDespesas = 1000.0;
 
-        TotalDespesaDTO totalDespesaDTO = new TotalDespesaDTO(totalDespesas);
+        TotalExpenseDTO totalDespesaDTO = new TotalExpenseDTO(totalDespesas);
 
         assertThat(totalDespesaDTO.getTotalDespesas()).isEqualTo(totalDespesas);
     }

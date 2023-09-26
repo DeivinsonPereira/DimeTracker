@@ -9,28 +9,28 @@ import javax.persistence.*;
 import lombok.*;
 
 @Data
-@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria implements Serializable{
+@Table(name = "tb_user")
+public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
+	private String name;
 	
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.REMOVE)
-	private List<Despesa> despesas = new ArrayList<>();
+	@OneToMany(mappedBy = "user")
+	private List<Expense> expenses = new ArrayList<>();
 	
-	
-	public Categoria(Long id, String nome) {
+	public User(Long id, String name) {
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 	}
-
+	
 	@SuppressWarnings("unused")
-	private void SetDespesas(List<Despesa> despesas) {}
+	private void setDespesas(List<Expense> despesa) {
+	}
 
 }

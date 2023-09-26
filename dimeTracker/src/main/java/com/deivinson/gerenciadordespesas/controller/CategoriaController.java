@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.deivinson.gerenciadordespesas.dto.CategoriaDTO;
-import com.deivinson.gerenciadordespesas.dto.MinCategoriaDTO;
+import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
+import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
 import com.deivinson.gerenciadordespesas.services.CategoriaService;
 
 @RestController
@@ -28,14 +28,14 @@ public class CategoriaController {
 	private CategoriaService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<CategoriaDTO>> buscarTodasCategorias(Pageable pageable){
-		Page<CategoriaDTO> dto = service.buscarTodasCategorias(pageable);
+	public ResponseEntity<Page<CategoryDTO>> buscarTodasCategorias(Pageable pageable){
+		Page<CategoryDTO> dto = service.buscarTodasCategorias(pageable);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PostMapping
-    public ResponseEntity<CategoriaDTO> criarCategoria(@RequestBody MinCategoriaDTO dto) {
-        CategoriaDTO categoriaDTO = service.criarCategoria(dto);
+    public ResponseEntity<CategoryDTO> criarCategoria(@RequestBody MinCategoryDTO dto) {
+        CategoryDTO categoriaDTO = service.criarCategoria(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -46,10 +46,10 @@ public class CategoriaController {
     }
 	
 	@PutMapping("/{categoriaId}")
-    public ResponseEntity<CategoriaDTO> atualizarNomeCategoria(
+    public ResponseEntity<CategoryDTO> atualizarNomeCategoria(
             @PathVariable Long categoriaId,
-            @RequestBody MinCategoriaDTO dto) {
-        CategoriaDTO categoriaDTO = service.atualizarNomeCategoria(categoriaId, dto);
+            @RequestBody MinCategoryDTO dto) {
+        CategoryDTO categoriaDTO = service.atualizarNomeCategoria(categoriaId, dto);
         return ResponseEntity.ok(categoriaDTO);
     }
 	

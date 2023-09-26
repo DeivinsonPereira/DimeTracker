@@ -7,17 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.deivinson.gerenciadordespesas.entities.Categoria;
+import com.deivinson.gerenciadordespesas.entities.Category;
 
-public class CategoriaDTOTest {
+public class CategoryDTOTest {
 
 	
-	private CategoriaDTO categoriaDTO;
+	private CategoryDTO categoriaDTO;
 	
 	@BeforeEach
 	public void setUp() {
 		
-		categoriaDTO = new CategoriaDTO();
+		categoriaDTO = new CategoryDTO();
 	}
 	
 	@Test
@@ -31,7 +31,7 @@ public class CategoriaDTOTest {
 	@Test
 	public void testConstructorWithArguments() {
 		
-		categoriaDTO = new CategoriaDTO(1L, "João");
+		categoriaDTO = new CategoryDTO(1L, "João");
 		
 		assertTrue(categoriaDTO.getNome().equalsIgnoreCase("João"));
 		assertEquals(1L,categoriaDTO.getId());
@@ -40,7 +40,7 @@ public class CategoriaDTOTest {
 	@Test
 	public void testConstructorEntityToDTOTransformation() {
 
-		categoriaDTO = new CategoriaDTO(new Categoria(1L, "Energia"));
+		categoriaDTO = new CategoryDTO(new Category(1L, "Energia"));
 		
 		assertEquals(1L, categoriaDTO.getId());
 		assertTrue(categoriaDTO.getNome().equalsIgnoreCase("Energia"));
@@ -49,7 +49,7 @@ public class CategoriaDTOTest {
 	
 	@Test
     public void testSetId() {
-        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        CategoryDTO categoriaDTO = new CategoryDTO();
 
         Long id = 123L;
         categoriaDTO.setId(id);

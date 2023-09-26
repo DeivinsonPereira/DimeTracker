@@ -26,10 +26,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.deivinson.gerenciadordespesas.dto.AtualizaDespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
-import com.deivinson.gerenciadordespesas.dto.DespesaInserirDTO;
-import com.deivinson.gerenciadordespesas.dto.TotalDespesaDTO;
+import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
+import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
+import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
+import com.deivinson.gerenciadordespesas.dto.TotalExpenseDTO;
 import com.deivinson.gerenciadordespesas.services.DespesaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,7 +44,7 @@ public class DespesaControllerTest {
 
     @Test
     public void buscarDespesas_DeveRetornarStatusCode200EPageDeDespesaDTO() throws Exception {
-        Page<DespesaDTO> pageDespesaDTO = new PageImpl<>(Collections.emptyList());
+        Page<ExpenseDTO> pageDespesaDTO = new PageImpl<>(Collections.emptyList());
         when(despesaService.buscarDespesasPorFiltros(anyLong(), any(LocalDate.class), any(LocalDate.class), any(Pageable.class)))
                 .thenReturn(pageDespesaDTO);
 
@@ -57,7 +57,7 @@ public class DespesaControllerTest {
     public void calculaTotalDespesasPorFiltros_DeveRetornarStatusCode200ETotalDespesaDTO() throws Exception {
         Double totalDespesas = 1000.0;
         
-        TotalDespesaDTO totalDespesaDTO = new TotalDespesaDTO();
+        TotalExpenseDTO totalDespesaDTO = new TotalExpenseDTO();
         totalDespesaDTO.setTotalDespesas(totalDespesas);
         
         when(despesaService.calcularTotalDespesasComFiltros(anyLong(), any(LocalDate.class), any(LocalDate.class)))
@@ -70,9 +70,9 @@ public class DespesaControllerTest {
 
     @Test
     public void insert_DeveRetornarStatusCode201EBodyDeDespesaInserirDTO() throws Exception {
-        DespesaInserirDTO despesaInserirDTO = new DespesaInserirDTO();
+        InsertExpenseDTO despesaInserirDTO = new InsertExpenseDTO();
         despesaInserirDTO.setId(1L);
-        when(despesaService.insert(any(DespesaInserirDTO.class))).thenReturn(despesaInserirDTO);
+        when(despesaService.insert(any(InsertExpenseDTO.class))).thenReturn(despesaInserirDTO);
 
         mockMvc.perform(post("/despesas")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -84,10 +84,10 @@ public class DespesaControllerTest {
     @Test
     public void atualizarDespesa_DeveRetornarStatusCode200EBodyDeDespesaDTO() throws Exception {
         Long despesaId = 1L;
-        AtualizaDespesaDTO atualizaDespesaDTO = new AtualizaDespesaDTO();
-        DespesaDTO despesaDTO = new DespesaDTO();
+        UpdateExpenseDTO atualizaDespesaDTO = new UpdateExpenseDTO();
+        ExpenseDTO despesaDTO = new ExpenseDTO();
         despesaDTO.setId(1L);
-        when(despesaService.atualizarDespesa(eq(despesaId), any(AtualizaDespesaDTO.class))).thenReturn(despesaDTO);
+        when(despesaService.atualizarDespesa(eq(despesaId), any(UpdateExpenseDTO.class))).thenReturn(despesaDTO);
 
         mockMvc.perform(put("/despesas/{despesaId}", despesaId)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MinCategoriaDTOTest {
+public class MinCategoryDTOTest {
 
-	private MinCategoriaDTO minCategoriaDTO;
+	private MinCategoryDTO minCategoriaDTO;
 	
 	@BeforeEach
 	public void SetUp() {
 		
-		minCategoriaDTO = new MinCategoriaDTO();
+		minCategoriaDTO = new MinCategoryDTO();
 	}
 	
 	@Test
@@ -27,7 +27,7 @@ public class MinCategoriaDTOTest {
     public void testConstrutorComArgumentos() {
         String nome = "Categoria Teste";
 
-        MinCategoriaDTO minCategoriaDTO = new MinCategoriaDTO(nome);
+        MinCategoryDTO minCategoriaDTO = new MinCategoryDTO(nome);
 
         assertThat(minCategoriaDTO.getNome()).isEqualTo(nome);
     }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MinCategoriaDTO {
+public class MinCategoryDTO {
 
 	private String nome;
 

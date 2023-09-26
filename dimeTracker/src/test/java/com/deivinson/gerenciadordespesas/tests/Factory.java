@@ -2,67 +2,67 @@ package com.deivinson.gerenciadordespesas.tests;
 
 import java.time.LocalDate;
 
-import com.deivinson.gerenciadordespesas.dto.DespesaDTO;
-import com.deivinson.gerenciadordespesas.entities.Categoria;
-import com.deivinson.gerenciadordespesas.entities.Despesa;
-import com.deivinson.gerenciadordespesas.entities.Usuario;
+import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
+import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.gerenciadordespesas.entities.User;
 
 public class Factory {
 
-	public static Categoria construtorCategoriaVazio() {
-		return new Categoria();
+	public static Category construtorCategoriaVazio() {
+		return new Category();
 	}
 	
-	public static Categoria construtorCategoriaComArgumentos() {
-		return new Categoria(1L, "Energia");
+	public static Category construtorCategoriaComArgumentos() {
+		return new Category(1L, "Energia");
 	}
 	
-	public static Categoria construtorCategoriaComArgumentosEDespesa() {
+	public static Category construtorCategoriaComArgumentosEDespesa() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		Usuario usuario = construtorUsuarioComArgumentos();
+		User usuario = construtorUsuarioComArgumentos();
 		
-		Categoria categoria = new Categoria(1L, "Energia");
-		categoria.getDespesas().add(new Despesa(1L,100.00, data, usuario, categoria));
+		Category categoria = new Category(1L, "Energia");
+		categoria.getDespesas().add(new Expense(1L,100.00, data, usuario, categoria));
 		
 		return categoria;
 	}
 	
-	public static Usuario construtorUsuarioVazio() {
-		return new Usuario();
+	public static User construtorUsuarioVazio() {
+		return new User();
 	}
 	
-	public static Usuario construtorUsuarioComArgumentos() {
-		return new Usuario(1L, "João");
+	public static User construtorUsuarioComArgumentos() {
+		return new User(1L, "João");
 	}
 	
-	public static Usuario construtorUsuarioComArgumentosComDespesa() {
+	public static User construtorUsuarioComArgumentosComDespesa() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		Usuario usuario = new Usuario(1L, "João");
+		User usuario = new User(1L, "João");
 		
-		Categoria categoria = new Categoria(1L, "Energia");
+		Category categoria = new Category(1L, "Energia");
 		
-		usuario.getDespesas().add(new Despesa(1L,100.00, data, usuario, categoria));
+		usuario.getDespesas().add(new Expense(1L,100.00, data, usuario, categoria));
 		
 		return usuario;
 	}
 	
-	public static Despesa construtorDespesaVazio() {
-		return new Despesa();
+	public static Expense construtorDespesaVazio() {
+		return new Expense();
 	}
 	
-	public static Despesa construtorDespesaComArgumentos() {
+	public static Expense construtorDespesaComArgumentos() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		Usuario usuario = construtorUsuarioComArgumentos();
+		User usuario = construtorUsuarioComArgumentos();
 		
-		Categoria categoria = construtorCategoriaComArgumentos();
+		Category categoria = construtorCategoriaComArgumentos();
 		
-		return new Despesa(1L, 100.00, data, usuario, categoria);
+		return new Expense(1L, 100.00, data, usuario, categoria);
 	}
 	
-	public static DespesaDTO construtorDespesaDTOVazio() {
-		return new DespesaDTO();
+	public static ExpenseDTO construtorDespesaDTOVazio() {
+		return new ExpenseDTO();
 	}
 }
