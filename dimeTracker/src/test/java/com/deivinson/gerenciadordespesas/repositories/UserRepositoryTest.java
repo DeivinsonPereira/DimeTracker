@@ -24,121 +24,121 @@ import com.deivinson.gerenciadordespesas.tests.Factory;
 public class UserRepositoryTest {
 
 	@Autowired
-	private UserRepository usuarioRepository;
+	private UserRepository userRepository;
 	
 	private Long existingId;
 	private Long nonExistingId;
-	private Long contTotalUsuarios;
+	private Long contTotalUsers;
 	
 	@BeforeEach
 	void setUp() {
 		
 		existingId = 1L;
 		nonExistingId = 999L;
-		contTotalUsuarios = 1L;
+		contTotalUsers = 1L;
 	}
 	
 	@Test
-	public void testSaveUsuario() {
+	public void testSaveUser() {
 		
-		User usuario = Factory.construtorUsuarioVazio();
-		usuario.setId(existingId);
-		usuario.setNome("Teste");
+		User user = Factory.emptyConstructorUser();
+		user.setId(existingId);
+		user.setName("test");
 		
-		usuarioRepository.save(usuario);
+		userRepository.save(user);
 		
-		User usuarioSalva = usuarioRepository.findById(usuario.getId()).orElse(null);
+		User userSaved = userRepository.findById(user.getId()).orElse(null);
 		
-		assertNotNull(usuarioSalva);
-		assertEquals(existingId, usuarioSalva.getId());
-		assertEquals(usuario, usuarioSalva);
-		assertTrue(usuarioSalva.getNome().equalsIgnoreCase("Teste"));
+		assertNotNull(userSaved);
+		assertEquals(existingId, userSaved.getId());
+		assertEquals(user, userSaved);
+		assertTrue(userSaved.getName().equalsIgnoreCase("test"));
 	}
 	
 	@Test
-	public void testFindUsuarioById() {
+	public void testFindUserById() {
 		
-		User usuario = Factory.construtorUsuarioVazio();
-		usuario.setId(existingId);
-		usuario.setNome("Teste");
+		User user = Factory.emptyConstructorUser();
+		user.setId(existingId);
+		user.setName("test");
 		
-		usuarioRepository.save(usuario);
+		userRepository.save(user);
 		
-		User usuarioEncontrada = usuarioRepository.findById(usuario.getId()).orElse(null);
+		User userFound = userRepository.findById(user.getId()).orElse(null);
 		
-		assertNotNull(usuarioEncontrada);
-		assertEquals(existingId, usuarioEncontrada.getId());
-		assertEquals("Teste", usuarioEncontrada.getNome());
+		assertNotNull(userFound);
+		assertEquals(existingId, userFound.getId());
+		assertEquals("test", userFound.getName());
 	}
 	
 	@Test
-	public void testFindUsuarioByIdNotFound() {
+	public void testFindUserByIdNotFound() {
 		
-		User usuarioEncontrada = usuarioRepository.findById(nonExistingId).orElse(null);
+		User userFound = userRepository.findById(nonExistingId).orElse(null);
 		
-		assertNull(usuarioEncontrada);
+		assertNull(userFound);
 	}
 	
 	@Test
-	public void testFindAllUsuario() {
+	public void testFindAllUser() {
 		
-		User usuario1 = Factory.construtorUsuarioVazio();
-		usuario1.setNome("Usuario 1");
-		usuarioRepository.save(usuario1);
+		User user1 = Factory.emptyConstructorUser();
+		user1.setName("User 1");
+		userRepository.save(user1);
 		
-		User usuario2 = Factory.construtorUsuarioVazio();
-		usuario2.setNome("Usuario 2");
-		usuarioRepository.save(usuario2);
+		User user2 = Factory.emptyConstructorUser();
+		user2.setName("User 2");
+		userRepository.save(user2);
 		
-		User usuario3 = Factory.construtorUsuarioVazio();
-		usuario3.setNome("Usuario 3");
-		usuarioRepository.save(usuario3);
+		User user3 = Factory.emptyConstructorUser();
+		user3.setName("User 3");
+		userRepository.save(user3);
 		
-        List<User> todosUsuarios = usuarioRepository.findAll();
+        List<User> allUsers = userRepository.findAll();
         
-        assertFalse(todosUsuarios.isEmpty());
-        assertEquals(contTotalUsuarios + 3, todosUsuarios.size());
+        assertFalse(allUsers.isEmpty());
+        assertEquals(contTotalUsers + 3, allUsers.size());
         
-        assertTrue(todosUsuarios.stream().anyMatch(c -> c.getNome().equals("Usuario 1")));
-        assertTrue(todosUsuarios.stream().anyMatch(c -> c.getNome().equals("Usuario 2")));
-        assertTrue(todosUsuarios.stream().anyMatch(c -> c.getNome().equals("Usuario 3")));
+        assertTrue(allUsers.stream().anyMatch(c -> c.getName().equals("User 1")));
+        assertTrue(allUsers.stream().anyMatch(c -> c.getName().equals("User 2")));
+        assertTrue(allUsers.stream().anyMatch(c -> c.getName().equals("User 3")));
         
 	}
 	
 	@Test
-	public void testUpdateUsuario(){
+	public void testUpdateUser(){
 		
-		User usuario = usuarioRepository.findById(1L).orElse(null);
+		User user = userRepository.findById(1L).orElse(null);
 		
-		usuario.setId(1L);
-		usuario.setNome("João");
+		user.setId(1L);
+		user.setName("Joe");
 		
-		usuarioRepository.save(usuario);
+		userRepository.save(user);
 		
-		assertEquals(1L, usuario.getId());
-		assertTrue(usuario.getNome().equalsIgnoreCase("João"));
+		assertEquals(1L, user.getId());
+		assertTrue(user.getName().equalsIgnoreCase("Joe"));
 		
-		usuario.setId(35L);
-		usuario.setNome("Natasha");
+		user.setId(35L);
+		user.setName("Natasha");
 		
-		usuarioRepository.save(usuario);
-		assertNotEquals(1L, usuario.getId());
-		assertFalse(usuario.getNome().equalsIgnoreCase("João"));
-		assertEquals(35L, usuario.getId());
-		assertTrue(usuario.getNome().equalsIgnoreCase("Natasha"));
+		userRepository.save(user);
+		assertNotEquals(1L, user.getId());
+		assertFalse(user.getName().equalsIgnoreCase("Joe"));
+		assertEquals(35L, user.getId());
+		assertTrue(user.getName().equalsIgnoreCase("Natasha"));
 		
 	}
 	
 	@Test
-	public void deleteUsuario() {
-		Category categoria = Factory.construtorCategoriaComArgumentos();
+	public void deleteUser() {
+		Category category = Factory.constructorCategoryWihArgs();
 		
-		assertEquals(1L, categoria.getId());
-		assertTrue(categoria.getNome().equalsIgnoreCase("Energia"));
+		assertEquals(1L, category.getId());
+		assertTrue(category.getName().equalsIgnoreCase("Energy"));
 		
-		usuarioRepository.deleteById(1L);
+		userRepository.deleteById(1L);
 		
-		Optional<User> result = usuarioRepository.findById(existingId);
+		Optional<User> result = userRepository.findById(existingId);
 		
 		assertFalse(result.isPresent());
 	}
@@ -146,28 +146,27 @@ public class UserRepositoryTest {
 	@Test
 	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
 
-		User usuario = Factory.construtorUsuarioVazio();
-		usuario.setId(null);
+		User user = Factory.emptyConstructorUser();
+		user.setId(null);
 		
-		usuario = usuarioRepository.save(usuario);
+		user = userRepository.save(user);
 		
-		assertNotNull(usuario);
-		assertEquals(contTotalUsuarios + 1L, usuario.getId());
+		assertNotNull(user);
+		assertEquals(contTotalUsers + 1L, user.getId());
 	}
 	
 	@Test
-	public void OneToManyRelationshipCategoriaForDespesa () {
-		User usuario = Factory.construtorUsuarioComArgumentosComDespesa();
+	public void OneToManyRelationshipCategoryForExpense () {
+		User user = Factory.constructorUserWithArgsWithExpense();
 		
-		usuarioRepository.save(usuario);
+		userRepository.save(user);
 		
-		User usuarioRelacao = usuarioRepository.findById(usuario.getId()).orElse(null); 
-		assertNotNull(usuarioRelacao);
-		assertEquals(1, usuarioRelacao.getDespesas().size());
+		User userRelationship = userRepository.findById(user.getId()).orElse(null); 
+		assertNotNull(userRelationship);
+		assertEquals(1, userRelationship.getExpenses().size());
 		
-		//Verificando se a relação biderecional está funcionando.
-		for(Expense despesa : usuario.getDespesas()) {
-			assertEquals(usuarioRelacao, despesa.getUsuario());
+		for(Expense expense : user.getExpenses()) {
+			assertEquals(userRelationship, expense.getUser());
 		}
 	}
 }

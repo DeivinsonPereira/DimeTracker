@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -26,122 +27,137 @@ import com.deivinson.gerenciadordespesas.tests.Factory;
 public class ExpenseRepositoryTest {
 	
 	@Autowired
-	private ExpenseRepository despesaRepository;
+	private ExpenseRepository expenseRepository;
 
 	private Long existingId;
 	private Long nonExistingId;
-	private Long countTotalDespesas;
+	private Long countTotalExpenses;
+	private BigDecimal valueExpense;
 	
 	@BeforeEach
 	void setUp() {
 		
 		existingId = 1L;
 		nonExistingId = 999L;
-		countTotalDespesas = 13L;
+		countTotalExpenses = 13L;
+		valueExpense = new BigDecimal("100.00");
 	}
 	
 	@Test
-	public void testSaveDespesa() {
+	public void testSaveExpense() {
 		
-		Expense despesa = Factory.construtorDespesaVazio();
-		despesa.setId(existingId);
-		despesa.setValor(100.00);
+		Expense expense = Factory.emptyconstructorExpense();
+		expense.setId(existingId);
+		expense.setValueExpense(valueExpense);
 		
-		despesaRepository.save(despesa);
+		expenseRepository.save(expense);
 		
-		Expense despesaSalva = despesaRepository.findById(despesa.getId()).orElse(null);
+		Expense expenseSaved = expenseRepository.findById(expense.getId()).orElse(null);
 		
-		assertNotNull(despesaSalva);
-		assertEquals(existingId, despesaSalva.getId());
-		assertEquals(despesa, despesaSalva);
-		assertEquals(100.00, despesaSalva.getValor());
+		assertNotNull(expenseSaved);
+		assertEquals(existingId, expenseSaved.getId());
+		assertEquals(expense, expenseSaved);
+		assertEquals(valueExpense, expenseSaved.getValueExpense());
 	}
 	
 	@Test
-	public void testFindDespesaById() {
+	public void testFindExpenseById() {
 		
-		Expense despesa = Factory.construtorDespesaVazio();
-		despesa.setValor(100.00);
-		despesaRepository.save(despesa);
+		Expense expense = Factory.emptyconstructorExpense();
+		expense.setValueExpense(valueExpense);
+		expenseRepository.save(expense);
 		
-		Long despesaId = despesa.getId();
-		Expense despesaEncontrada = despesaRepository.findById(despesaId).orElse(null);
+		Long expenseId = expense.getId();
+		Expense expenseFound = expenseRepository.findById(expenseId).orElse(null);
 		
-		assertNotNull(despesaEncontrada);
-		assertEquals(despesaId, despesaEncontrada.getId());
-		assertEquals(100.00, despesaEncontrada.getValor());
+		assertNotNull(expenseFound);
+		assertEquals(expenseId, expenseFound.getId());
+		assertEquals(valueExpense, expenseFound.getValueExpense());
 	}
 
 	@Test
-	public void testFindDespesaByIdNotFound() {
+	public void testFindExpenseByIdNotFound() {
 		
-		Expense despesaEncontrada = despesaRepository.findById(nonExistingId).orElse(null);
+		Expense expenseFound = expenseRepository.findById(nonExistingId).orElse(null);
 		
-		assertNull(despesaEncontrada);
+		assertNull(expenseFound);
 	}
 	
 	@Test
-	public void testFindAllDespesa() {
+	public void testFindAllExpense() {
 		
-		Expense despesa1 = Factory.construtorDespesaVazio();
-        despesa1.setValor(100.00);
+		Expense expense1 = Factory.emptyconstructorExpense();
+        expense1.setValueExpense(valueExpense);
 
-        Expense despesa2 = Factory.construtorDespesaVazio();
-        despesa2.setValor(200.00);
+        valueExpense = new BigDecimal("200.00");
+        Expense expense2 = Factory.emptyconstructorExpense();
+        expense2.setValueExpense(valueExpense);
         
-        Expense despesa3 = Factory.construtorDespesaVazio();
-        despesa3.setValor(300.00);
+        valueExpense = new BigDecimal("300.00");
+        Expense expense3 = Factory.emptyconstructorExpense();
+        expense3.setValueExpense(valueExpense);
         
-        despesaRepository.save(despesa1);
-        despesaRepository.save(despesa2);
-        despesaRepository.save(despesa3);
+        expenseRepository.save(expense1);
+        expenseRepository.save(expense2);
+        expenseRepository.save(expense3);
         
-        List<Expense> todasAsDespesas = despesaRepository.findAll();
+        List<Expense> allExpenses = expenseRepository.findAll();
         
-        assertFalse(todasAsDespesas.isEmpty());
-        assertEquals(countTotalDespesas + 3, todasAsDespesas.size());
+        assertFalse(allExpenses.isEmpty());
+        assertEquals(countTotalExpenses + 3, allExpenses.size());
         
-        assertTrue(todasAsDespesas.stream().anyMatch(c -> c.getValor().equals(100.00)));
-        assertTrue(todasAsDespesas.stream().anyMatch(c -> c.getValor().equals(200.00)));
-        assertTrue(todasAsDespesas.stream().anyMatch(c -> c.getValor().equals(300.00)));
+        assertTrue(allExpenses.contains(expense1));
+        assertTrue(allExpenses.contains(expense2));
+        assertTrue(allExpenses.contains(expense3));
+        
+        Optional<Expense> foundExpense1 = allExpenses.stream().filter(e -> e.getValueExpense().equals(new BigDecimal("100.00"))).findFirst();
+        assertTrue(foundExpense1.isPresent());
+
+        Optional<Expense> foundExpense2 = allExpenses.stream().filter(e -> e.getValueExpense().equals(new BigDecimal("200.00"))).findFirst();
+        assertTrue(foundExpense2.isPresent());
+
+        Optional<Expense> foundExpense3 = allExpenses.stream().filter(e -> e.getValueExpense().equals(new BigDecimal("300.00"))).findFirst();
+        assertTrue(foundExpense3.isPresent());
+        
         
 	}
 	
 	@Test
-	public void testUpdateDespesa(){
+	public void testUpdateExpense(){
 		
-		Expense despesa = despesaRepository.findById(1L).orElse(null);
+		Expense expense = expenseRepository.findById(1L).orElse(null);
 		
-		despesa.setId(1L);
-		despesa.setValor(100.00);
+		expense.setId(1L);
+		expense.setValueExpense(valueExpense);
 		
-		despesaRepository.save(despesa);
+		expenseRepository.save(expense);
 		
-		assertEquals(1L, despesa.getId());
-		assertEquals(100.00, despesa.getValor());
+		assertEquals(1L, expense.getId());
+		assertEquals(valueExpense, expense.getValueExpense());
 		
-		despesa.setId(35L);
-		despesa.setValor(300.00);
+		expense.setId(35L);
 		
-		despesaRepository.save(despesa);
-		assertNotEquals(1L, despesa.getId());
-		assertFalse(despesa.getValor() == 100.00);
-		assertEquals(35L, despesa.getId());
-		assertTrue(despesa.getValor() == 300.00);
+		BigDecimal valueExpense1 = new BigDecimal("300.00");
+		expense.setValueExpense(valueExpense);
+		
+		expenseRepository.save(expense);
+		assertNotEquals(1L, expense.getId());
+		assertFalse(expense.getValueExpense() == valueExpense1);
+		assertEquals(35L, expense.getId());
+		assertTrue(expense.getValueExpense() == valueExpense);
 		
 	}
 	
 	@Test
 	public void deleteDespesa() {
 		
-		Expense despesa = Factory.construtorDespesaComArgumentos();
+		Expense expense = Factory.constructorExpenseWithArgs();
 		
-		assertEquals(1L, despesa.getId());
-		assertTrue(despesa.getValor() == 100.00);
+		assertEquals(1L, expense.getId());
 		
-		despesaRepository.deleteById(1L);
+		expenseRepository.deleteById(1L);
 		
-		Optional<Expense> result = despesaRepository.findById(existingId);
+		Optional<Expense> result = expenseRepository.findById(existingId);
 		
 		assertFalse(result.isPresent());
 	}
@@ -149,67 +165,75 @@ public class ExpenseRepositoryTest {
 	@Test
 	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
 
-		Expense despesa = Factory.construtorDespesaVazio();
-		despesa.setId(null);
+		Expense expense = Factory.emptyconstructorExpense();
+		expense.setId(null);
 		
-		despesa = despesaRepository.save(despesa);
+		expense = expenseRepository.save(expense);
 		
-		assertNotNull(despesa);
-		assertEquals(countTotalDespesas + 2L, despesa.getId());
+		assertNotNull(expense);
+		assertEquals(countTotalExpenses + 1L, expense.getId());
 	}
 	
 	@Test
-	public void OneToManyRelationshipDespesaForDespesa () {
+	public void OneToManyRelationshipExpensiveForCategory () {
 		
-		Expense despesa = Factory.construtorDespesaComArgumentos();
+		Expense expense = Factory.constructorExpenseWithArgs();
 		
-		despesaRepository.save(despesa);
+		expenseRepository.save(expense);
 		
-		Expense despesaRelacao = despesaRepository.findById(despesa.getCategoria().getId()).orElse(null); 
-		assertNotNull(despesaRelacao);
-		assertEquals(1L, despesaRelacao.getCategoria().getId());
-		assertEquals(1L, despesaRelacao.getUsuario().getId());
+		Expense expenseRelationship = expenseRepository.findById(expense.getCategory().getId()).orElse(null); 
+		assertNotNull(expenseRelationship);
+		assertEquals(1L, expenseRelationship.getCategory().getId());
+		assertEquals(1L, expenseRelationship.getUser().getId());
 	}
 	
 	@Test
-    public void testCalculateTotalDespesa() {
+    public void testCalculateTotalExpensive() {
 		
-        Double total = despesaRepository.calcularDespesaTotal();
+        BigDecimal total = expenseRepository.calculateTotalExpense();
         
-        assertEquals(8689.36, total);
+        BigDecimal expectedValue = new BigDecimal("5689.36");
+        
+        assertEquals(expectedValue, total);
 	}
 	
 	@Test
-    public void testCalculateTotalDespesaByCategoria() {
+    public void testCalculateTotalExpensiveByCategory() {
 		
-        Category categoria = Factory.construtorCategoriaComArgumentosEDespesa();
+        Category category = Factory.constructorCategoryWithArgsAndExpense();
         
-        Double total = despesaRepository.calcularDespesaTotalPorCategoria(categoria);
+        BigDecimal total = expenseRepository.calculateTotalExpenseByCategory(category);
         
-        assertEquals(439.36, total);
+        BigDecimal expectedValue = new BigDecimal("439.36");
+        
+        assertEquals(expectedValue, total);
     }
 	
 	@Test
-    public void testCalculateTotalDespesaByCategoriaAndData() {
+    public void testCalculateTotalExpensiveByCategoryAndDate() {
 		
-        Category categoria = Factory.construtorCategoriaComArgumentosEDespesa();
+        Category category = Factory.constructorCategoryWithArgsAndExpense();
         
-        LocalDate dataInicio = LocalDate.of(2023, 7, 1);
-        LocalDate dataFim = LocalDate.of(2023, 8, 31);
+        LocalDate startDate = LocalDate.of(2023, 7, 1);
+        LocalDate finishDate = LocalDate.of(2023, 8, 31);
         
-        Double total = despesaRepository.calcularValorTotalDespesasPorCategoriaEData(categoria, dataInicio, dataFim);
+        BigDecimal total = expenseRepository.calculateTotalExpensesByCategoryAndDate(category, startDate, finishDate);
 
-        assertEquals(439.36, total);
+        BigDecimal expectedValue = new BigDecimal("439.36");
+        
+        assertEquals(expectedValue, total);
     }
 	
 	@Test
-    public void testCalculateTotalDespesaByPeriod() {
-		
-        LocalDate dataInicio = LocalDate.of(2023, 7, 1);
-        LocalDate dataFim = LocalDate.of(2023, 8, 31);
-        Double total = despesaRepository.calcularSomaTotalDespesasPorPeriodo(dataInicio, dataFim);
-        
-        assertEquals(5939.36, total);
-    }
+	public void testCalculateTotalDespesaByPeriod() {
+	    LocalDate startDate = LocalDate.of(2023, 7, 1);
+	    LocalDate finishDate = LocalDate.of(2023, 8, 31);
+	    BigDecimal total = expenseRepository.calculateTotalExpensesByPeriod(startDate, finishDate);
+
+	    BigDecimal expectedValue = new BigDecimal("3939.36");
+
+
+	    assertEquals(expectedValue, total);
+	}
 	
 }
