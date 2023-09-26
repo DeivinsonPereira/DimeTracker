@@ -3,24 +3,24 @@ services:
   # ====================================================================================================================
   # POSTGRES SERVER
   # ====================================================================================================================
-  gd-postgresql:
+  dt-postgresql:
     image: postgres:15-alpine
-    container_name: despesas-postgresql
+    container_name: exponse-postgresql
     environment:
-      POSTGRES_DB: gerenciamento-despesas
+      POSTGRES_DB: dimitracker
       POSTGRES_PASSWORD: 1234567
     ports:
       - 5433:5432
     volumes:
       - ./.data/postgresql/data:/var/lib/postgresql/data
     networks:
-      - despesas-network
+      - exponse-network
   # ====================================================================================================================
   # PGADMIN
   # ====================================================================================================================
-  gd-pgadmin:
+  dt-pgadmin:
     image: dpage/pgadmin4
-    container_name: despesas-pgadmin
+    container_name: exponse-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: me@example.com
       PGADMIN_DEFAULT_PASSWORD: 1234567
@@ -29,15 +29,15 @@ services:
     volumes:
       - ./.data/pgadmin:/var/lib/pgadmin
     depends_on:
-      - gd-postgresql
+      - dt-postgresql
     networks:
-      - despesas-network
+      - exponse-network
 
   backend:
     build: .
-    container_name: despesas-container
+    container_name: exponse-container
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://gd-postgresql:5432/gerenciamento-despesas
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dt-postgresql:5432/dimetracker
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 1234567
       SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
@@ -45,10 +45,10 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - despesas-network
+      - exponse-network
     depends_on:
-      - gd-pgadmin
+      - dt-pgadmin
     
 networks:
-  despesas-network:
+  exponse-network:
     driver: bridge
