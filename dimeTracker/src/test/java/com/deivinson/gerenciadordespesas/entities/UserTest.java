@@ -11,97 +11,97 @@ import com.deivinson.gerenciadordespesas.tests.Factory;
 
 public class UserTest {
 
-	private User usuario;
+	private User user;
 	
 	@BeforeEach
 	public void setUp() {
-		usuario = Factory.construtorUsuarioVazio();;
+		user = Factory.construtorUsuarioVazio();;
 	}
 	
 	@Test
 	public void testGetAndSetId() {
-		usuario.setId(1L);
-		assertEquals(1L, usuario.getId());
+		user.setId(1L);
+		assertEquals(1L, user.getId());
 	}
 	
 	@Test
-	public void testGetAndSetNome() {
-		usuario.setNome("joão");
+	public void testGetAndSetName() {
+		user.setName("joe");
 		
-		assertTrue(usuario.getNome().equalsIgnoreCase("João"));
+		assertTrue(user.getName().equalsIgnoreCase("Joe"));
 	}
 	
 	@Test
     public void testToString() {
-        User usuario = new User(1L, "João");
+        User user = new User(1L, "Joe");
 
-        String expectedToString = "Usuario(id=1, nome=João, despesas=[])";
-        assertThat(usuario.toString()).isEqualTo(expectedToString);
+        String expectedToString = "User(id=1, name=Joe, expenses=[])";
+        assertThat(user.toString()).isEqualTo(expectedToString);
     }
 	
 	@Test
-    public void testEqualsComInstanciasIguais() {
-        User usuario1 = new User(1L, "João");
-        User usuario2 = new User(1L, "João");
+    public void testEqualsWithEqualInstances() {
+        User user1 = new User(1L, "Joe");
+        User user2 = new User(1L, "Joe");
 
-        assertThat(usuario1).isEqualTo(usuario2);
+        assertThat(user1).isEqualTo(user2);
     }
 
     @Test
-    public void testEqualsComInstanciasDiferentes() {
-        User usuario1 = new User(1L, "João");
-        User usuario2 = new User(2L, "Maria");
+    public void testEqualsWithNotEqualInstances() {
+        User user1 = new User(1L, "Joe");
+        User user2 = new User(2L, "Mary");
 
-        assertThat(usuario1).isNotEqualTo(usuario2);
+        assertThat(user1).isNotEqualTo(user2);
     }
 
     @Test
-    public void testHashCodeConsistente() {
-        User usuario1 = new User(1L, "João");
-        User usuario2 = new User(1L, "João");
+    public void testHashCodeConsistent() {
+        User user1 = new User(1L, "Joe");
+        User user2 = new User(1L, "Joe");
 
-        assertThat(usuario1.hashCode()).isEqualTo(usuario2.hashCode());
+        assertThat(user1.hashCode()).isEqualTo(user2.hashCode());
     }
 
     @Test
-    public void testHashCodeDiferenteParaObjetosDiferentes() {
-        User usuario1 = new User(1L, "João");
-        User usuario2 = new User(2L, "Maria");
+    public void testHashCodeDifferentForDifferentObjects() {
+        User user1 = new User(1L, "Joe");
+        User user2 = new User(2L, "Mary");
 
-        assertThat(usuario1.hashCode()).isNotEqualTo(usuario2.hashCode());
-    }
-    
-    @Test
-    public void testConstrutorComArgumentos() {
-        User usuario = new User(1L, "João");
-
-        assertThat(usuario).isNotNull();
-        assertThat(usuario.getId()).isEqualTo(1L);
-        assertThat(usuario.getNome()).isEqualTo("João");
+        assertThat(user1.hashCode()).isNotEqualTo(user2.hashCode());
     }
     
     @Test
-    public void testEqualsComNull() {
-        User usuario = new User(1L, "João");
+    public void testConstructorWithArgs() {
+        User user = new User(1L, "Joe");
 
-        assertThat(usuario.equals(null)).isFalse();
+        assertThat(user).isNotNull();
+        assertThat(user.getId()).isEqualTo(1L);
+        assertThat(user.getName()).isEqualTo("Joe");
+    }
+    
+    @Test
+    public void testEqualsIsNotNull() {
+        User user = new User(1L, "Joe");
+
+        assertThat(user.equals(null)).isFalse();
     }
     
     @SuppressWarnings("unlikely-arg-type")
 	@Test
-    public void testEqualsComObjetosDeClassesDiferentes() {
-        User usuario = new User(1L, "João");
-        Category categoria = new Category();
+    public void testEqualsWithObjectsFromDifferentClasses() {
+        User user = new User(1L, "Joe");
+        Category category = new Category();
 
-        assertThat(usuario.equals(categoria)).isFalse();
+        assertThat(user.equals(category)).isFalse();
     }
     
     @Test
-    public void testEqualsComInstanciasDiferentesIsFalse() {
-        User usuario1 = new User(1L, "João");
-        User usuario2 = new User(2L, "Maria");
+    public void testEqualsWithDifferentInstancesIsFalse() {
+        User user1 = new User(1L, "Joe");
+        User user2 = new User(2L, "Mary");
 
-        assertThat(usuario1.equals(usuario2)).isFalse();
+        assertThat(user1.equals(user2)).isFalse();
     }
     
 }

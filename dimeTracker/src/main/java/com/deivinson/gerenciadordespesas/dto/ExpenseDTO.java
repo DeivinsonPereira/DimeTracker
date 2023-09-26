@@ -19,14 +19,14 @@ import lombok.Setter;
 public class ExpenseDTO {
 
 	private Long id;
-    private BigDecimal value;
+    private BigDecimal valueExpense;
     private LocalDate date;
     private String userName; 
     private String categoryName; 
 	
     public ExpenseDTO(Expense entity) {
             this.id = entity.getId();
-            this.value = entity.getValue();
+            this.valueExpense = entity.getValueExpense();
             this.date = entity.getDate();
             this.userName = entity.getUser() != null ? entity.getUser().getName() : null;
             this.categoryName = entity.getCategory() != null ? entity.getCategory().getName() : null;

@@ -91,8 +91,8 @@ public class ExpenseService {
         try {
         	Expense expense = repository.getReferenceById(expenseId);
         	
-        	if (dto.getValue() != null) {
-        		expense.setValue(dto.getValue());
+        	if (dto.getValueExpense() != null) {
+        		expense.setValueExpense(dto.getValueExpense());
         	}
         	if (dto.getDate() != null) {
         		expense.setDate(dto.getDate());
@@ -116,14 +116,14 @@ public class ExpenseService {
 	@Transactional
     public void deleteExpense(Long expenseId) {
         Expense expense = repository.findById(expenseId)
-                .orElseThrow(() -> new EntityNotFoundException("Despesa not found!"));
+                .orElseThrow(() -> new EntityNotFoundException("Expense not found!"));
 
         repository.delete(expense);
     }
 	
 	private void copyEntity(InsertExpenseDTO dto, Expense entity) {
 		entity.setDate(dto.getDate());
-		entity.setValue(dto.getValue());
+		entity.setValueExpense(dto.getValueExpense());
 		Category category = categoryRepository.findById(dto.getCategoryId())
 	            .orElseThrow(() -> new EntityNotFoundException("Category not found!"));
 	    entity.setCategory(category);

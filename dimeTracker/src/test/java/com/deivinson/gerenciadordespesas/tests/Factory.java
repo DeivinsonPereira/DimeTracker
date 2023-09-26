@@ -1,5 +1,6 @@
 package com.deivinson.gerenciadordespesas.tests;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
@@ -8,61 +9,67 @@ import com.deivinson.gerenciadordespesas.entities.Expense;
 import com.deivinson.gerenciadordespesas.entities.User;
 
 public class Factory {
-
-	public static Category construtorCategoriaVazio() {
+	
+	public static Category emptyConstructorCategory() {
 		return new Category();
 	}
 	
-	public static Category construtorCategoriaComArgumentos() {
-		return new Category(1L, "Energia");
+	public static Category constructorCategoryWihArgs() {
+		return new Category(1L, "Energy");
 	}
 	
-	public static Category construtorCategoriaComArgumentosEDespesa() {
-		LocalDate data = LocalDate.of(2023, 1, 1);
+	public static Category constructorCategorWithArgsAndExpense() {
+		LocalDate date = LocalDate.of(2023, 1, 1);
 		
-		User usuario = construtorUsuarioComArgumentos();
+		BigDecimal valueExpense = new BigDecimal("100.00");
 		
-		Category categoria = new Category(1L, "Energia");
-		categoria.getDespesas().add(new Expense(1L,100.00, data, usuario, categoria));
+		User user = constructorUserWithArgs();
 		
-		return categoria;
+		Category category = new Category(1L, "Energy");
+		category.getExpenses().add(new Expense(1L,valueExpense, date, user, category));
+		
+		return category;
 	}
 	
-	public static User construtorUsuarioVazio() {
+	public static User emptyConstructorUser() {
 		return new User();
 	}
 	
-	public static User construtorUsuarioComArgumentos() {
-		return new User(1L, "João");
+	public static User constructorUserWithArgs() {
+		return new User(1L, "Joe");
 	}
 	
-	public static User construtorUsuarioComArgumentosComDespesa() {
+	public static User constructorUserWithArgsWithExpense() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		User usuario = new User(1L, "João");
+		BigDecimal valueExpense = new BigDecimal("100.00");
 		
-		Category categoria = new Category(1L, "Energia");
+		User user = new User(1L, "Joe");
 		
-		usuario.getDespesas().add(new Expense(1L,100.00, data, usuario, categoria));
+		Category category = new Category(1L, "Energy");
 		
-		return usuario;
+		user.getExpenses().add(new Expense(1L,valueExpense, data, user, category));
+		
+		return user;
 	}
 	
-	public static Expense construtorDespesaVazio() {
+	public static Expense EmptyconstructorExpense() {
 		return new Expense();
 	}
 	
-	public static Expense construtorDespesaComArgumentos() {
+	public static Expense constructorExpenseWithArgs() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		User usuario = construtorUsuarioComArgumentos();
+		BigDecimal valueExpense = new BigDecimal("100.00");
 		
-		Category categoria = construtorCategoriaComArgumentos();
+		User user = constructorUserWithArgs();
 		
-		return new Expense(1L, 100.00, data, usuario, categoria);
+		Category category = constructorCategoryWihArgs();
+		
+		return new Expense(1L, valueExpense, data, user, category);
 	}
 	
-	public static ExpenseDTO construtorDespesaDTOVazio() {
+	public static ExpenseDTO EmptyconstructorExpenseDTO() {
 		return new ExpenseDTO();
 	}
 }

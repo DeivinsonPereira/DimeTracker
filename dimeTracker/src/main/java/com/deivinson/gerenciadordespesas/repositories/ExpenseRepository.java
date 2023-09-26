@@ -36,16 +36,16 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>{
 		       countQuery = "SELECT COUNT(d) FROM Expense d")
 	Page<Expense> findAllWithCategory(Pageable pageable);
 	
-	@Query("SELECT SUM(d.value) "
+	@Query("SELECT SUM(d.valueExpense) "
 			+ "FROM Expense d ")
 	BigDecimal calculateTotalExpense();
 	
-	@Query("SELECT SUM(d.value) "
+	@Query("SELECT SUM(d.valueExpense) "
 			+ "FROM Expense d "
 			+ "WHERE d.category = :category")
 	BigDecimal calculateTotalExpenseByCategory(Category category);
 	
-	@Query("SELECT SUM(d.value) "
+	@Query("SELECT SUM(d.valueExpense) "
 			+ "FROM Expense d "
 			+ "WHERE d.category = :category "
 			+ "AND d.date "
@@ -53,7 +53,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>{
 			+ "AND :finishDate")
 	BigDecimal calculateTotalExpensesByCategoryAndDate(Category category, LocalDate startDate, LocalDate finishDate);	
 	
-	@Query("SELECT COALESCE(SUM(d.value), 0.0) "
+	@Query("SELECT COALESCE(SUM(d.valueExpense), 0.0) "
 			+ "FROM Expense d "
 			+ "WHERE d.date "
 			+ "BETWEEN :startDate "
