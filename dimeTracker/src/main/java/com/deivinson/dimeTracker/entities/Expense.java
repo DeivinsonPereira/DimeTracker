@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.entities;
+package com.deivinson.dimeTracker.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

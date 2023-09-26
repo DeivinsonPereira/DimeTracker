@@ -1,6 +1,6 @@
-package com.deivinson.gerenciadordespesas.dto;
+package com.deivinson.dimeTracker.dto;
 
-import com.deivinson.gerenciadordespesas.entities.Category;
+import com.deivinson.dimeTracker.entities.Category;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.controller;
+package com.deivinson.dimeTracker.controller;
 
 import java.net.URI;
 
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
-import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
-import com.deivinson.gerenciadordespesas.services.CategoryService;
+import com.deivinson.dimeTracker.dto.CategoryDTO;
+import com.deivinson.dimeTracker.dto.MinCategoryDTO;
+import com.deivinson.dimeTracker.services.CategoryService;
 
 @RestController
 @RequestMapping(value = "/categories")

@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.controller.exceptions;
+package com.deivinson.dimeTracker.controller.exceptions;
 
 import java.time.Instant;
 
@@ -9,10 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.deivinson.gerenciadordespesas.services.exceptions.InvalidDateException;
-import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
-import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
-import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
+import com.deivinson.dimeTracker.services.exceptions.InvalidDateException;
+import com.deivinson.dimeTracker.services.exceptions.DatabaseException;
+import com.deivinson.dimeTracker.services.exceptions.InvalidInputException;
+import com.deivinson.dimeTracker.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {

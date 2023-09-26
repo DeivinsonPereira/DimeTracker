@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.controller.exceptions;
+package com.deivinson.dimeTracker.controller.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;

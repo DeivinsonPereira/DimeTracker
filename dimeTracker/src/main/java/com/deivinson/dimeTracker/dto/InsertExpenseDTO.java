@@ -1,9 +1,9 @@
-package com.deivinson.gerenciadordespesas.dto;
+package com.deivinson.dimeTracker.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.dimeTracker.entities.Expense;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.services;
+package com.deivinson.dimeTracker.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,17 +11,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
-import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
-import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
-import com.deivinson.gerenciadordespesas.entities.Category;
-import com.deivinson.gerenciadordespesas.entities.Expense;
-import com.deivinson.gerenciadordespesas.entities.User;
-import com.deivinson.gerenciadordespesas.repositories.CategoryRepository;
-import com.deivinson.gerenciadordespesas.repositories.ExpenseRepository;
-import com.deivinson.gerenciadordespesas.repositories.UserRepository;
-import com.deivinson.gerenciadordespesas.services.exceptions.InvalidDateException;
-import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
+import com.deivinson.dimeTracker.dto.ExpenseDTO;
+import com.deivinson.dimeTracker.dto.InsertExpenseDTO;
+import com.deivinson.dimeTracker.dto.UpdateExpenseDTO;
+import com.deivinson.dimeTracker.entities.Category;
+import com.deivinson.dimeTracker.entities.Expense;
+import com.deivinson.dimeTracker.entities.User;
+import com.deivinson.dimeTracker.repositories.CategoryRepository;
+import com.deivinson.dimeTracker.repositories.ExpenseRepository;
+import com.deivinson.dimeTracker.repositories.UserRepository;
+import com.deivinson.dimeTracker.services.exceptions.InvalidDateException;
+import com.deivinson.dimeTracker.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ExpenseService {

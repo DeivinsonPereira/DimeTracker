@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.controller;
+package com.deivinson.dimeTracker.controller;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
-import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
-import com.deivinson.gerenciadordespesas.dto.TotalExpenseDTO;
-import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
-import com.deivinson.gerenciadordespesas.services.ExpenseService;
+import com.deivinson.dimeTracker.dto.ExpenseDTO;
+import com.deivinson.dimeTracker.dto.InsertExpenseDTO;
+import com.deivinson.dimeTracker.dto.TotalExpenseDTO;
+import com.deivinson.dimeTracker.dto.UpdateExpenseDTO;
+import com.deivinson.dimeTracker.services.ExpenseService;
 
 @RestController
 @RequestMapping(value = "/expenses")

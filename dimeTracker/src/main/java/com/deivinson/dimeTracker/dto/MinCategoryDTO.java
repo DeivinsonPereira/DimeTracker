@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.dto;
+package com.deivinson.dimeTracker.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

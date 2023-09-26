@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.repositories;
+package com.deivinson.dimeTracker.repositories;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.deivinson.gerenciadordespesas.entities.Category;
-import com.deivinson.gerenciadordespesas.entities.Expense;
+import com.deivinson.dimeTracker.entities.Category;
+import com.deivinson.dimeTracker.entities.Expense;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long>{
 

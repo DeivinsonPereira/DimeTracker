@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.dto;
+package com.deivinson.dimeTracker.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

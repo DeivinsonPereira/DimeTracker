@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.services;
+package com.deivinson.dimeTracker.services;
 
 import java.util.Optional;
 
@@ -10,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
-import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
-import com.deivinson.gerenciadordespesas.entities.Category;
-import com.deivinson.gerenciadordespesas.repositories.CategoryRepository;
-import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
-import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
-import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
+import com.deivinson.dimeTracker.dto.CategoryDTO;
+import com.deivinson.dimeTracker.dto.MinCategoryDTO;
+import com.deivinson.dimeTracker.entities.Category;
+import com.deivinson.dimeTracker.repositories.CategoryRepository;
+import com.deivinson.dimeTracker.services.exceptions.DatabaseException;
+import com.deivinson.dimeTracker.services.exceptions.InvalidInputException;
+import com.deivinson.dimeTracker.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CategoryService {

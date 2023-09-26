@@ -1,4 +1,4 @@
-package com.deivinson.gerenciadordespesas.services.exceptions;
+package com.deivinson.dimeTracker.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
