@@ -8,28 +8,28 @@ import org.junit.jupiter.api.Test;
 
 public class MinCategoryDTOTest {
 
-	private MinCategoryDTO minCategoriaDTO;
+	private MinCategoryDTO minCategoryDTO;
 	
 	@BeforeEach
 	public void SetUp() {
 		
-		minCategoriaDTO = new MinCategoryDTO();
+		minCategoryDTO = new MinCategoryDTO();
 	}
 	
 	@Test
-	public void testGetAndSetNome() {
-		minCategoriaDTO.setNome("Energia");
+	public void testGetAndSetName() {
+		minCategoryDTO.setName("Energy");
 		
-		assertTrue(minCategoriaDTO.getNome().equalsIgnoreCase("Energia"));
+		assertTrue(minCategoryDTO.getName().equalsIgnoreCase("Energy"));
 	}
 	
 	@Test
-    public void testConstrutorComArgumentos() {
-        String nome = "Categoria Teste";
+    public void testConstrutorWithArgs() {
+        String name = "Test Category";
 
-        MinCategoryDTO minCategoriaDTO = new MinCategoryDTO(nome);
+        MinCategoryDTO minCategoryDTO = new MinCategoryDTO(name);
 
-        assertThat(minCategoriaDTO.getNome()).isEqualTo(nome);
+        assertThat(minCategoryDTO.getName()).isEqualTo(name);
     }
 	
 }

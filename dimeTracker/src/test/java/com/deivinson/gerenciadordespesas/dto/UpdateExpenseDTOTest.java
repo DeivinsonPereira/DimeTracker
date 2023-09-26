@@ -2,6 +2,7 @@ package com.deivinson.gerenciadordespesas.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,43 +10,45 @@ import org.junit.jupiter.api.Test;
 
 public class UpdateExpenseDTOTest {
 
-	private UpdateExpenseDTO atualizarDespesaDTO;
+	private UpdateExpenseDTO updateExpenseDTO;
+	private BigDecimal valueExpense;
 	
 	@BeforeEach
 	public void setUp() {
-		atualizarDespesaDTO = new UpdateExpenseDTO();
+		updateExpenseDTO = new UpdateExpenseDTO();
+		valueExpense = new BigDecimal("100.00");
 	}
 	
 	@Test
-	public void testGetAndSetValor() {
-		atualizarDespesaDTO.setValor(100.00);
-		assertEquals(100.00, atualizarDespesaDTO.getValor());
+	public void testGetAndSetValue() {
+		updateExpenseDTO.setValueExpense(valueExpense);
+		assertEquals(valueExpense, updateExpenseDTO.getValueExpense());
 	}
 	
 	@Test
-	public void testGetAndSetData() {
-		LocalDate data = LocalDate.of(2023, 1, 1);
+	public void testGetAndSetDate() {
+		LocalDate date = LocalDate.of(2023, 1, 1);
 		
-		atualizarDespesaDTO.setData(data);
+		updateExpenseDTO.setDate(date);
 		
-		assertEquals(data,atualizarDespesaDTO.getData());
+		assertEquals(date,updateExpenseDTO.getDate());
 	}
 	
 	@Test
-	public void testGetAndSetCategoriaId() {
-		atualizarDespesaDTO.setCategoriaId(1L);
+	public void testGetAndSetCategoryId() {
+		updateExpenseDTO.setCategoryId(1L);
 		
-		assertEquals(1L, atualizarDespesaDTO.getCategoriaId());
+		assertEquals(1L, updateExpenseDTO.getCategoryId());
 	}
 	
 	@Test
 	public void TestConstructorWithArguments() {
 		LocalDate data = LocalDate.of(2023, 1, 1);
 		
-		UpdateExpenseDTO constructorArguments = new UpdateExpenseDTO(10.0, data, 1L);
+		UpdateExpenseDTO constructorArguments = new UpdateExpenseDTO(valueExpense, data, 1L);
 		
-		assertEquals(10.0, constructorArguments.getValor());
-		assertEquals(data, constructorArguments.getData());
-		assertEquals(1L, constructorArguments.getCategoriaId());
+		assertEquals(valueExpense, constructorArguments.getValueExpense());
+		assertEquals(data, constructorArguments.getDate());
+		assertEquals(1L, constructorArguments.getCategoryId());
 	}
 }

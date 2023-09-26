@@ -3,32 +3,35 @@ package com.deivinson.gerenciadordespesas.dto;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TotalExpenseDTOTest {
 
-	private TotalExpenseDTO totalDespesaDTO;
+	private TotalExpenseDTO totalExpenseDTO;
+	private BigDecimal valueExpense;
 	
 	@BeforeEach
 	public void SetUp() {
 		
-		totalDespesaDTO = new TotalExpenseDTO();
+		totalExpenseDTO = new TotalExpenseDTO();
+		valueExpense = new BigDecimal("100.00");
 	}
 	
 	@Test
-	public void testGetAndSetTotalDespesa() {
-		totalDespesaDTO.setTotalDespesas(100.00);
+	public void testGetAndSetTotalExpense() {
+		totalExpenseDTO.setTotalExpenses(valueExpense);
 		
-		assertEquals(100.00, totalDespesaDTO.getTotalDespesas());
+		assertEquals(valueExpense, totalExpenseDTO.getTotalExpenses());
 	}
 	
 	@Test
-    public void testConstrutorComArgumentos() {
-        Double totalDespesas = 1000.0;
+    public void testConstrutorWithArgs() {
 
-        TotalExpenseDTO totalDespesaDTO = new TotalExpenseDTO(totalDespesas);
+        TotalExpenseDTO totalExpenseDTO = new TotalExpenseDTO(valueExpense);
 
-        assertThat(totalDespesaDTO.getTotalDespesas()).isEqualTo(totalDespesas);
+        assertThat(totalExpenseDTO.getTotalExpenses()).isEqualTo(valueExpense);
     }
 }

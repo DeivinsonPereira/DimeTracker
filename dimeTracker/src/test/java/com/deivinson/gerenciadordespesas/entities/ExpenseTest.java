@@ -16,7 +16,7 @@ public class ExpenseTest {
 
 	private Expense expense;
 	
-	BigDecimal valueExpense;
+	private BigDecimal valueExpense;
 	
 	@BeforeEach
 	public void setUp() {

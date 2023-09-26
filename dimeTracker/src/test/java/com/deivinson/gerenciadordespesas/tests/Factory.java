@@ -18,7 +18,7 @@ public class Factory {
 		return new Category(1L, "Energy");
 	}
 	
-	public static Category constructorCategorWithArgsAndExpense() {
+	public static Category constructorCategoryWithArgsAndExpense() {
 		LocalDate date = LocalDate.of(2023, 1, 1);
 		
 		BigDecimal valueExpense = new BigDecimal("100.00");

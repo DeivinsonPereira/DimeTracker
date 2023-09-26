@@ -23,124 +23,124 @@ import com.deivinson.gerenciadordespesas.tests.Factory;
 public class CategoryRepositoryTest {
 
 	@Autowired
-	private CategoryRepository categoriaRepository;
+	private CategoryRepository categoryRepository;
 	
 	@Autowired
-	private ExpenseRepository despesaRepository;
+	private ExpenseRepository expenseRepository;
 	
 	private Long existingId;
 	private Long nonExistingId;
-	private Long countTotalCategorias;
+	private Long countTotalCategories;
 	
 	@BeforeEach
 	void setUp() {
 		
 		existingId = 1L;
 		nonExistingId = 999L;
-		countTotalCategorias = 4L;
+		countTotalCategories = 4L;
 	}
 	
 	@Test
-	public void testSaveCategoria() {
+	public void testSaveCategory() {
 		
-		Category categoria = Factory.construtorCategoriaVazio();
-		categoria.setId(existingId);
-		categoria.setNome("Energia");
+		Category category = Factory.emptyConstructorCategory();
+		category.setId(existingId);
+		category.setName("Energy");
 		
-		categoriaRepository.save(categoria);
+		categoryRepository.save(category);
 		
-		Category categoriaSalva = categoriaRepository.findById(categoria.getId()).orElse(null);
+		Category categorySave = categoryRepository.findById(category.getId()).orElse(null);
 		
-		assertNotNull(categoriaSalva);
-		assertEquals(existingId, categoriaSalva.getId());
-		assertEquals(categoria, categoriaSalva);
-		assertTrue(categoriaSalva.getNome().equalsIgnoreCase("Energia"));
+		assertNotNull(categorySave);
+		assertEquals(existingId, categorySave.getId());
+		assertEquals(category, categorySave);
+		assertTrue(categorySave.getName().equalsIgnoreCase("Energy"));
 	}
 	
 	@Test
-	public void testFindCategoriaById() {
+	public void testFindCategoryById() {
 		
-		Category categoria = Factory.construtorCategoriaVazio();
-		categoria.setNome("Teste");
-		categoriaRepository.save(categoria);
+		Category category = Factory.emptyConstructorCategory();
+		category.setName("Test");
+		categoryRepository.save(category);
 		
-		Long categoriaId = categoria.getId();
-		Category categoriaEncontrada = categoriaRepository.findById(categoriaId).orElse(null);
+		Long categoryId = category.getId();
+		Category categoryFound = categoryRepository.findById(categoryId).orElse(null);
 		
-		assertNotNull(categoriaEncontrada);
-		assertEquals(categoriaId, categoriaEncontrada.getId());
-		assertEquals("Teste", categoriaEncontrada.getNome());
+		assertNotNull(categoryFound);
+		assertEquals(categoryId, categoryFound.getId());
+		assertEquals("Test", categoryFound.getName());
 	}
 
 	@Test
-	public void testFindCategoriaByIdNotFound() {
+	public void testFindCategoryByIdNotFound() {
 		
-		Category categoriaEncontrada = categoriaRepository.findById(nonExistingId).orElse(null);
+		Category categoryFound = categoryRepository.findById(nonExistingId).orElse(null);
 		
-		assertNull(categoriaEncontrada);
+		assertNull(categoryFound);
 	}
 	
 	@Test
-	public void testFindAllCategoria() {
+	public void testFindAllCategory() {
 		
-		Category categoria1 = Factory.construtorCategoriaVazio();
-        categoria1.setNome("Categoria 1");
+		Category category1 = Factory.emptyConstructorCategory();
+        category1.setName("Category 1");
 
-        Category categoria2 = Factory.construtorCategoriaVazio();
-        categoria2.setNome("Categoria 2");
+        Category category2 = Factory.emptyConstructorCategory();
+        category2.setName("Category 2");
         
-        Category categoria3 = Factory.construtorCategoriaVazio();
-        categoria3.setNome("Categoria 3");
+        Category category3 = Factory.emptyConstructorCategory();
+        category3.setName("Category 3");
         
-        categoriaRepository.save(categoria1);
-        categoriaRepository.save(categoria2);
-        categoriaRepository.save(categoria3);
+        categoryRepository.save(category1);
+        categoryRepository.save(category2);
+        categoryRepository.save(category3);
         
-        List<Category> todasAsCategorias = categoriaRepository.findAll();
+        List<Category> allCategories = categoryRepository.findAll();
         
-        assertFalse(todasAsCategorias.isEmpty());
-        assertEquals(countTotalCategorias + 3, todasAsCategorias.size());
+        assertFalse(allCategories.isEmpty());
+        assertEquals(countTotalCategories + 3, allCategories.size());
         
-        assertTrue(todasAsCategorias.stream().anyMatch(c -> c.getNome().equals("Categoria 1")));
-        assertTrue(todasAsCategorias.stream().anyMatch(c -> c.getNome().equals("Categoria 2")));
-        assertTrue(todasAsCategorias.stream().anyMatch(c -> c.getNome().equals("Categoria 3")));
+        assertTrue(allCategories.stream().anyMatch(c -> c.getName().equals("Category 1")));
+        assertTrue(allCategories.stream().anyMatch(c -> c.getName().equals("Category 2")));
+        assertTrue(allCategories.stream().anyMatch(c -> c.getName().equals("Category 3")));
         
 	}
 	
 	@Test
-	public void testUpdateCategoria(){
+	public void testUpdateCategory(){
 		
-		Category categoria = categoriaRepository.findById(1L).orElse(null);
+		Category category = categoryRepository.findById(1L).orElse(null);
 		
-		categoria.setId(1L);
-		categoria.setNome("João");
+		category.setId(1L);
+		category.setName("Joe");
 		
-		categoriaRepository.save(categoria);
+		categoryRepository.save(category);
 		
-		assertEquals(1L, categoria.getId());
-		assertTrue(categoria.getNome().equalsIgnoreCase("João"));
+		assertEquals(1L, category.getId());
+		assertTrue(category.getName().equalsIgnoreCase("Joe"));
 		
-		categoria.setId(35L);
-		categoria.setNome("Natasha");
+		category.setId(35L);
+		category.setName("Natasha");
 		
-		categoriaRepository.save(categoria);
-		assertNotEquals(1L, categoria.getId());
-		assertFalse(categoria.getNome().equalsIgnoreCase("João"));
-		assertEquals(35L, categoria.getId());
-		assertTrue(categoria.getNome().equalsIgnoreCase("Natasha"));
+		categoryRepository.save(category);
+		assertNotEquals(1L, category.getId());
+		assertFalse(category.getName().equalsIgnoreCase("Joe"));
+		assertEquals(35L, category.getId());
+		assertTrue(category.getName().equalsIgnoreCase("Natasha"));
 		
 	}
 	
 	@Test
-	public void deleteCategoria() {
-		Category categoria = Factory.construtorCategoriaComArgumentos();
+	public void deleteCategory() {
+		Category category = Factory.constructorCategoryWihArgs();
 		
-		assertEquals(1L, categoria.getId());
-		assertTrue(categoria.getNome().equalsIgnoreCase("Energia"));
+		assertEquals(1L, category.getId());
+		assertTrue(category.getName().equalsIgnoreCase("Energy"));
 		
-		categoriaRepository.deleteById(1L);
+		categoryRepository.deleteById(1L);
 		
-		Optional<Category> result = categoriaRepository.findById(existingId);
+		Optional<Category> result = categoryRepository.findById(existingId);
 		
 		assertFalse(result.isPresent());
 	}
@@ -148,50 +148,49 @@ public class CategoryRepositoryTest {
 	@Test
 	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
 
-		Category categoria = new Category();
-		categoria.setId(null);
+		Category category = new Category();
+		category.setId(null);
 		
-		categoria = categoriaRepository.save(categoria);
+		category = categoryRepository.save(category);
 		
-		assertNotNull(categoria);
-		assertEquals(countTotalCategorias + 1L, categoria.getId());
+		assertNotNull(category);
+		assertEquals(countTotalCategories + 1L, category.getId());
 	}
 	
 	@Test
-	public void OneToManyRelationshipCategoriaForDespesa () {
-		Category categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
+	public void OneToManyRelationshipCategoryForExpense () {
+		Category category1 = Factory.constructorCategoryWithArgsAndExpense();
 		
-		categoriaRepository.save(categoria1);
+		categoryRepository.save(category1);
 		
-		Category categoriaRelacao = categoriaRepository.findById(categoria1.getId()).orElse(null); 
-		assertNotNull(categoriaRelacao);
-		assertEquals(1, categoriaRelacao.getDespesas().size());
+		Category categoryRelationship = categoryRepository.findById(category1.getId()).orElse(null); 
+		assertNotNull(categoryRelationship);
+		assertEquals(1, categoryRelationship.getExpenses().size());
 		
-		//Verificando se a relação biderecional está funcionando.
-		for(Expense despesa : categoria1.getDespesas()) {
-			assertEquals(categoriaRelacao, despesa.getCategoria());
+		for(Expense expense : category1.getExpenses()) {
+			assertEquals(categoryRelationship, expense.getCategory());
 		}
 	}
 	
 	@Test
 	public void testCascadeRemoval() {
-		Category categoria1 = Factory.construtorCategoriaComArgumentosEDespesa();
+		Category category1 = Factory.constructorCategoryWithArgsAndExpense();
 		
-		categoriaRepository.save(categoria1);
+		categoryRepository.save(category1);
 		
-		Category categoriaCascade = categoriaRepository.findById(categoria1.getId()).orElse(null); 
-		assertNotNull(categoriaCascade);
-		assertEquals(1, categoriaCascade.getDespesas().size());
+		Category categoryCascade = categoryRepository.findById(category1.getId()).orElse(null); 
+		assertNotNull(categoryCascade);
+		assertEquals(1, categoryCascade.getExpenses().size());
 		
-		categoriaRepository.delete(categoriaCascade);
+		categoryRepository.delete(categoryCascade);
 		
-		Category categoriaRemovida = categoriaRepository.findById(categoriaCascade.getId()).orElse(null);
+		Category categoryRemoved = categoryRepository.findById(categoryCascade.getId()).orElse(null);
 		
-	    assertNull(categoriaRemovida);
+	    assertNull(categoryRemoved);
 	    
-	    Optional <Expense> despesa = despesaRepository.findById(categoria1.getId());
+	    Optional <Expense> expense = expenseRepository.findById(category1.getId());
 	    
-	    assertTrue(despesa.isEmpty());
+	    assertTrue(expense.isEmpty());
 	}
 	
 }
