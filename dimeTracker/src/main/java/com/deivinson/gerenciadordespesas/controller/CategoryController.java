@@ -18,44 +18,44 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
 import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
-import com.deivinson.gerenciadordespesas.services.CategoriaService;
+import com.deivinson.gerenciadordespesas.services.CategoryService;
 
 @RestController
-@RequestMapping(value = "/categorias")
-public class CategoriaController {
+@RequestMapping(value = "/categories")
+public class CategoryController {
 
 	@Autowired
-	private CategoriaService service;
+	private CategoryService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<CategoryDTO>> buscarTodasCategorias(Pageable pageable){
-		Page<CategoryDTO> dto = service.buscarTodasCategorias(pageable);
+	public ResponseEntity<Page<CategoryDTO>> searchAllCategories(Pageable pageable){
+		Page<CategoryDTO> dto = service.searchAllCategories(pageable);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PostMapping
-    public ResponseEntity<CategoryDTO> criarCategoria(@RequestBody MinCategoryDTO dto) {
-        CategoryDTO categoriaDTO = service.criarCategoria(dto);
+    public ResponseEntity<CategoryDTO> insertCategory(@RequestBody MinCategoryDTO dto) {
+        CategoryDTO categoryDTO = service.insertCategory(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(categoriaDTO.getId())
+                .buildAndExpand(categoryDTO.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(categoriaDTO);
+        return ResponseEntity.created(uri).body(categoryDTO);
     }
 	
-	@PutMapping("/{categoriaId}")
-    public ResponseEntity<CategoryDTO> atualizarNomeCategoria(
-            @PathVariable Long categoriaId,
+	@PutMapping("/{categoryId}")
+    public ResponseEntity<CategoryDTO> updateNameCategory(
+            @PathVariable Long categoryId,
             @RequestBody MinCategoryDTO dto) {
-        CategoryDTO categoriaDTO = service.atualizarNomeCategoria(categoriaId, dto);
-        return ResponseEntity.ok(categoriaDTO);
+        CategoryDTO categoryDTO = service.updateNameCategory(categoryId, dto);
+        return ResponseEntity.ok(categoryDTO);
     }
 	
-	@DeleteMapping(value = "/{categoriaId}")
-	public ResponseEntity<Void> deletarCategoria(@PathVariable Long categoriaId) {
-        service.deletarCategoria(categoriaId);
+	@DeleteMapping(value = "/{categoryId}")
+	public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
+        service.deleteCategory(categoryId);
         return ResponseEntity.noContent().build();
     }
 	

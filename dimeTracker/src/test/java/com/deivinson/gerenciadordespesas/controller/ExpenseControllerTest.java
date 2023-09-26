@@ -33,8 +33,8 @@ import com.deivinson.gerenciadordespesas.dto.TotalExpenseDTO;
 import com.deivinson.gerenciadordespesas.services.ExpenseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(DespesaController.class)
-public class DespesaControllerTest {
+@WebMvcTest(ExpenseController.class)
+public class ExpenseControllerTest {
 
 	@Autowired
     private MockMvc mockMvc;

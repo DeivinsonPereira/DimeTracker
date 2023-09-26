@@ -27,52 +27,52 @@ import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
 import com.deivinson.gerenciadordespesas.services.ExpenseService;
 
 @RestController
-@RequestMapping(value = "/despesas")
-public class DespesaController {
+@RequestMapping(value = "/expenses")
+public class ExpenseController {
 
 	@Autowired
 	private ExpenseService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<ExpenseDTO>> buscarDespesas(
-            @RequestParam(required = false) Long categoriaId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+	public ResponseEntity<Page<ExpenseDTO>> searchExpensesByFilters(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate finishDate,
             Pageable pageable) {
 
-        Page<ExpenseDTO> despesas = service.buscarDespesasPorFiltros(categoriaId, dataInicio, dataFim, pageable);
-        return ResponseEntity.ok(despesas);
+        Page<ExpenseDTO> expenses = service.searchExpensesByFilters(categoryId, startDate, finishDate, pageable);
+        return ResponseEntity.ok(expenses);
     }
 	
-	@GetMapping("/total-despesas")
-	public ResponseEntity<TotalExpenseDTO> calculaTotalDespesasPorFiltros(
-	        @RequestParam(required = false) Long categoriaId,
-	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+	@GetMapping("/total-expenses")
+	public ResponseEntity<TotalExpenseDTO> calculateTotalExpensesByFilter(
+	        @RequestParam(required = false) Long categoryId,
+	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate finishDate) {
 
-		BigDecimal totalDespesas = service.calcularTotalDespesasComFiltros(categoriaId, dataInicio, dataFim);
+		BigDecimal totalExpenses = service.calculateTotalExpensesByFilter(categoryId, startDate, finishDate);
 
-	    TotalExpenseDTO response = new TotalExpenseDTO(totalDespesas);
+	    TotalExpenseDTO response = new TotalExpenseDTO(totalExpenses);
 	    return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping
-	public ResponseEntity<InsertExpenseDTO> insert(@RequestBody InsertExpenseDTO dto){
-		dto = service.insert(dto);
+	public ResponseEntity<InsertExpenseDTO> insertExpense(@RequestBody InsertExpenseDTO dto){
+		dto = service.insertExpense(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
-	@PutMapping("/{despesaId}")
-    public ResponseEntity<ExpenseDTO> atualizarDespesa(@PathVariable Long despesaId, @RequestBody UpdateExpenseDTO dto) {
-        ExpenseDTO despesaDTO = service.atualizarDespesa(despesaId, dto);
-        return ResponseEntity.ok(despesaDTO);
+	@PutMapping("/{expenseId}")
+    public ResponseEntity<ExpenseDTO> updateExpense(@PathVariable Long categoryId, @RequestBody UpdateExpenseDTO dto) {
+        ExpenseDTO expenseDTO = service.updateExpense(categoryId, dto);
+        return ResponseEntity.ok(expenseDTO);
     }
 	
-	@DeleteMapping("/{despesaId}")
-    public ResponseEntity<Void> deletarDespesa(@PathVariable Long despesaId) {
-        service.deletarDespesa(despesaId);
+	@DeleteMapping("/{expenseId}")
+    public ResponseEntity<Void> deletarDespesa(@PathVariable Long expenseId) {
+        service.deleteExpense(expenseId);
         return ResponseEntity.noContent().build();
     }
 }

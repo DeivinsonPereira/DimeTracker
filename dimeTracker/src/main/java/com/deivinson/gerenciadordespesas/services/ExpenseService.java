@@ -60,7 +60,7 @@ public class ExpenseService {
     }
 	
 	@Transactional(readOnly = true)
-	public BigDecimal calcularTotalExpensesComFiltros(Long categoryId, LocalDate startDate, LocalDate finishDate) {
+	public BigDecimal calculateTotalExpensesByFilter(Long categoryId, LocalDate startDate, LocalDate finishDate) {
         if (categoryId != null && startDate != null && finishDate != null) {
             Category category = categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new EntityNotFoundException("Category not found!"));
@@ -114,7 +114,7 @@ public class ExpenseService {
     }
 	
 	@Transactional
-    public void deleteDespesa(Long expenseId) {
+    public void deleteExpense(Long expenseId) {
         Expense expense = repository.findById(expenseId)
                 .orElseThrow(() -> new EntityNotFoundException("Despesa not found!"));
 
