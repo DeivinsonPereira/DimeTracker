@@ -53,7 +53,7 @@ public class Factory {
 		return user;
 	}
 	
-	public static Expense EmptyconstructorExpense() {
+	public static Expense emptyconstructorExpense() {
 		return new Expense();
 	}
 	
@@ -69,7 +69,7 @@ public class Factory {
 		return new Expense(1L, valueExpense, data, user, category);
 	}
 	
-	public static ExpenseDTO EmptyconstructorExpenseDTO() {
+	public static ExpenseDTO emptyconstructorExpenseDTO() {
 		return new ExpenseDTO();
 	}
 }

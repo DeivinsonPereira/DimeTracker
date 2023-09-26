@@ -15,7 +15,7 @@ public class UserTest {
 	
 	@BeforeEach
 	public void setUp() {
-		user = Factory.construtorUsuarioVazio();;
+		user = Factory.emptyConstructorUser();;
 	}
 	
 	@Test

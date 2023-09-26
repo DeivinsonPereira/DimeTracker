@@ -9,89 +9,86 @@ import org.junit.jupiter.api.Test;
 
 public class CategoryTest {
 	
-	private Category categoria1;
-	private Category categoria2;
+	private Category category1;
+	private Category category2;
 
 	@BeforeEach
 	public void setUp() {
-		categoria1 = new Category(1L, "Alimentação");
-        categoria2 = new Category(2L, "Transporte");
+		category1 = new Category(1L, "Nutrition");
+        category2 = new Category(2L, "Transport");
 	}
 	
 	@Test
 	public void testGetAndSetId() {
-		categoria1.setId(1L);
-		assertEquals(1L, categoria1.getId());
+		category1.setId(1L);
+		assertEquals(1L, category1.getId());
 	}
 	
 	@Test
-	public void testGetAndSetNome() {
-		categoria1.setNome("joão");
+	public void testGetAndSetName() {
+		category1.setName("joe");
 		
-		assertTrue(categoria1.getNome().equalsIgnoreCase("João"));
+		assertTrue(category1.getName().equalsIgnoreCase("Joe"));
 	}
 	
     @Test
-    public void testEqualsComInstanciasIguais() {
-        Category mesmaCategoria = new Category(1L, "Alimentação");
-        assertThat(categoria1.equals(mesmaCategoria)).isTrue();
+    public void testEqualsWithEqualInstances() {
+        Category category = new Category(1L, "Nutrition");
+        assertThat(category1.equals(category)).isTrue();
     }
 
     @Test
-    public void testEqualsComInstanciasDiferentes() {
-        assertThat(categoria1.equals(categoria2)).isFalse();
+    public void testEqualsWithDifferentInstances() {
+        assertThat(category1.equals(category2)).isFalse();
     }
 
     @Test
-    public void testEqualsComNull() {
-        assertThat(categoria1.equals(null)).isFalse();
+    public void testEqualsifNull() {
+        assertThat(category1.equals(null)).isFalse();
     }
 
     @Test
-    public void testEqualsReflexividade() {
-        assertThat(categoria1.equals(categoria1)).isTrue();
+    public void testEqualsReflexivity() {
+        assertThat(category1.equals(category1)).isTrue();
     }
 
     @Test
-    public void testEqualsSimetria() {
-        assertThat(categoria1.equals(categoria2)).isEqualTo(categoria2.equals(categoria1));
+    public void testEqualsSymmetry() {
+        assertThat(category1.equals(category2)).isEqualTo(category2.equals(category1));
     }
 
     @Test
-    public void testEqualsTransitividade() {
-        Category outraCategoria = new Category(1L, "Alimentação");
-        assertThat(categoria1.equals(outraCategoria)).isTrue();
-        assertThat(outraCategoria.equals(categoria2)).isFalse();
-        assertThat(categoria1.equals(categoria2)).isFalse();
+    public void testEqualsTransitivity() {
+        Category category = new Category(1L, "Nutrition");
+        assertThat(category1.equals(category)).isTrue();
+        assertThat(category.equals(category2)).isFalse();
+        assertThat(category1.equals(category2)).isFalse();
     }
 
     @Test
-    public void testHashCodeConsistente() {
-        Category mesmaCategoria = new Category(1L, "Alimentação");
-        assertThat(categoria1.hashCode()).isEqualTo(mesmaCategoria.hashCode());
+    public void testHashCodeConsistent() {
+        Category category = new Category(1L, "Nutrition");
+        assertThat(category1.hashCode()).isEqualTo(category.hashCode());
     }
 
     @Test
-    public void testHashCodeDiferenteParaObjetosDiferentes() {
-        assertThat(categoria1.hashCode()).isNotEqualTo(categoria2.hashCode());
+    public void testHashCodeDifferentForDifferentObjects() {
+        assertThat(category1.hashCode()).isNotEqualTo(category2.hashCode());
     }
 
     @Test
     public void testToString() {
-        assertThat(categoria1.toString()).isEqualTo("Categoria(id=1, nome=Alimentação, despesas=[])");
+        assertThat(category1.toString()).isEqualTo("Category(id=1, name=Nutrition, expenses=[])");
     }
     
     @Test
-    public void testConstrutorVazio() {
-        Category categoria = new Category();
+    public void testEmptyConstructor() {
+        Category category = new Category();
 
-        assertThat(categoria).isNotNull();
+        assertThat(category).isNotNull();
 
-        assertThat(categoria.getId()).isNull();
-        assertThat(categoria.getNome()).isNull();
-        assertThat(categoria.getDespesas()).isNotNull().isEmpty();
+        assertThat(category.getId()).isNull();
+        assertThat(category.getName()).isNull();
+        assertThat(category.getExpenses()).isNotNull().isEmpty();
     }
-	
-    
-    
 }

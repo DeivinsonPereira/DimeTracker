@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,149 +14,153 @@ import com.deivinson.gerenciadordespesas.tests.Factory;
 
 public class ExpenseTest {
 
-	private Expense despesa;
+	private Expense expense;
+	
+	BigDecimal valueExpense;
 	
 	@BeforeEach
 	public void setUp() {
-		despesa = Factory.construtorDespesaVazio();;
+		valueExpense = new BigDecimal("100.00");
+		expense = Factory.emptyconstructorExpense();;
 	}
 	
 	@Test
-	public void testGetAndSetValor() {
-		despesa.setId(1L);
+	public void testGetAndSetValue() {
+		expense.setId(1L);
 		
-		assertEquals(1L, despesa.getId());
+		assertEquals(1L, expense.getId());
 	}
 	
 	@Test
-	public void testGetAndSetData() {
+	public void testGetAndSetDate() {
 		
-		LocalDate data = LocalDate.of(2023,01,01);
+		LocalDate date = LocalDate.of(2023,01,01);
 		
-		despesa.setData(data);
+		expense.setDate(date);
 		
-		assertEquals(data, despesa.getData());
+		assertEquals(date, expense.getDate());
 		
 	}
 	
 	@Test
-	public void testGetAndSetUsuario() {
-		despesa.setUsuario(new User(1L, "João"));
+	public void testGetAndSetUser() {
+		expense.setUser(new User(1L, "Joe"));
 		
-		assertNotNull(despesa.getUsuario());
-		assertEquals(1L, despesa.getUsuario().getId());
+		assertNotNull(expense.getUser());
+		assertEquals(1L, expense.getUser().getId());
 	}
 	
 	@Test
-	public void testGetAndSetCategoria() {
-		despesa.setCategoria(new Category(1L, "Energia"));
+	public void testGetAndSetCategory() {
+		expense.setCategory(new Category(1L, "Energy"));
 		
-		assertNotNull(despesa.getCategoria());
-		assertEquals(1L, despesa.getCategoria().getId());
+		assertNotNull(expense.getCategory());
+		assertEquals(1L, expense.getCategory().getId());
 	}
 	
 	
 	@Test
     public void testEquals() {
-        Expense despesa1 = new Expense(1L, 100.0, LocalDate.now(), null, null);
-        Expense despesa2 = new Expense(1L, 200.0, LocalDate.now(), null, null);
+        Expense expense1 = new Expense(1L, valueExpense, LocalDate.now(), null, null);
+        Expense expense2 = new Expense(1L, valueExpense, LocalDate.now(), null, null);
 
-        assertThat(despesa1).isEqualTo(despesa2);
+        assertThat(expense1).isEqualTo(expense2);
     }
 	
 	@Test
     public void testNotEquals() {
-        Expense despesa1 = new Expense(1L, 100.0, LocalDate.now(), null, null);
-        Expense despesa2 = new Expense(2L, 100.0, LocalDate.now(), null, null);
+        Expense expense1 = new Expense(1L, valueExpense, LocalDate.now(), null, null);
+        Expense expense2 = new Expense(2L, valueExpense, LocalDate.now(), null, null);
 
-        assertThat(despesa1).isNotEqualTo(despesa2);
+        assertThat(expense1).isNotEqualTo(expense2);
     }
 	
 	@Test
     public void testHashCode() {
-        Expense despesa1 = new Expense(1L, 100.0, LocalDate.now(), null, null);
-        Expense despesa2 = new Expense(1L, 200.0, LocalDate.now(), null, null);
+        Expense expense1 = new Expense(1L, valueExpense, LocalDate.now(), null, null);
+        Expense expense2 = new Expense(1L, valueExpense, LocalDate.now(), null, null);
 
-        assertThat(despesa1.hashCode()).isEqualTo(despesa2.hashCode());
+        assertThat(expense1.hashCode()).isEqualTo(expense2.hashCode());
     }
 	
 	 @Test
-	    public void testIgualdadeComInstanciasIguais() {
-	        Expense despesa1 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
-	        Expense despesa2 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
+	    public void testEqualityWithEqualInstances() {
+	        Expense expense1 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
+	        Expense expense2 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        assertThat(despesa1).isEqualTo(despesa2);
+	        assertThat(expense1).isEqualTo(expense2);
 	    }
 	 
 	 @Test
-	    public void testIgualdadeComInstanciasDiferentes() {
-	        Expense despesa1 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
-	        Expense despesa2 = new Expense(2L, 150.0, LocalDate.of(2023, 9, 25),null,null);
+	    public void testEqualsWithObjectsFromDifferentClasses() {
+	        Expense expense1 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
+	        Expense expense2 = new Expense(2L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        assertThat(despesa1).isNotEqualTo(despesa2);
+	        assertThat(expense1).isNotEqualTo(expense2);
 	    }
 	 
 	 @Test
-	    public void testIgualdadeComNull() {
-	        Expense despesa = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
+	    public void testEqualityIfNull() {
+	        Expense expense = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        assertThat(despesa.equals(null)).isFalse();
+	        assertThat(expense.equals(null)).isFalse();
 	    }
 
 	    @Test
-	    public void testReflexividade() {
-	        Expense despesa = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
+	    public void testReflexivity() {
+	        Expense expense = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        assertThat(despesa.equals(despesa)).isTrue();
+	        assertThat(expense.equals(expense)).isTrue();
 	    }
 
 	    @Test
-	    public void testSimetria() {
-	        Expense despesa1 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
-	        Expense despesa2 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
+	    public void testSymmetry() {
+	        Expense expense1 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
+	        Expense expense2 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        assertThat(despesa1.equals(despesa2)).isEqualTo(despesa2.equals(despesa1));
+	        assertThat(expense1.equals(expense2)).isEqualTo(expense2.equals(expense1));
 	    }
 
 	    @Test
-	    public void testTransitividade() {
-	        Expense despesa1 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
-	        Expense despesa2 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
-	        Expense despesa3 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
+	    public void testTransitivity() {
+	        Expense expense1 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
+	        Expense expense2 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
+	        Expense expense3 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        assertThat(despesa1.equals(despesa2)).isTrue();
-	        assertThat(despesa2.equals(despesa3)).isTrue();
-	        assertThat(despesa1.equals(despesa3)).isTrue();
+	        assertThat(expense1.equals(expense2)).isTrue();
+	        assertThat(expense2.equals(expense3)).isTrue();
+	        assertThat(expense1.equals(expense3)).isTrue();
 	    }
 
 	    @SuppressWarnings("unlikely-arg-type")
 		@Test
-	    public void testIgualdadeComObjetosDeClassesDiferentes() {
-	        Expense despesa = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
-	        Category categoria = new Category();
+	    public void testEqualityWithObjectsFromDifferentClasses() {
+	        Expense expense = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
+	        Category category = new Category();
 
-	        assertThat(despesa.equals(categoria)).isFalse();
+	        assertThat(expense.equals(category)).isFalse();
 	    }
 	    
 	    @Test
-	    public void testConsistenciaAposMudancas() {
-	        Expense despesa1 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
-	        Expense despesa2 = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
+	    public void testConsistencyAfterChanges() {
+	        Expense expense1 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
+	        Expense expense2 = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        assertThat(despesa1.equals(despesa2)).isTrue();
+	        assertThat(expense1.equals(expense2)).isTrue();
 
-	        despesa2.setValor(150.0);
+	        valueExpense = new BigDecimal("150.00");
+	        expense2.setValueExpense(valueExpense);
 
-	        assertThat(despesa1.getValor().equals(despesa2.getValor())).isFalse();
+	        assertThat(expense1.getValueExpense().equals(expense2.getValueExpense())).isFalse();
 	    }
 	    
 	    @Test
 	    public void testToString() {
-	        Expense despesa = new Expense(1L, 100.0, LocalDate.of(2023, 9, 25),null,null);
+	        Expense expense = new Expense(1L, valueExpense, LocalDate.of(2023, 9, 25),null,null);
 
-	        String toStringResult = despesa.toString();
+	        String toStringResult = expense.toString();
 
-	        String expectedToString = "Despesa(id=1, valor=100.0, data=2023-09-25, usuario=null, categoria=null)";
+	        String expectedToString = "Expense(id=1, valueExpense=100.00, date=2023-09-25, user=null, category=null)";
 
 	        assertThat(toStringResult).isEqualTo(expectedToString);
 	    }
