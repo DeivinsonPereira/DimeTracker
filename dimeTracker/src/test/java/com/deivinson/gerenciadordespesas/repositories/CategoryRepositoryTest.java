@@ -20,13 +20,13 @@ import com.deivinson.gerenciadordespesas.entities.Expense;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
-public class CategoriaRepositoryTest {
+public class CategoryRepositoryTest {
 
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private CategoryRepository categoriaRepository;
 	
 	@Autowired
-	private DespesaRepository despesaRepository;
+	private ExpenseRepository despesaRepository;
 	
 	private Long existingId;
 	private Long nonExistingId;

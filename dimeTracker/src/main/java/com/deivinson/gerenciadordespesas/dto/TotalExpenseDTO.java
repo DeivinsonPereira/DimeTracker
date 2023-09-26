@@ -13,6 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TotalExpenseDTO {
 
-	private BigDecimal totalDespesas;
+	private BigDecimal totalExpenses;
 
 }

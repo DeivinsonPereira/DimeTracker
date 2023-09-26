@@ -23,10 +23,10 @@ import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
 @AutoConfigureTestDatabase
-public class DespesaRepositoryTest {
+public class ExpenseRepositoryTest {
 	
 	@Autowired
-	private DespesaRepository despesaRepository;
+	private ExpenseRepository despesaRepository;
 
 	private Long existingId;
 	private Long nonExistingId;

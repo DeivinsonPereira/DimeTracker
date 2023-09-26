@@ -36,7 +36,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
 import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
 import com.deivinson.gerenciadordespesas.entities.Category;
-import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
+import com.deivinson.gerenciadordespesas.repositories.CategoryRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
 import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
@@ -49,7 +49,7 @@ public class CategoriaServiceTest {
 	private CategoriaService service;
 
 	@Mock
-	private CategoriaRepository repository;
+	private CategoryRepository repository;
 
 	private Category categoria;
 	private PageImpl<Category> page;

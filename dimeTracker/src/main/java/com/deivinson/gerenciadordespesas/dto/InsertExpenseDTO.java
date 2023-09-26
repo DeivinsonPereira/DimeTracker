@@ -17,17 +17,17 @@ import lombok.Setter;
 public class InsertExpenseDTO {
 
 	private Long id;
-	private BigDecimal valor;
-	private LocalDate data;
-	private Long categoriaId;
-	private Long usuarioId;
+	private BigDecimal value;
+	private LocalDate date;
+	private Long categoryId;
+	private Long userId;
 	
 	public InsertExpenseDTO(Expense entity) {
 		this.id = entity.getId();
-		this.valor = entity.getValor();
-		this.data = entity.getData();
-		this.usuarioId = entity.getUsuario().getId();
-		this.categoriaId = entity.getCategoria().getId();
+		this.value = entity.getValue();
+		this.date = entity.getDate();
+		this.userId = entity.getUser().getId();
+		this.categoryId = entity.getCategory().getId();
 	}
 
 }

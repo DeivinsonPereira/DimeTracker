@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MinCategoryDTO {
 
-	private String nome;
+	private String name;
 
 }

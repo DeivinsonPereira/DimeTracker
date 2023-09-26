@@ -21,10 +21,10 @@ import com.deivinson.gerenciadordespesas.entities.User;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @DataJpaTest
-public class UsuarioRepositoryTest {
+public class UserRepositoryTest {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository usuarioRepository;
 	
 	private Long existingId;
 	private Long nonExistingId;

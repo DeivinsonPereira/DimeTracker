@@ -17,9 +17,9 @@ import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
 import com.deivinson.gerenciadordespesas.entities.Category;
 import com.deivinson.gerenciadordespesas.entities.Expense;
 import com.deivinson.gerenciadordespesas.entities.User;
-import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
-import com.deivinson.gerenciadordespesas.repositories.DespesaRepository;
-import com.deivinson.gerenciadordespesas.repositories.UsuarioRepository;
+import com.deivinson.gerenciadordespesas.repositories.CategoryRepository;
+import com.deivinson.gerenciadordespesas.repositories.ExpenseRepository;
+import com.deivinson.gerenciadordespesas.repositories.UserRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DataInvalidaException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 
@@ -27,13 +27,13 @@ import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundExc
 public class DespesaService {
 
 	@Autowired
-	private DespesaRepository repository;
+	private ExpenseRepository repository;
 	
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private CategoryRepository categoriaRepository;
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository usuarioRepository;
 	
 	
 	@Transactional(readOnly = true)

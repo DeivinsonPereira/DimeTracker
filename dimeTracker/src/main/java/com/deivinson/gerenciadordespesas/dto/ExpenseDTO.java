@@ -26,10 +26,10 @@ public class ExpenseDTO {
 	
     public ExpenseDTO(Expense entity) {
             this.id = entity.getId();
-            this.value = entity.getValor();
-            this.date = entity.getData();
-            this.userName = entity.getUsuario() != null ? entity.getUsuario().getNome() : null;
-            this.categoryName = entity.getCategoria() != null ? entity.getCategoria().getNome() : null;
+            this.value = entity.getValue();
+            this.date = entity.getDate();
+            this.userName = entity.getUser() != null ? entity.getUser().getName() : null;
+            this.categoryName = entity.getCategory() != null ? entity.getCategory().getName() : null;
     }
 
 }

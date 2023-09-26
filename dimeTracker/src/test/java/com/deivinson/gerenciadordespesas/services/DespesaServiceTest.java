@@ -38,9 +38,9 @@ import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
 import com.deivinson.gerenciadordespesas.entities.Category;
 import com.deivinson.gerenciadordespesas.entities.Expense;
 import com.deivinson.gerenciadordespesas.entities.User;
-import com.deivinson.gerenciadordespesas.repositories.CategoriaRepository;
-import com.deivinson.gerenciadordespesas.repositories.DespesaRepository;
-import com.deivinson.gerenciadordespesas.repositories.UsuarioRepository;
+import com.deivinson.gerenciadordespesas.repositories.CategoryRepository;
+import com.deivinson.gerenciadordespesas.repositories.ExpenseRepository;
+import com.deivinson.gerenciadordespesas.repositories.UserRepository;
 import com.deivinson.gerenciadordespesas.services.exceptions.DataInvalidaException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 import com.deivinson.gerenciadordespesas.tests.Factory;
@@ -52,13 +52,13 @@ public class DespesaServiceTest {
 	private DespesaService service;
 	
 	@Mock
-	private DespesaRepository repository;
+	private ExpenseRepository repository;
 	
     @Mock
-    private CategoriaRepository categoriaRepository;
+    private CategoryRepository categoriaRepository;
     
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UserRepository usuarioRepository;
 	
 	private Long categoriaId;
     private LocalDate dataInicio;

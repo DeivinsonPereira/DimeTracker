@@ -12,16 +12,16 @@ import lombok.Setter;
 public class CategoryDTO {
 
 	private Long id;
-	private String nome;
+	private String name;
 	
-	public CategoryDTO(Long id, String nome) {
+	public CategoryDTO(Long id, String name) {
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 	}
 	
 	public CategoryDTO(Category entity) {
 		this.id = entity.getId();
-		this.nome = entity.getNome();
+		this.name = entity.getName();
 	}
 	
 }

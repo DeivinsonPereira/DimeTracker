@@ -14,8 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateExpenseDTO {
 
-	private BigDecimal valor;
-	private LocalDate data;
-	private Long categoriaId;
+	private BigDecimal value;
+	private LocalDate date;
+	private Long categoryId;
 	
 }
