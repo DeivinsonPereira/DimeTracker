@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.deivinson.gerenciadordespesas.services.exceptions.DataInvalidaException;
+import com.deivinson.gerenciadordespesas.services.exceptions.InvalidDateException;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
 import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
@@ -53,8 +53,8 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 	
-	@ExceptionHandler(DataInvalidaException.class)
-    public ResponseEntity<StandardError> handleInvalidInputException(DataInvalidaException e, HttpServletRequest request) {
+	@ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<StandardError> handleInvalidInputException(InvalidDateException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());

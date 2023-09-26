@@ -41,15 +41,15 @@ import com.deivinson.gerenciadordespesas.entities.User;
 import com.deivinson.gerenciadordespesas.repositories.CategoryRepository;
 import com.deivinson.gerenciadordespesas.repositories.ExpenseRepository;
 import com.deivinson.gerenciadordespesas.repositories.UserRepository;
-import com.deivinson.gerenciadordespesas.services.exceptions.DataInvalidaException;
+import com.deivinson.gerenciadordespesas.services.exceptions.InvalidDateException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 import com.deivinson.gerenciadordespesas.tests.Factory;
 
 @ExtendWith(SpringExtension.class)
-public class DespesaServiceTest {
+public class ExpenseServiceTest {
 
 	@InjectMocks
-	private DespesaService service;
+	private ExpenseService service;
 	
 	@Mock
 	private ExpenseRepository repository;
@@ -207,7 +207,7 @@ public class DespesaServiceTest {
         LocalDate dataInicio = LocalDate.of(2023, 2, 1);
         LocalDate dataFim = LocalDate.of(2023, 1, 1);
 
-        assertThrows(DataInvalidaException.class, () -> service.buscarDespesasPorFiltros(null, dataInicio, dataFim, Pageable.unpaged()));
+        assertThrows(InvalidDateException.class, () -> service.buscarDespesasPorFiltros(null, dataInicio, dataFim, Pageable.unpaged()));
     }
 	
 	@Test
@@ -215,7 +215,7 @@ public class DespesaServiceTest {
 	    LocalDate dataInicio = LocalDate.of(2023, 2, 15);
 	    LocalDate dataFim = LocalDate.of(2023, 2, 10); 
 
-	    assertThrows(DataInvalidaException.class, () -> {
+	    assertThrows(InvalidDateException.class, () -> {
 	        service.buscarDespesasPorFiltros(null, dataInicio, dataFim, Pageable.unpaged());
 	    });
 	}
@@ -240,7 +240,7 @@ public class DespesaServiceTest {
         dataFim = LocalDate.of(2023, 1, 1);
 
 
-        assertThrows(DataInvalidaException.class, () -> service.buscarDespesasPorFiltros(categoriaId, dataInicio, dataFim, Pageable.unpaged()));
+        assertThrows(InvalidDateException.class, () -> service.buscarDespesasPorFiltros(categoriaId, dataInicio, dataFim, Pageable.unpaged()));
 
         verify(repository, never()).findByCategoriaIdAndDataBetween(any(), any(), any(), any());
     }
@@ -362,7 +362,7 @@ public class DespesaServiceTest {
         when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.of(categoria));
         when(usuarioRepository.findById(dto.getUsuarioId())).thenReturn(Optional.of(usuario));
 
-        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
+        Method privateMethod = ExpenseService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
         privateMethod.setAccessible(true);
         privateMethod.invoke(service, dto, entity);
 
@@ -382,7 +382,7 @@ public class DespesaServiceTest {
 
         when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.empty());
 
-        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
+        Method privateMethod = ExpenseService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
         privateMethod.setAccessible(true);
 
         try {
@@ -405,7 +405,7 @@ public class DespesaServiceTest {
         when(categoriaRepository.findById(dto.getCategoriaId())).thenReturn(Optional.of(new Category()));
         when(usuarioRepository.findById(dto.getUsuarioId())).thenReturn(Optional.empty());
 
-        Method privateMethod = DespesaService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
+        Method privateMethod = ExpenseService.class.getDeclaredMethod("copyEntity", InsertExpenseDTO.class, Expense.class);
         privateMethod.setAccessible(true);
 
         try {

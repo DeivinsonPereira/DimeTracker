@@ -19,53 +19,53 @@ import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputExcepti
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
 
 @Service
-public class CategoriaService {
+public class CategoryService {
 
 	@Autowired
 	private CategoryRepository repository;	
 	
 	@Transactional(readOnly = true)
-	public Page<CategoryDTO> buscarTodasCategorias(Pageable pageable){
+	public Page<CategoryDTO> searchAllCategories(Pageable pageable){
 		Page<Category> dto = repository.findAll(pageable);
 		return dto.map(x -> new CategoryDTO(x));
 	}
 	
 	@Transactional
-    public CategoryDTO criarCategoria(MinCategoryDTO dto) {
-		Optional<Category> categoriaExistente = repository.findByNome(dto.getNome());
-	    if (categoriaExistente.isPresent()) {
-	        System.out.println("Erro: esse nome já existe!");
+    public CategoryDTO insertCategory(MinCategoryDTO dto) {
+		Optional<Category> existingCategory = repository.findByName(dto.getName());
+	    if (existingCategory.isPresent()) {
+	        System.out.println("Error: this name already exists!");
 	        return null;
 	    }
-		if (dto == null || dto.getNome() == null || dto.getNome().isEmpty()) {
-			throw new InvalidInputException("O nome da categoria é obrigatório.");
+		if (dto == null || dto.getName() == null || dto.getName().isEmpty()) {
+			throw new InvalidInputException("The category name is required.");
 		}else {
 			
-		Category categoria = new Category();
-        categoria.setNome(dto.getNome());
+		Category category = new Category();
+		category.setName(dto.getName());
 
-        categoria = repository.save(categoria);
-        return new CategoryDTO(categoria);
+		category = repository.save(category);
+        return new CategoryDTO(category);
 		
 		}
     }
 	
 	@Transactional
-    public CategoryDTO atualizarNomeCategoria(Long categoriaId, MinCategoryDTO dto) {
-		if (dto == null || dto.getNome() == null || dto.getNome().isEmpty()) {
-	        throw new InvalidInputException("O nome da categoria é obrigatório.");
+    public CategoryDTO updateNameCategory(Long categoryId, MinCategoryDTO dto) {
+		if (dto == null || dto.getName() == null || dto.getName().isEmpty()) {
+	        throw new InvalidInputException("Category name is required.");
 	    }
-        Category categoria = repository.findById(categoriaId)
-                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+        Category category = repository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
-        categoria.setNome(dto.getNome());
+        category.setName(dto.getName());
 
-        categoria = repository.save(categoria);
-        return new CategoryDTO(categoria);
+        category = repository.save(category);
+        return new CategoryDTO(category);
     }
 	
 	@Transactional
-	public void deletarCategoria(Long id) {
+	public void deleteCategory(Long id) {
 		try {
 			repository.deleteById(id);
 		}

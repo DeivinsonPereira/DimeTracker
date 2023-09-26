@@ -1,10 +1,10 @@
 package com.deivinson.gerenciadordespesas.services.exceptions;
 
-public class DataInvalidaException extends RuntimeException {
+public class InvalidDateException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	
-	public DataInvalidaException (String msg) {
+	public InvalidDateException (String msg) {
 		super(msg);
 	}
 }

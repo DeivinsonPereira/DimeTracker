@@ -4,13 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class DataInvalidaExceptionTest {
+public class InvalidDateExceptionTest {
 
 	@Test
     public void testDataInvalidaException() {
         String errorMessage = "Data inválida.";
 
-        DataInvalidaException dataInvalidaException = new DataInvalidaException(errorMessage);
+        InvalidDateException dataInvalidaException = new InvalidDateException(errorMessage);
 
         assertThat(dataInvalidaException.getMessage()).isEqualTo(errorMessage);
 

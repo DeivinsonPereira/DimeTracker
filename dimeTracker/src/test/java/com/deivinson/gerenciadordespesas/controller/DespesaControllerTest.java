@@ -30,7 +30,7 @@ import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
 import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
 import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
 import com.deivinson.gerenciadordespesas.dto.TotalExpenseDTO;
-import com.deivinson.gerenciadordespesas.services.DespesaService;
+import com.deivinson.gerenciadordespesas.services.ExpenseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(DespesaController.class)
@@ -40,7 +40,7 @@ public class DespesaControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DespesaService despesaService;
+    private ExpenseService despesaService;
 
     @Test
     public void buscarDespesas_DeveRetornarStatusCode200EPageDeDespesaDTO() throws Exception {

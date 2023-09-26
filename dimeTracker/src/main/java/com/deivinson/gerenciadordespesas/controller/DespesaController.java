@@ -24,14 +24,14 @@ import com.deivinson.gerenciadordespesas.dto.ExpenseDTO;
 import com.deivinson.gerenciadordespesas.dto.InsertExpenseDTO;
 import com.deivinson.gerenciadordespesas.dto.TotalExpenseDTO;
 import com.deivinson.gerenciadordespesas.dto.UpdateExpenseDTO;
-import com.deivinson.gerenciadordespesas.services.DespesaService;
+import com.deivinson.gerenciadordespesas.services.ExpenseService;
 
 @RestController
 @RequestMapping(value = "/despesas")
 public class DespesaController {
 
 	@Autowired
-	private DespesaService service;
+	private ExpenseService service;
 	
 	@GetMapping
 	public ResponseEntity<Page<ExpenseDTO>> buscarDespesas(

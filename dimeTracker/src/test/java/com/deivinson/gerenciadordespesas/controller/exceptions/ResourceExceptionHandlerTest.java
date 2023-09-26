@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.deivinson.gerenciadordespesas.services.exceptions.DataInvalidaException;
+import com.deivinson.gerenciadordespesas.services.exceptions.InvalidDateException;
 import com.deivinson.gerenciadordespesas.services.exceptions.DatabaseException;
 import com.deivinson.gerenciadordespesas.services.exceptions.InvalidInputException;
 import com.deivinson.gerenciadordespesas.services.exceptions.ResourceNotFoundException;
@@ -66,7 +66,7 @@ public class ResourceExceptionHandlerTest {
 
     @Test
     public void testHandleInvalidInputException() {
-        DataInvalidaException exception = new DataInvalidaException("Invalid data exception");
+        InvalidDateException exception = new InvalidDateException("Invalid data exception");
 
         ResponseEntity<StandardError> response = resourceExceptionHandler.handleInvalidInputException(exception, request);
 
