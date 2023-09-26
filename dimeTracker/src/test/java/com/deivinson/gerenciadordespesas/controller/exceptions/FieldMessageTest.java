@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class FieldMessageTest {
 
 	@Test
-    public void testConstrutorVazio() {
+    public void testEmptyConstructor() {
         FieldMessage fieldMessage = new FieldMessage();
 
         assertThat(fieldMessage).isNotNull();
@@ -17,7 +17,7 @@ public class FieldMessageTest {
     }
 	
 	@Test
-    public void testConstrutorComArgumentos() {
+    public void testConstrutorWithArgs() {
         String fieldName = "exampleField";
         String message = "Example message";
 
@@ -28,7 +28,7 @@ public class FieldMessageTest {
     }
 
     @Test
-    public void testGettersEsetters() {
+    public void testGettersAndSetters() {
         String fieldName = "exampleField";
         String message = "Example message";
 

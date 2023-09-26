@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.deivinson.gerenciadordespesas.dto.CategoryDTO;
 import com.deivinson.gerenciadordespesas.dto.MinCategoryDTO;
-import com.deivinson.gerenciadordespesas.services.CategoriaService;
+import com.deivinson.gerenciadordespesas.services.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -38,57 +38,57 @@ public class CategoryControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CategoriaService categoriaService;
+    private CategoryService categoryService;
 
     @Test
-    public void buscarTodasCategorias_DeveRetornarStatusCode200EPageDeCategoriasDTO() throws Exception {
-        Page<CategoryDTO> pageCategoriaDTO = new PageImpl<>(Collections.emptyList());
-        when(categoriaService.buscarTodasCategorias(any(Pageable.class))).thenReturn(pageCategoriaDTO);
+    public void searchAllCategoriesShouldReturnStatusCode200AndPageCategoryDTO() throws Exception {
+        Page<CategoryDTO> pageCategoryDTO = new PageImpl<>(Collections.emptyList());
+        when(categoryService.searchAllCategories(any(Pageable.class))).thenReturn(pageCategoryDTO);
 
-        mockMvc.perform(get("/categorias")
+        mockMvc.perform(get("/categories")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray());
     }
 
     @Test
-    public void criarCategoria_DeveRetornarStatusCode201EBodyDeCategoriaDTO() throws Exception {
-        MinCategoryDTO minCategoriaDTO = new MinCategoryDTO("Nova Categoria");
-        CategoryDTO categoriaDTO = new CategoryDTO(1L, "Nova Categoria");
-        when(categoriaService.criarCategoria(any(MinCategoryDTO.class))).thenReturn(categoriaDTO);
+    public void insertCategoryShouldReturnStatusCode201AndBodyCategoryDTO() throws Exception {
+        MinCategoryDTO minCategoryDTO = new MinCategoryDTO("New Category");
+        CategoryDTO categoryDTO = new CategoryDTO(1L, "New Category");
+        when(categoryService.insertCategory(any(MinCategoryDTO.class))).thenReturn(categoryDTO);
 
-        mockMvc.perform(post("/categorias")
+        mockMvc.perform(post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(minCategoriaDTO)))
+                .content(asJsonString(minCategoryDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nome").value("Nova Categoria"));
+                .andExpect(jsonPath("$.name").value("New Category"));
     }
 
     @Test
-    public void atualizarNomeCategoria_DeveRetornarStatusCode200EBodyDeCategoriaDTO() throws Exception {
-        Long categoriaId = 1L;
-        MinCategoryDTO minCategoriaDTO = new MinCategoryDTO("Novo Nome");
-        CategoryDTO categoriaDTO = new CategoryDTO(categoriaId, "Novo Nome");
-        when(categoriaService.atualizarNomeCategoria(eq(categoriaId), any(MinCategoryDTO.class))).thenReturn(categoriaDTO);
+    public void updateNameCategoryShouldReturnStatusCode200AndBodyCategoryDTO() throws Exception {
+        Long categoryId = 1L;
+        MinCategoryDTO minCategoryDTO = new MinCategoryDTO("New Name");
+        CategoryDTO categoryDTO = new CategoryDTO(categoryId, "New Name");
+        when(categoryService.updateNameCategory(eq(categoryId), any(MinCategoryDTO.class))).thenReturn(categoryDTO);
 
-        mockMvc.perform(put("/categorias/{categoriaId}", categoriaId)
+        mockMvc.perform(put("/categories/{categoryId}", categoryId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(minCategoriaDTO)))
+                .content(asJsonString(minCategoryDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(categoriaId))
-                .andExpect(jsonPath("$.nome").value("Novo Nome"));
+                .andExpect(jsonPath("$.id").value(categoryId))
+                .andExpect(jsonPath("$.name").value("New Name"));
     }
 
     @Test
-    public void deletarCategoria_DeveRetornarStatusCode204() throws Exception {
-        Long categoriaId = 1L;
+    public void deleteCategoryShouldRetornarStatusCode204() throws Exception {
+        Long categoryId = 1L;
 
-        mockMvc.perform(delete("/categorias/{categoriaId}", categoriaId)
+        mockMvc.perform(delete("/categories/{categoryId}", categoryId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(categoriaService, times(1)).deletarCategoria(categoriaId);
+        verify(categoryService, times(1)).deleteCategory(categoryId);
     }
 
     private String asJsonString(Object obj) {

@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 public class ValidationErrorTest {
 
 	@Test
-    public void testConstrutorVazio() {
+    public void testEmptyConstructor() {
         ValidationError validationError = new ValidationError();
 
         assertThat(validationError).isNotNull();
@@ -20,7 +20,7 @@ public class ValidationErrorTest {
     }
 
     @Test
-    public void testGettersEsetters() {
+    public void testGettersAndSetters() {
         ValidationError validationError = new ValidationError();
 
         validationError.setTimestamp(Instant.now());

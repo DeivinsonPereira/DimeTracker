@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class StandardErrorTest {
 
 	@Test
-    public void testConstrutorVazio() {
+    public void testEmptyConstructor() {
         StandardError standardError = new StandardError();
 
         assertThat(standardError).isNotNull();
