@@ -8,7 +8,7 @@ public class InvalidDateExceptionTest {
 
 	@Test
     public void testDataInvalidaException() {
-        String errorMessage = "Data inválida.";
+        String errorMessage = "Invalid Date.";
 
         InvalidDateException dataInvalidaException = new InvalidDateException(errorMessage);
 

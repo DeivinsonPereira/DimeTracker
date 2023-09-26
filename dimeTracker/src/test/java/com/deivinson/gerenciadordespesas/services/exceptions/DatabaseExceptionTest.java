@@ -8,7 +8,7 @@ public class DatabaseExceptionTest {
 	
 	@Test
     public void testDatabaseException() {
-        String errorMessage = "Erro no banco de dados.";
+        String errorMessage = "Database error.";
 
         DatabaseException databaseException = new DatabaseException(errorMessage);
 

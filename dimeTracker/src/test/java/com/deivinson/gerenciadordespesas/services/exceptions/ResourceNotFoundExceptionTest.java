@@ -8,7 +8,7 @@ public class ResourceNotFoundExceptionTest {
 
 	@Test
     public void testResourceNotFoundException() {
-        String errorMessage = "Recurso não encontrado.";
+        String errorMessage = "Resource not found.";
 
         ResourceNotFoundException resourceNotFoundException = new ResourceNotFoundException(errorMessage);
 

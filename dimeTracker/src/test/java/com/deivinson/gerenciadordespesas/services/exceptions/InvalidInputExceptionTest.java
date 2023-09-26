@@ -8,7 +8,7 @@ public class InvalidInputExceptionTest {
 
 	@Test
     public void testInvalidInputException() {
-        String errorMessage = "Entrada inválida.";
+        String errorMessage = "Invalid input.";
 
         InvalidInputException invalidInputException = new InvalidInputException(errorMessage);
 
