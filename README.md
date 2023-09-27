@@ -50,11 +50,11 @@ Essa imagem mostra a execução do teste da api onde captura os clientes e mostr
 
 ![Despesas paginados](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/assets/Despesas%20paginado.png)
 
-## Busca por Categorias Paginadas
+## Busca com filtro informando Categoria e data
 
-Esse método busca todos os elementos da categoria no banco de dados.
+Esse método busca no banco de dados, todas as despesas referente a categoria e datas informadas.
 
-![Categorias Paginadas](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/assets/Categorias%20paginado.png)
+![Categorias Paginadas](https://github.com/DeivinsonPereira/DimeTracker/blob/main/assets/Busca%20Filtro.png)
 
 
 ## Inserindo nova despesa
@@ -67,7 +67,7 @@ Este método é usado para inserir novas "despesas" dentro do banco de dados já
 
 Imagem mostrando alguns testes Unitários.
 
-![Inserir Despesa](https://github.com/DeivinsonPereira/GerenciamentoDespesas/blob/main/assets/Testes.jpg)
+![Inserir Despesa](https://github.com/DeivinsonPereira/DimeTracker/blob/main/assets/Testes.png)
 
 ## JaCoCo
 
